@@ -35,22 +35,18 @@ export const profile = defineType({
             options:{ hotspot: true }
          }),
          defineField({
-            name: 'socialMedia',
-            title: 'Social Media',
-            type: 'array',
-            of:[{type: 'object', fields:[
-                defineField({
-                    name: 'plateform',
-                    title: 'Plateform',
-                    type: 'string',
-                }),
-                defineField({
-                    name: 'url',
-                    title: 'Url',
-                    type: 'url',  
-                })
-            ]}]
-         })
+            name: 'uploadCV',
+            title: 'Upload CV',
+            description: 'Upload your CV',
+            type: 'file',
+         }),
+        //  defineField({
+        //     name: 'contactMe',
+        //     title: 'Contact Me',
+        //     description: 'Add your contact details',
+        //     type: 'reference',
+        //     to: [{type: 'contact'}]
+        //  })
 
     ]
 })
