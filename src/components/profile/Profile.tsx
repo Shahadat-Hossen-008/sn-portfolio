@@ -1,5 +1,35 @@
-import React from "react";
+import Image from "next/image";
 
-export default function Profile() {
-  return <div>Profile</div>;
+export default function Profile({ profile }) {
+  const { fullName, headline, imageUrl, cvUrl, bio } = profile || {};
+  return (
+    <>
+      <div className="container mx-auto min-h-screen px-4 py-20 flex flex-col md:flex-row items-center gap-8 overflow-hidden bg-black sm:px-6 lg:px-20 ">
+        <div className="flex-2 flex flex-col items-start gap-4 md:gap-5">
+          <span className="tracking-[1.2px] text-xs md:text-sm">
+            Hey, I&apos;m
+          </span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl text-white leading-tight tracking-[0.02em]">
+            {fullName}
+          </h1>
+          <h2 className="px-4.5 py-5.5 bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 rounded-full font-semibold inline-block text-xs md:text-sm  text-white tracking-[1.2px]">
+            {headline}
+          </h2>
+          <p className="text-lg text-white/70">{bio}</p>
+          <a href={cvUrl} target="_blank" rel="noopener noreferrer">
+            Download CV
+          </a>
+        </div>
+        <div className="flex-1">
+          <Image
+            src={imageUrl}
+            alt={fullName}
+            width={300}
+            height={300}
+            className="rounded-lg"
+          />
+        </div>
+      </div>
+    </>
+  );
 }

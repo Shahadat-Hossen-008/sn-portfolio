@@ -2,7 +2,6 @@ import { RadialGradientBackground } from "@/components/background/RadialGradient
 import Profile from "@/components/profile/Profile";
 import { sanityFetch } from "@/sanity/lib/live";
 import { PROFILE_QUERY } from "@/sanity/lib/queries";
-import React from "react";
 
 export default async function page() {
   const { data: profile } = await sanityFetch({ query: PROFILE_QUERY });
@@ -11,7 +10,7 @@ export default async function page() {
   return (
     <div className="h-350">
       <RadialGradientBackground variant="hero" />
-      <Profile />
+      <Profile profile={profile} />
     </div>
   );
 }
