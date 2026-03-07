@@ -1,10 +1,7 @@
-import { PROFILE_QUERYResult } from "@/sanity/types";
+import { ProfileProps } from "@/app/types/profileTypes";
 import Image from "next/image";
-type Props = {
-  profile: PROFILE_QUERYResult;
-};
 
-export default function Profile({ profile }: Props) {
+export default function Profile({ profile }: ProfileProps) {
   // If profile data is not available, return null to avoid rendering the component
   if (!profile) return null;
   const { fullName, headline, imageUrl, cvUrl, bio } = profile;
