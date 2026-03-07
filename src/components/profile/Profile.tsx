@@ -4,7 +4,7 @@ export default function Profile({ profile }) {
   const { fullName, headline, imageUrl, cvUrl, bio } = profile || {};
   return (
     <>
-      <div className="container mx-auto min-h-screen px-4 py-20 flex flex-col md:flex-row items-center gap-8 overflow-hidden bg-black sm:px-6 lg:px-20 ">
+      <div className="container mx-auto min-h-screen px-4 py-20 flex flex-col md:flex-row items-center gap-8 md:gap-12 overflow-hidden bg-black sm:px-6 lg:px-20 ">
         <div className="flex-2 flex flex-col items-start gap-4 md:gap-5">
           <span className="tracking-[1.2px] text-xs md:text-sm">
             Hey, I&apos;m
@@ -12,15 +12,30 @@ export default function Profile({ profile }) {
           <h1 className="text-4xl md:text-5xl lg:text-6xl text-white leading-tight tracking-[0.02em]">
             {fullName}
           </h1>
-          <h2 className="px-4.5 py-5.5 bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 rounded-full font-semibold inline-block text-xs md:text-sm  text-white tracking-[1.2px]">
+          <h4 className="px-4.5 py-5.5 bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 rounded-full font-semibold inline-block text-white text-xs md:text-sm tracking-[1.2px]">
             {headline}
-          </h2>
-          <p className="text-lg text-white/70">{bio}</p>
-          <a href={cvUrl} target="_blank" rel="noopener noreferrer">
-            Download CV
-          </a>
+          </h4>
+          <p className="text-base text-white/70">{bio}</p>
+          <div className="flex gap-5 items-center">
+            <a
+              href={cvUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-[#212121] rounded-xl px-6.5 py-3 text-base transition-colors duration-300 hover:bg-gray-200"
+            >
+              Download CV
+            </a>
+            <a
+              href={"contactMe"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-[#212121] rounded-xl px-6.5 py-3 text-base transition-colors duration-300 hover:bg-gray-200"
+            >
+              Get in Touch
+            </a>
+          </div>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 flex justify-end">
           <Image
             src={imageUrl}
             alt={fullName}
