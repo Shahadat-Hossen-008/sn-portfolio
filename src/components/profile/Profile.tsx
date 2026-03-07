@@ -1,10 +1,16 @@
+import { PROFILE_QUERYResult } from "@/sanity/types";
 import Image from "next/image";
+type Props = {
+  profile: PROFILE_QUERYResult;
+};
 
-export default function Profile({ profile }) {
-  const { fullName, headline, imageUrl, cvUrl, bio } = profile || {};
+export default function Profile({ profile }: Props) {
+  // If profile data is not available, return null to avoid rendering the component
+  if (!profile) return null;
+  const { fullName, headline, imageUrl, cvUrl, bio } = profile;
   return (
     <>
-      <div className="container mx-auto min-h-screen px-4 py-20 flex flex-col md:flex-row items-center gap-8 md:gap-12 overflow-hidden bg-black sm:px-6 lg:px-20 ">
+      <div className="container mx-auto min-h-screen px-4 py-20 flex flex-col-reverse md:flex-row items-center gap-8 md:gap-12 overflow-hidden bg-black sm:px-6 lg:px-20 ">
         <div className="flex-2 flex flex-col items-start gap-4 md:gap-5">
           <span className="tracking-[1.2px] text-xs md:text-sm">
             Hey, I&apos;m
@@ -17,14 +23,16 @@ export default function Profile({ profile }) {
           </h4>
           <p className="text-base text-white/70">{bio}</p>
           <div className="flex gap-5 items-center">
-            <a
-              href={cvUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-[#212121] rounded-xl px-6.5 py-3 text-base transition-colors duration-300 hover:bg-gray-200"
-            >
-              Download CV
-            </a>
+            {cvUrl && (
+              <a
+                href={cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white text-[#212121] rounded-xl px-6.5 py-3 text-base transition-colors duration-300 hover:bg-gray-200"
+              >
+                Download CV
+              </a>
+            )}
             <a
               href={"contactMe"}
               target="_blank"
@@ -36,13 +44,15 @@ export default function Profile({ profile }) {
           </div>
         </div>
         <div className="flex-1 flex justify-end">
-          <Image
-            src={imageUrl}
-            alt={fullName}
-            width={300}
-            height={300}
-            className="rounded-lg"
-          />
+          {imageUrl && (
+            <Image
+              src={imageUrl}
+              alt={fullName}
+              width={300}
+              height={300}
+              className="rounded-lg"
+            />
+          )}
         </div>
       </div>
     </>
