@@ -1,15 +1,14 @@
-import { RadialGradientBackground } from "@/components/background/RadialGradientBackground";
+import Navbar from "@/components/navbar/Navbar";
 import Profile from "@/components/profile/Profile";
 import { sanityFetch } from "@/sanity/lib/live";
 import { PROFILE_QUERY } from "@/sanity/lib/queries";
 
 export default async function page() {
   const { data: profile } = await sanityFetch({ query: PROFILE_QUERY });
-  console.log(profile);
 
   return (
-    <div className="h-350">
-      <RadialGradientBackground variant="hero" />
+    <div className="bg-black ">
+      {profile && <Navbar cvUrl={profile.cvUrl} />}
       <Profile profile={profile} />
     </div>
   );

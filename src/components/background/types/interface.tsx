@@ -7,7 +7,7 @@ export interface GradientConfig {
 }
 
 export interface RadialGradientBackgroundProps {
-  variant?: "hero" | "custom";
+  variant?: "hero" | "about" | "custom";
   gradients?: GradientConfig[];
 }
 
