@@ -68,13 +68,21 @@ export const project = defineType({
             name: 'projectLink',
             title: 'Project Link',
             type: 'url',
-            validation: (rule) => rule.required(),
+            description: 'Link to your project(only https://)',
+            validation: Rule => Rule.uri({
+                scheme: ['https']
+            }).required()
+              .error('A valid HTTPS URL is required'),
         }),
         defineField({
             name: "githubUrl",
             title: "GITHUB URL",
-            description: 'Link to your github repo',
+            description: 'Link to your github repo (only https://)',
             type: "url",
+            validation: Rule => Rule.uri({
+                scheme: ['https']
+            }).required()
+              .error('A valid HTTPS URL is required'),
         }),
         //After merge about section tag will be added
         // defineField({
