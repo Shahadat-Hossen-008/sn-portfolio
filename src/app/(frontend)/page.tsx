@@ -8,7 +8,6 @@ export default async function page() {
   const { data: profile } = await sanityFetch({ query: PROFILE_QUERY });
 
   const { data: about } = await sanityFetch({ query: ABOUT_QUERY });
-  console.log(about);
   
 
   return (
