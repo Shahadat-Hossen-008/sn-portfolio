@@ -8,6 +8,7 @@ export const about = defineType({
     defineField({
       name: "title",
       type: "string",
+      description: "Title of the about page",
     }),
     defineField({
       name: "description",
@@ -23,7 +24,8 @@ export const about = defineType({
         {
           type: "object",
           fields: [
-            { name: "platform", type: "string" },
+            { name: "label", type: "string" },
+            { name: "icon", type: "image", description: "Upload the icon image", options:{hotspot: true} },
             { name: "url", type: "url" },
           ],
         },
