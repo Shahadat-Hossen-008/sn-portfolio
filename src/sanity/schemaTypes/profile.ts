@@ -21,7 +21,7 @@ export const profile = defineType({
     defineField({
       name: "bio",
       title: "Bio",
-      type: "blockContent",
+      type: "blockContentText",
       description: "Write a few sentences about yourself",
     }),
     defineField({
