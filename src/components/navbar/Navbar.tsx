@@ -12,8 +12,10 @@ export default function Navbar({ cvUrl }: { cvUrl: string | null }) {
     { name: "Projects", href: "#projects" },
     { name: "Contact", href: "#contact" },
   ];
+  console.log(isMenuOpen);
+  
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-20 py-4 lg:py-8 fixed top-0 z-100">
+    <section className="container mx-auto px-4 sm:px-6 lg:px-20 py-4 lg:py-8 fixed left-0 right-0 top-0 z-100">
       <div
         className="grid grid-cols-2 lg:grid-cols-3
           items-center border border-white/15 rounded-full p-2 bg-black/30"
@@ -58,7 +60,8 @@ export default function Navbar({ cvUrl }: { cvUrl: string | null }) {
             aria-label="Menu"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <svg
+            {!isMenuOpen ? (
+              <svg
               fill="none"
               stroke="currentColor"
               width="36"
@@ -73,7 +76,19 @@ export default function Navbar({ cvUrl }: { cvUrl: string | null }) {
                 strokeLinejoin="round"
                 strokeWidth={2}
               />
-            </svg>
+            </svg>) : (<svg
+                width={36}
+                height={36}
+                viewBox="0 0 24 24"
+                data-name="Flat Color"
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon flat-color bg-white text-[#212121] rounded-full p-2 transition-colors duration-300 hover:bg-gray-200"
+              >
+                <path
+                  d="m13.41 12 6.3-6.29a1 1 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1 1 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l6.29-6.3 6.29 6.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42Z"
+                />
+              </svg>
+            )}
           </div>
           {isMenuOpen && (
             <div className="absolute top-full right-4 mt-2 w-48 bg-black border border-white/15 rounded-lg shadow-lg py-2 z-50">
