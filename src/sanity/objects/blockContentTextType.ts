@@ -3,7 +3,7 @@ import { ImageIcon, PlayIcon, CodeBlockIcon } from "@sanity/icons";
 
 export const blockContentType = defineType({
   title: "Block Content",
-  name: "blockContent",
+  name: "blockContentText",
   type: "array",
   of: [
     defineArrayMember({
