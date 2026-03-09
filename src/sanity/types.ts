@@ -185,19 +185,36 @@ export type AllSanitySchemaTypes = ProfilePage | SanityImageCrop | SanityImageHo
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
-// Query: *[_type == "profilePage"][0]{  fullName,  headline,  "imageUrl": image.asset->url,  "cvUrl": uploadCV.asset->url,  'bio' :bio[0].children[0].text}
+// Query: *[_type == "profilePage"][0]{  fullName,  headline,  "imageUrl": image.asset->url,  "cvUrl": uploadCV.asset->url,  'bio' :bio}
 export type PROFILE_QUERYResult = {
   fullName: string;
   headline: string;
   imageUrl: string | null;
   cvUrl: string | null;
-  bio: string | null;
+  bio: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
 } | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio[0].children[0].text\n}": PROFILE_QUERYResult;
+    "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
   }
 }
