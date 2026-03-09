@@ -1,6 +1,7 @@
 import { ProfileProps } from "@/app/types/profileTypes";
 import Image from "next/image";
 import { RadialGradientBackground } from "../background/RadialGradientBackground";
+import { PortableText } from "next-sanity";
 
 export default function Profile({ profile }: ProfileProps) {
   // If profile data is not available, return null to avoid rendering the component
@@ -20,7 +21,9 @@ export default function Profile({ profile }: ProfileProps) {
           <h4 className="px-4.5 py-5.5 bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 rounded-full font-semibold inline-block text-white text-xs md:text-sm tracking-[1.2px]">
             {headline}
           </h4>
-          <p className="text-base text-white/70">{bio}</p>
+          {bio && <div className="text-base text-white/70">
+                     <PortableText value={bio} />
+                  </div>}
           <div className="flex gap-5 items-center">
             {cvUrl && (
               <a

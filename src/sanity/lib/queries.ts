@@ -6,10 +6,10 @@ export const PROFILE_QUERY = defineQuery(`*[_type == "profilePage"][0]{
   headline,
   "imageUrl": image.asset->url,
   "cvUrl": uploadCV.asset->url,
-  'bio' :bio[0].children[0].text
+  'bio' :bio
 }`);
 
 
 export const ABOUT_QUERY = defineQuery(`*[_type == "aboutPage"][0]{
-  "description" :  pt::text(description), "socialIcons": socialLinks[]{label, url, "imageIcon": icon.asset->url, _key}, technologies[]->{label, _id}
+  "description" : description, "socialIcons": socialLinks[]{label, url, "imageIcon": icon.asset->url, _key}, technologies[]->{label, _id}
 }`);

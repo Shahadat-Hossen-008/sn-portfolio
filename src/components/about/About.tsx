@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { RadialGradientBackground } from '../background/RadialGradientBackground'
 import { aboutProps } from '@/app/types/aboutType'
+import { PortableText } from 'next-sanity';
 
 export default function About({about} : aboutProps) {
     if(!about) return null;
@@ -12,16 +13,20 @@ export default function About({about} : aboutProps) {
             <h2 className='text-3xl md:text-5xl text-white leading-tight tracking-[0.02em]'>About</h2>
             <div className='flex flex-col md:flex-row gap-20 justify-between'>
               <div className='flex-2'>
-                <p className='text-base text-white'>{description}</p>
-                <div className='flex items-center gap-3 pt-5'>
-                  <p className='text-white text-xl'>My social links: </p>
-                  {socialIcons && socialIcons.filter(icon => icon.label && icon.url && icon.imageIcon).map(icon =>(
+                <div className='flex flex-col gap-3 pt-5'>
+                  <div className="text-base text-white/70">
+                     <PortableText value={description} />
+                  </div>
+                  <div className=' flex items-center'>
+                    <p className='text-xl text-white'>My social links:</p>
+                    {socialIcons && socialIcons.filter(icon => icon.label && icon.url && icon.imageIcon).map(icon =>(
                     //( !) use this because here we filter social icon that it will not give null
-                    <a href={icon.url!} key={icon._key} target='_blank'>
+                    <a href={icon.url!} key={icon._key} target='_blank' className='pl-4'>
                         <Image src={icon.imageIcon!} alt={icon.label!} width={36} height={36}/>
                     </a>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                  </div>
               </div>
               <div className='flex-1'>
                 <p className='text-xl text-white'>Technologies I use:</p>
