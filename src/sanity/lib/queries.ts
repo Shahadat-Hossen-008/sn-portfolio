@@ -7,3 +7,7 @@ export const PROFILE_QUERY = defineQuery(`*[_type == "profilePage"][0]{
   "cvUrl": uploadCV.asset->url,
   'bio' :bio
 }`);
+
+export const PROJECT_QUERY = defineQuery(`*[_type == "project"][]{
+  projectDescription, start, end, githubUrl, "projectImage": projectImage.asset -> url, projectLink, projectTitle 
+}`)
