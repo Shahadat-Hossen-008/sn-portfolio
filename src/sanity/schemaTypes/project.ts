@@ -25,25 +25,8 @@ export const project = defineType({
         defineField({
             name: "projectImage",
             title: "Project Image",
-            type: "image",
+            type: "CustomImage",
             icon: ImageIcon,
-            options: {
-                hotspot: true,
-            },
-            fields: [
-                defineField({
-                    name: "link",
-                    title: "Link",
-                    type: "url",
-                    description: " Makes the image clickable",
-                }),
-                defineField({
-                    name: "alt",
-                    title: "Alt Text",
-                    type: "string",
-                    description: " For accessibility, screen readers, SEO",
-                }),
-            ],
         }),
         defineField({
             name: 'projectDescription',
@@ -87,7 +70,7 @@ export const project = defineType({
             validation: Rule => Rule.uri({
                 scheme: ['https']
             }).required()
-              .error('A valid HTTPS URL is required'),
+              .error('A valid project live preview URL is required'),
         }),
         defineField({
             name: "githubUrl",
@@ -97,7 +80,7 @@ export const project = defineType({
             validation: Rule => Rule.uri({
                 scheme: ['https']
             }).required()
-              .error('A valid HTTPS URL is required'),
+              .error('A valid github URL is required'),
         }),
         //After merge about section tag will be added
         // defineField({
