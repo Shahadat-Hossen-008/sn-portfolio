@@ -19,6 +19,7 @@ export default function Project({ projects }: projectProps) {
         </h2>
         {projects &&
           projects
+          // filter out null projects only valid projects will be rendered
             .filter(
               (project): project is NonNullable<typeof project> =>
                 project !== null,
