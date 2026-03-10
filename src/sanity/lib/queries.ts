@@ -9,5 +9,5 @@ export const PROFILE_QUERY = defineQuery(`*[_type == "profilePage"][0]{
 }`);
 
 export const PROJECT_QUERY = defineQuery(`*[_type == "project"][]{
-  projectDescription, start, end, githubUrl, "projectImage": projectImage.asset -> url, projectLink, projectTitle 
+  _id, projectDescription, start, end, githubUrl, "projectImage": projectImage.asset -> url, projectLink, projectTitle 
 }`)

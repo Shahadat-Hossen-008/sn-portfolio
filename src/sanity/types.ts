@@ -13,6 +13,21 @@
  */
 
 // Source: schema.json
+export type CustomImage = {
+  _type: "CustomImage";
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  };
+  media?: unknown;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt: string;
+  link?: string;
+};
+
 export type Project = {
   _id: string;
   _type: "project";
@@ -20,20 +35,7 @@ export type Project = {
   _updatedAt: string;
   _rev: string;
   projectTitle: string;
-  projectImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    link?: string;
-    alt?: string;
-    _type: "image";
-  };
+  projectImage?: CustomImage;
   projectDescription: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -55,7 +57,7 @@ export type Project = {
   start?: string;
   end?: string;
   projectLink: string;
-  githubUrl?: string;
+  githubUrl: string;
   date?: string;
 };
 
@@ -227,7 +229,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = Project | SanityImageCrop | SanityImageHotspot | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = CustomImage | Project | SanityImageCrop | SanityImageHotspot | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
@@ -257,8 +259,9 @@ export type PROFILE_QUERYResult = {
   }> | null;
 } | null;
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project"][]{  projectDescription, start, end, githubUrl, "projectImage": projectImage.asset -> url, projectLink, projectTitle }
+// Query: *[_type == "project"][]{  _id, projectDescription, start, end, githubUrl, "projectImage": projectImage.asset -> url, projectLink, projectTitle }
 export type PROJECT_QUERYResult = Array<{
+  _id: string;
   projectDescription: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -279,7 +282,7 @@ export type PROJECT_QUERYResult = Array<{
   }>;
   start: string | null;
   end: string | null;
-  githubUrl: string | null;
+  githubUrl: string;
   projectImage: string | null;
   projectLink: string;
   projectTitle: string;
@@ -290,6 +293,6 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
-    "*[_type == \"project\"][]{\n  projectDescription, start, end, githubUrl, \"projectImage\": projectImage.asset -> url, projectLink, projectTitle \n}": PROJECT_QUERYResult;
+    "*[_type == \"project\"][]{\n  _id, projectDescription, start, end, githubUrl, \"projectImage\": projectImage.asset -> url, projectLink, projectTitle \n}": PROJECT_QUERYResult;
   }
 }
