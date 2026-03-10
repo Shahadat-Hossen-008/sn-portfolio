@@ -1,3 +1,4 @@
+import Contact from "@/components/contact/Contact";
 import Navbar from "@/components/navbar/Navbar";
 import Profile from "@/components/profile/Profile";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -10,6 +11,7 @@ export default async function page() {
     <div className="bg-black ">
       {profile && <Navbar cvUrl={profile.cvUrl} />}
       <Profile profile={profile} />
+      <Contact/>
     </div>
   );
 }
