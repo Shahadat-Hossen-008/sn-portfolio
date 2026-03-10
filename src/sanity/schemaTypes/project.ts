@@ -25,25 +25,8 @@ export const project = defineType({
         defineField({
             name: "projectImage",
             title: "Project Image",
-            type: "image",
+            type: "CustomImage",
             icon: ImageIcon,
-            options: {
-                hotspot: true,
-            },
-            fields: [
-                defineField({
-                    name: "link",
-                    title: "Link",
-                    type: "url",
-                    description: " Makes the image clickable",
-                }),
-                defineField({
-                    name: "alt",
-                    title: "Alt Text",
-                    type: "string",
-                    description: " For accessibility, screen readers, SEO",
-                }),
-            ],
         }),
         defineField({
             name: 'projectDescription',
@@ -63,18 +46,41 @@ export const project = defineType({
             name: 'end',
             title: 'End',
             fieldset: 'projectDuration',
+            validation: (Rule) =>
+                Rule.custom((currentValue, context) => {
+                    const start = context.document?.start;
+                    if (
+                    typeof currentValue === "string" &&
+                    typeof start === "string"
+                    ) {
+                    if (new Date(currentValue) < new Date(start)) {
+                        return "End date cannot be before the start date";
+                    }
+                    }
+
+                    return true;
+                }),
+            
         }),
         defineField({
             name: 'projectLink',
             title: 'Project Link',
             type: 'url',
-            validation: (rule) => rule.required(),
+            description: 'Link to your project(only https://)',
+            validation: Rule => Rule.uri({
+                scheme: ['https']
+            }).required()
+              .error('A valid project live preview URL is required'),
         }),
         defineField({
             name: "githubUrl",
             title: "GITHUB URL",
-            description: 'Link to your github repo',
+            description: 'Link to your github repo (only https://)',
             type: "url",
+            validation: Rule => Rule.uri({
+                scheme: ['https']
+            }).required()
+              .error('A valid github URL is required'),
         }),
         //After merge about section tag will be added
         // defineField({
