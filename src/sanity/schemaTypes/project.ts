@@ -63,6 +63,21 @@ export const project = defineType({
             name: 'end',
             title: 'End',
             fieldset: 'projectDuration',
+            validation: (Rule) =>
+                Rule.custom((currentValue, context) => {
+                    const start = context.document?.start;
+                    if (
+                    typeof currentValue === "string" &&
+                    typeof start === "string"
+                    ) {
+                    if (new Date(currentValue) < new Date(start)) {
+                        return "End date cannot be before the start date";
+                    }
+                    }
+
+                    return true;
+                }),
+            
         }),
         defineField({
             name: 'projectLink',
