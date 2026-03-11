@@ -1,31 +1,32 @@
 "use client";
 
+import { sendMail } from "@/app/actions/sendEmail";
 import { FormSubmitData } from "@/app/types/formType";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-export default function Form({sendMail}: {sendMail: (formData: FormSubmitData) => Promise<{success: boolean, error: string | null }>}) {
-    const {
+export default function Form() {
+  const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormSubmitData>()
+  } = useForm<FormSubmitData>();
 
-  const onSubmit = async(data: FormSubmitData) => {
-  const result =  await sendMail(data);
-  if(result.success){
-    
-    toast.success("Email sent successfully",{
-       position: "bottom-right"
-    });
-  } else{
-    toast.error(result.error,{
-        position: "bottom-right"
-    });
-  }
-  reset();
-  }
+  const onSubmit = async (data: FormSubmitData) => {
+    const result = await sendMail(data);
+    if (result.success) {
+      toast.success("Email sent successfully", {
+        position: "bottom-right",
+      });
+    } else {
+      toast.error(result.error, {
+        position: "bottom-right",
+      });
+    }
+
+    reset();
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-3 pb-5">
