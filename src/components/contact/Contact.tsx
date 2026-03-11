@@ -1,4 +1,40 @@
+import { FormSubmitData } from "@/app/types/formType";
+import Form from "./Form";
+import nodemailer from "nodemailer";
+import EmailContainer from "@/emails/EmailContainer";
+import { render } from '@react-email/render';
+
 export default function Contact() {
+  const sendMail = async(formData: FormSubmitData) => {
+    "use server";
+    try {
+      const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASSWORD,
+  } 
+  
+});
+
+const emailHtml = await render(<EmailContainer name={formData.name} email={formData.email} subject={formData.subject} message={formData.message} />);
+
+  const mailOptions = {
+    from: formData.email,
+    to: process.env.MAIL_RECIEVER_ADDRESS,
+    subject: formData.subject,
+    text: formData.message, 
+    html: emailHtml
+  }
+  console.log(formData, emailHtml);
+  
+  // Send Email
+  await transporter.sendMail(mailOptions);
+  return { success: true, error: null };
+    } catch (error) {
+      return { success: false, error: "Failed to send email" };
+    }
+  }
   return (
     <section id="contact" className="relative bg-black py-20 overflow-hidden">
       {/* Background gradients */}
@@ -9,21 +45,9 @@ export default function Contact() {
       </div>
       <div className="max-w-5xl mx-auto px-4 lg:px-20 py-4">
          <h2 className="text-3xl md:text-5xl pb-6 text-center">Get in touch</h2>
+         <p className="text-base text-white text-center pb-6">Want to discuss about your idea, or just want to say hi?</p>
          <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-            <form className="">
-                <div className="flex flex-col gap-3 pb-5">
-                    <label>Name</label>
-                    <input name="name" type="text" id="name" placeholder="Enter your name" className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300" required/>
-                </div>
-                <div className="flex flex-col gap-3 pb-5">
-                    <label>Email</label>
-                    <input name="email" type="email" id="email" placeholder="Enter your email" className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300" required/>
-                </div>
-                <div className="flex flex-col gap-3 pb-8">
-                    <textarea name="name" id="name" placeholder="Enter your message" cols={30} rows={10} className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300" required/>
-                </div>
-                <button type="submit" className="bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 px-5 py-4 rounded-xl">Submit</button>
-         </form>
+            <Form sendMail={sendMail}/>
          </div>
       </div>
     </section>
