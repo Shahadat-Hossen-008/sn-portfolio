@@ -36,9 +36,9 @@ export default function Form() {
           id="name"
           placeholder="Enter your name"
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          required
-          {...register("name")}
+          {...register("name", { required: true })}
         />
+        {errors.name?.type === "required" && <span className="text-red-500 py-1">{errors.name.message}</span>}
       </div>
       <div className="flex flex-col gap-3 pb-5">
         <label htmlFor="email">Email</label>
@@ -47,9 +47,9 @@ export default function Form() {
           id="email"
           placeholder="Enter your email"
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          required
-          {...register("email")}
+          {...register("email", { required: true })}
         />
+        {errors.email && <span className="text-red-500 py-1">{errors.email.message}</span>}
       </div>
       <div className="flex flex-col gap-3 pb-5">
         <label htmlFor="subject">Subject</label>
@@ -58,9 +58,9 @@ export default function Form() {
           id="subject"
           placeholder="Enter your subject"
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          required
-          {...register("subject")}
+          {...register("subject",  { required: true })}
         />
+        {errors.subject && <span className="text-red-500 py-1">{errors.subject.message}</span>}
       </div>
       <div className="flex flex-col gap-3 pb-8">
         <label htmlFor="message">Message</label>
@@ -70,13 +70,13 @@ export default function Form() {
           cols={30}
           rows={10}
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          required
-          {...register("message")}
+          {...register("message",  { required: true })}
         />
+        {errors.message && <span className="text-red-500 py-1">{errors.message.message}</span>}
       </div>
       <button
         type="submit"
-        className="bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 px-5 py-4 rounded-xl"
+        className="w-full text-center bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 px-5 py-4 rounded-xl cursor-pointer hover:bg-primary/20 transition-all duration-300"
       >
         Submit
       </button>

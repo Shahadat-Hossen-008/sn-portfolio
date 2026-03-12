@@ -7,13 +7,7 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
-
-type EmailContainerProps = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
+import { EmailContainerProps } from "./EmailConPropsType";
 
 export default function EmailContainer({
   name,
