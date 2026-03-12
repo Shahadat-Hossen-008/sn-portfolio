@@ -1,6 +1,6 @@
 import { urlFor } from '@/sanity/lib/image';
 import Image from 'next/image'; 
-import { imageProp } from './imagePropType';
+import { imageProp } from '../../app/types/imagePropType';
 
 
 export default function SanityNextImage({ image, alt, width, height, className }: imageProp) {
