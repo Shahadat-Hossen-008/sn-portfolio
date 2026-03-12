@@ -1,12 +1,12 @@
 import { ProfileProps } from "@/app/types/profileTypes";
-import Image from "next/image";
 import { RadialGradientBackground } from "../background/RadialGradientBackground";
 import { PortableText } from "next-sanity";
+import SanityImage from "../image/Image";
 
 export default function Profile({ profile }: ProfileProps) {
   // If profile data is not available, return null to avoid rendering the component
   if (!profile) return null;
-  const { fullName, headline, imageUrl, cvUrl, bio } = profile;
+  const { fullName, headline, image, cvUrl, bio } = profile;
   return (
     <section className="min-h-screen relative pt-20">
       <RadialGradientBackground variant="hero" />
@@ -46,9 +46,9 @@ export default function Profile({ profile }: ProfileProps) {
           </div>
         </div>
         <div className="flex-1 flex justify-end">
-          {imageUrl && (
-            <Image
-              src={imageUrl}
+          {image && (
+            <SanityImage
+              image={image}
               alt={fullName}
               width={300}
               height={300}
