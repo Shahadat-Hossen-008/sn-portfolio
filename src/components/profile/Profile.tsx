@@ -51,7 +51,7 @@ export default function Profile({ profile }: ProfileProps) {
               image={image}
               alt={fullName}
               width={300}
-              height={300}
+              height={400}
               className="rounded-lg"
             />
           )}

@@ -7,13 +7,14 @@ export default function SanityImage({ image, alt, width, height, className }: im
   if (!image || !width || !height) return null;
 
   return (
-    <Image
-      src={urlFor(image).width(width).height(height).url()}
+    <img
+      src={urlFor(image).quality(80).width(width).height(height).url()}
       alt={ `portfolio of ${alt}`}
       width={width}
       height={height}
       className={className}
-      quality={80}
+      srcSet={urlFor(image).width(width).height(height).url()}
+      // quality={80}
     />
   );
 }
