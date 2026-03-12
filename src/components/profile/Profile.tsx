@@ -2,6 +2,7 @@ import { ProfileProps } from "@/app/types/profileTypes";
 import { RadialGradientBackground } from "../background/RadialGradientBackground";
 import { PortableText } from "next-sanity";
 import SanityImage from "../image/Image";
+import SanityNextImage from "../image/NextImage";
 
 export default function Profile({ profile }: ProfileProps) {
   // If profile data is not available, return null to avoid rendering the component
@@ -52,10 +53,30 @@ export default function Profile({ profile }: ProfileProps) {
               alt={fullName}
               width={300}
               height={400}
-              className="rounded-lg"
+              className="rounded-lg z-10"
             />
           )}
         </div>
+      </div>
+      <div className="flex flex-col lg:flex-row gap-4 pb-5 items-center justify-center min-h-screen">
+        {image && (
+            <SanityImage
+              image={image}
+              alt={fullName}
+              width={400}
+              height={500}
+              className="rounded-lg z-10"
+            />
+          )}
+          {image && (
+            <SanityNextImage
+              image={image}
+              alt={fullName}
+              width={400}
+              height={500}
+              className="rounded-lg z-10"
+            />
+          )}
       </div>
     </section>
   );
