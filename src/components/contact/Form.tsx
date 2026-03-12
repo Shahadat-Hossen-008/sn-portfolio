@@ -11,7 +11,10 @@ export default function Form() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormSubmitData>();
+  } = useForm<FormSubmitData>({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+  });
 
   const onSubmit = async (data: FormSubmitData) => {
     const result = await sendMail(data);
@@ -47,7 +50,12 @@ export default function Form() {
           id="email"
           placeholder="Enter your email"
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          {...register("email", { required: true })}
+          {...register("email", { required: true,
+             pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, // Regex for email format
+            message: "Invalid email address",
+          }
+           }, )}
         />
         {errors.email && <span className="text-red-500 py-1">{errors.email.message}</span>}
       </div>
