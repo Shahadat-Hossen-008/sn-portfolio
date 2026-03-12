@@ -22,14 +22,13 @@ export default function EmailContainer({
   message,
 }: EmailContainerProps) {
   return (
-    // Here we give template literal string because sendEmail consider this jsx not string
     <Html>
       <Tailwind>
         <Body>
           <Section className="pb-5 bg-white">
             <Row>
               <Text className="text-2xl leading-[1.3] font-semibold text-black pb-8">
-                <span className="text-3xl font-bold">Subject:</span> {subject}
+                <span className="font-bold">Subject:</span> {subject}
               </Text>
               <Text className="text-base leading-[1.4] text-black p-6 bg-[#ebf2f2] rounded">
                 {message}
@@ -41,7 +40,7 @@ export default function EmailContainer({
                 <br />
                 Name :{name}
                 <br />
-                E-mail: {email}
+                Reply To: {email}
               </Text>
             </Row>
           </Section>

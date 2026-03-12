@@ -1,8 +1,3 @@
-// import { FormSubmitData } from "@/app/types/formType";
-// import Form from "./Form";
-// import nodemailer from "nodemailer";
-// import EmailContainer from "@/emails/EmailContainer";
-// import { render } from "@react-email/render";
 
 import Form from "./Form";
 

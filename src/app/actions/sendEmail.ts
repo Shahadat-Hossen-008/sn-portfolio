@@ -26,16 +26,16 @@ export async function sendMail(formData: FormSubmitData) {
 
     await transporter.sendMail({
       from: formData.email,
-      to: process.env.RECEIVER_EMAIL,
+      to: process.env.MAIL_RECIEVER_ADDRESS,
       subject: formData.subject,
       text: formData.message,
       html: emailHtml,
       replyTo: formData.email,
     });
 
+    
     return { success: true, error: null };
   } catch (error) {
-    console.error("Error sending email:", error);
     return { success: false, error: "Failed to send email" };
   }
 }
