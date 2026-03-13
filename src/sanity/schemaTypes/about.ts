@@ -13,8 +13,7 @@ export const about = defineType({
     defineField({
       name: "description",
       title: "Description",
-      type: "array",
-      of: [{ type: "block" }],
+      type: "blockContentText",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
