@@ -22,9 +22,11 @@ export default function Profile({ profile }: ProfileProps) {
           <h4 className="px-4.5 py-5.5 bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 rounded-full font-semibold inline-block text-white text-xs md:text-sm tracking-[1.2px]">
             {headline}
           </h4>
-          {bio && <div className="text-base text-white/70">
-                     <PortableText value={bio} />
-                  </div>}
+          {bio && (
+            <div className="text-base text-white/70">
+              <PortableText value={bio} />
+            </div>
+          )}
           <div className="flex gap-5 items-center">
             {cvUrl && (
               <a
@@ -57,26 +59,6 @@ export default function Profile({ profile }: ProfileProps) {
             />
           )}
         </div>
-      </div>
-      <div className="flex flex-col lg:flex-row gap-4 pb-5 items-center justify-center min-h-screen">
-        {image && (
-            <SanityImage
-              image={image}
-              alt={fullName}
-              width={400}
-              height={500}
-              className="rounded-lg z-10"
-            />
-          )}
-          {image && (
-            <SanityNextImage
-              image={image}
-              alt={fullName}
-              width={400}
-              height={500}
-              className="rounded-lg z-10"
-            />
-          )}
       </div>
     </section>
   );
