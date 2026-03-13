@@ -13,7 +13,7 @@ import { imageProp } from "../../app/types/imagePropType";
  *
  * 3. `.url()` — serialises the builder chain into the final string passed
  *    to Next.js `<Image src={…} />`.
- *   - Next.js serves the image from `/_next/image?url=…` and converts it
+ *   - Next.js serves the image from `/_next/image?url=…`, which is an internal image optimization endpoint.
  */
 export default function SanityNextImage({
   image,
