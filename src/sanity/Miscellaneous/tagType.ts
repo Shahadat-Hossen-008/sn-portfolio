@@ -10,11 +10,20 @@ export const tagType = defineType({
     defineField({
       name: "label",
       type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "icon",
+      title: "Icon",
+      type: "image",
+      description: "Upload the icon image",
+      options: { hotspot: true },
     }),
   ],
   preview: {
     select: {
       title: "label",
+      media: "icon",
     },
   },
 });
