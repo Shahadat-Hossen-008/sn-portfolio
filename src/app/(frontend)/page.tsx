@@ -15,7 +15,6 @@ export default async function page() {
   const { data: about } = await sanityFetch({ query: ABOUT_QUERY });
 
   const { data: tech } = await sanityFetch({ query: PROJECTS_QUERY });
-  console.log(tech);
 
   return (
     <div className="bg-black ">
