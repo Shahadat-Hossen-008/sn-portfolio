@@ -82,14 +82,12 @@ export const project = defineType({
           .required()
           .error("A valid github URL is required"),
     }),
-    //After merge about section tag will be added
-    // defineField({
-    //     name: 'stack',
-    //     title: 'Stack',
-    //     description: 'Technologies are used in this project',
-    //     type: "array",
-    //     of: [{ type: "reference", to: [{ type: "tag" }] }],
-    // }),
+    defineField({
+      name: "stack",
+      title: "Stack",
+      description: "Technologies are used in this project",
+      type: "tag",
+    }),
     defineField({
       name: "date",
       title: "Date",
