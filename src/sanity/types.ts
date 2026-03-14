@@ -265,6 +265,13 @@ export type ABOUT_QUERYResult = {
     _id: string;
   }> | null;
 } | null;
+// Variable: PROJECTS_QUERY
+// Query: *[_type == "tag"][]{  _id, label, "labelIcon": icon.asset -> url }
+export type PROJECTS_QUERYResult = Array<{
+  _id: string;
+  label: string;
+  labelIcon: string | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -272,5 +279,6 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
     "*[_type == \"aboutPage\"][0]{\n  \"description\" : description, \"socialIcons\": socialLinks[]{label, url, \"imageIcon\": icon.asset->url, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
+    "*[_type == \"tag\"][]{\n  _id, label, \"labelIcon\": icon.asset -> url \n}": PROJECTS_QUERYResult;
   }
 }
