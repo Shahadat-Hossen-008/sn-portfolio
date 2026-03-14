@@ -11,8 +11,8 @@ export default function Technology({ technology }: Tech) {
     <section className="relative py-20 bg-black overflow-hidden">
       {/* Background gradients */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/3 right-2/5 w-98 h-98 bg-primary/20 opacity-20 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 right-0 w-98 h-98 bg-primary/20 opacity-20 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 right-2/5 w-full h-98 bg-primary/20 opacity-20 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 right-0 w-full h-98 bg-primary/20 opacity-20 rounded-full blur-3xl" />
         <div className="absolute bottom-1/3 left-0 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
         <div className="absolute top-1/2 -right-1/3 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
       </div>
