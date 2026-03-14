@@ -12,7 +12,6 @@ export default function Navbar({ cvUrl }: { cvUrl: string | null }) {
     { name: "Projects", href: "#projects" },
     { name: "Contact", href: "#contact" },
   ];
-  console.log(isMenuOpen);
   
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-20 py-4 lg:py-8 fixed left-0 right-0 top-0 z-100">

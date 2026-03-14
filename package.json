@@ -4,9 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
     "predev": "pnpm run typegen",
     "prebuild": "pnpm run typegen",
     "typegen": "sanity schema extract --enforce-required-fields --path=./src/sanity/extract.json && sanity typegen generate"
@@ -19,6 +16,7 @@
     "@sanity/ui": "^3.1.13",
     "@sanity/vision": "^4.22.0",
     "date-fns": "^4.1.0",
+    "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.34.0",
     "next": "16.1.6",
     "next-sanity": "^11.6.12",
