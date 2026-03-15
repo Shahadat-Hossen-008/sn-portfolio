@@ -58,6 +58,7 @@ export type Project = {
   end?: string;
   projectLink: string;
   githubUrl: string;
+  stack?: Tag;
   date?: string;
 };
 

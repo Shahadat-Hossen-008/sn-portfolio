@@ -339,6 +339,14 @@
         },
         "optional": false
       },
+      "stack": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "tag"
+        },
+        "optional": true
+      },
       "date": {
         "type": "objectAttribute",
         "value": {

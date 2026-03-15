@@ -12,34 +12,31 @@ export default function Project({ projects }: projectProps) {
   const goToPrev = () => emblaApi?.canScrollPrev() && emblaApi.scrollPrev();
   const goToNext = () => emblaApi?.canScrollNext() && emblaApi.scrollNext();
   return (
-    <section id="projects" className="relative py-20 overflow-hidden">
+    <section
+      id="projects"
+      className="relative py-10 lg:py-20 overflow-hidden text-center"
+    >
       {/* Background gradients */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/3 right-0 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
         <div className="absolute bottom-1/3 left-0 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
         <div className="absolute top-1/2 -right-1/3 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
       </div>
-      <div className="container mx-auto text-white py-10 lg:py-20 flex flex-col gap-8 md:gap-12 overflow-hidden bg-black px-4 sm:px-6 lg:px-20">
-        <h2 className="text-3xl md:text-5xl text-white leading-tight tracking-[0.02em]">
+      <div className="container mx-auto text-white flex flex-col gap-8 md:gap-12 overflow-hidden bg-black px-4 sm:px-6 lg:px-20">
+        <h2 className="text-3xl md:text-5xl text-white leading-tight tracking-[0.02em]text-center">
           Project
         </h2>
         <div
-          className="relative pb-12 overflow-hidden rounded-2xl bg-black/50 p-6 flex flex-col gap-8"
+          className="relative pb-12 overflow-hidden rounded-2xl bg-black/50 flex flex-col gap-8 max-w-4xl mx-auto"
           style={
             {
               "--slide-size": "100%",
-              "--slide-sm-size": "100%",
+              "--slide-gap": "20px",
             } as React.CSSProperties
           }
         >
-          {/* Background gradients */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/3 right-0 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/3 left-0 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
-            <div className="absolute top-1/2 -right-1/3 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
-          </div>
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex touch-pan-y touch-pinch-zoom">
+          <div className="overflow-hidden relative" ref={emblaRef}>
+            <div className="flex [touch-action:pan-y_pinch-zoom]">
               {projects &&
                 projects
                   // filter out null projects only valid projects will be rendered
@@ -50,14 +47,15 @@ export default function Project({ projects }: projectProps) {
                   .map((project) => (
                     <div
                       key={project._id}
-                      className="lg:flex-[0_0_var(--slide-size)] flex-[0_0_var(--slide-sm-size)]"
+                      className="flex-[0_0_var(--slide-size)] bg-white/5 border border-white/10 rounded-2xl p-10 mr-(--slide-gap)"
                     >
-                      <div>
+                      <div className="w-full pb-6">
                         <Image
                           src={project.projectImage || ""}
                           alt={project.projectTitle}
                           width={500}
                           height={500}
+                          className="w-full"
                         />
                       </div>
                       <div className="flex-1 text-base pb-3">
