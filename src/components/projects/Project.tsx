@@ -57,7 +57,7 @@ export default function Project({ projects }: projectProps) {
                           className="w-full h-auto rounded-tl-2xl rounded-tr-2xl"
                         />
                       </div>
-                      <div className="flex-1 text-base p-4 lg:p-10">
+                      <div className="flex-1 text-base p-5 lg:p-10">
                         <h3 className="text-2xl font-semibold mb-2">
                           {project.projectTitle}
                         </h3>
@@ -89,13 +89,13 @@ export default function Project({ projects }: projectProps) {
             </div>
           </div>
           <button
-            className="flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 lg:-translate-x-4 items-center justify-center w-10 h-10 lg:w-12 lg:h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full transition-colors duration-300 cursor-pointer"
+            className="flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 lg:-translate-x-6 items-center justify-center w-8 h-8 lg:w-12 lg:h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full transition-colors duration-300 cursor-pointer"
             onClick={goToPrev}
           >
             <LeftIcon />
           </button>
           <button
-            className="flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 lg:translate-x-4 items-center justify-center w-10 h-10 lg:w-12 lg:h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full transition-colors duration-300 cursor-pointer"
+            className="flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 lg:translate-x-6 items-center justify-center w-8 h-8 lg:w-12 lg:h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full transition-colors duration-300 cursor-pointer"
             onClick={goToNext}
           >
             <RightIcon />
