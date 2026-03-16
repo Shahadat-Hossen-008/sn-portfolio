@@ -14,7 +14,8 @@ export default function SanityNextImage({ image, alt, width, height, className }
       height={height}
       className={className}
       loading='eager'
-      quality={120}
+      quality={100}
+    //   unoptimized
     />
   );
 }
