@@ -13,8 +13,8 @@ import { ImageIcon } from "@sanity/icons";
  */
 
 export const blockContentType = defineType({
-  title: "Block Content",
   name: "blockContent",
+  title: "Block Content",
   type: "array",
   of: [
     defineArrayMember({
@@ -50,7 +50,7 @@ export const blockContentType = defineType({
               {
                 title: "URL",
                 name: "href",
-                type: "url",
+                type: "link",
               },
             ],
           },

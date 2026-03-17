@@ -5,7 +5,9 @@ import { blogType } from "./blogType";
 import { customImage } from "../objects/customImage";
 import { categoryType } from "../Miscellaneous/categoryType";
 import { tagType } from "../Miscellaneous/tagType";
-import { blockContentType } from "../objects/blockContentTextType";
+import { blockContentTextType } from "../objects/blockContentTextType";
+import { blockContentType } from "../objects/blockContentType";
+import { linkType } from "../objects/linkType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -13,8 +15,10 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     about,
     tagType,
     blogType,
+    blockContentTextType,
     blockContentType,
     customImage,
     categoryType,
+    linkType,
   ],
 };
