@@ -1,6 +1,6 @@
 import { ImageIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
-import { customImageProps } from "./types/customImage";
+import { customImageProps } from "../schemaTypes/types/customImage";
 
 export const customImage = ({
   name,

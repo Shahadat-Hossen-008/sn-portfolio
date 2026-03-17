@@ -1,7 +1,7 @@
 import { type SchemaTypeDefinition } from "sanity";
 import { profile } from "./profile";
 import { project } from "./project";
-import { customImage } from "./customImage";
+import { customImage } from "../objects/customImage";
 import { about } from "./about";
 import { tagType } from "../Miscellaneous/tagType";
 import { blockContentType } from "../objects/blockContentTextType";
