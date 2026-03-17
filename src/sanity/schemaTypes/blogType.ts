@@ -6,17 +6,24 @@ export const blogType = defineType({
   title: "Blog Post",
   type: "document",
   icon: DocumentIcon,
-  fields:[
+  fields: [
     defineField({
       name: "blogTitle",
       title: "Blog Title",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().error(
+          "Blog title is required to generate a page on the website",
+        ),
     }),
     defineField({
-      name: 'slug',
-      type: 'slug',
-      options: {source: 'blogTitle'},
-      validation: (Rule) => Rule.required().error('slug is required generate a page on the website'),
+      name: "slug",
+      type: "slug",
+      options: { source: "blogTitle" },
+      validation: (Rule) =>
+        Rule.required().error(
+          "slug is required generate a page on the website",
+        ),
     }),
     defineField({
       name: "author",
@@ -29,46 +36,35 @@ export const blogType = defineType({
       type: "datetime",
     }),
     defineField({
-      name: 'mainImage',
-      title: 'Blog Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-      fields: [
-        defineField({
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-          validation: rule => rule.custom((value, context) => {
-              
-            const parent = context?.parent as {asset?: {_ref?: string}}
-            return !value && parent?.asset?._ref ? 'Alt text is required when an image is present' : true
-          }),
-        })
-      ]
+      name: "mainImage",
+      title: "Blog Image",
+      type: "CustomImage",
     }),
     defineField({
-        name: "blogContent",
-        title: "Blog Content",
-        type: "blockContent"
+      name: "blogContent",
+      title: "Blog Content",
+      type: "blockContent",
     }),
     defineField({
       name: "categories",
       title: "Categories",
-      description: "What categories does this blog post belong to?",
       type: "array",
-      of: [{ type: "string" }],
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "category" }],
+        },
+      ],
     }),
   ],
   preview: {
     select: {
-      title: 'blogTitle',
-      author: 'author',
-      media: 'mainImage',
+      title: "blogTitle",
+      author: "author",
+      media: "mainImage",
     },
-    prepare({title, media, author}) {
-      return {title, media, subtitle: author && `by ${author}`}
+    prepare({ title, media, author }) {
+      return { title, media, subtitle: author && `by ${author}` };
     },
   },
-})
+});
