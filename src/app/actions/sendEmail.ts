@@ -13,6 +13,9 @@ export async function sendMail(formData: FormSubmitData) {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
+      pool: true,
+      maxConnections: 1,
+      maxMessages: 20,
     });
 
     const emailHtml = await render(
@@ -25,7 +28,7 @@ export async function sendMail(formData: FormSubmitData) {
     );
 
     await transporter.sendMail({
-      from: formData.email,
+      from: `"Website Contact" <${process.env.SMTP_USER}>`,
       to: process.env.MAIL_RECIEVER_ADDRESS,
       subject: formData.subject,
       text: formData.message,
@@ -33,7 +36,6 @@ export async function sendMail(formData: FormSubmitData) {
       replyTo: formData.email,
     });
 
-    
     return { success: true, error: null };
   } catch (error) {
     return { success: false, error: "Failed to send email" };
