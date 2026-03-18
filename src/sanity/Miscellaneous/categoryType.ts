@@ -13,5 +13,12 @@ export const categoryType = defineType({
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "icon",
+      title: "Icon",
+      type: "CustomImage",
+      description:
+        "Upload the icon image if you want to use an icon for this category",
+    }),
   ],
 });

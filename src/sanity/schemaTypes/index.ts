@@ -8,6 +8,7 @@ import { tagType } from "../Miscellaneous/tagType";
 import { blockContentTextType } from "../objects/blockContentTextType";
 import { blockContentType } from "../objects/blockContentType";
 import { linkType } from "../objects/linkType";
+import { youtube } from "../objects/youTubeTypes";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -20,5 +21,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     customImage,
     categoryType,
     linkType,
+    youtube,
   ],
 };
