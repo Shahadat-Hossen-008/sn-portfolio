@@ -14,7 +14,7 @@ export default function Blogs({ blogPost }: BlogsProps) {
 
   return (
     <Link
-      href={`/blogs/${slug.current}`}
+      href={`/blog/${slug.current}`}
       className="p-4 bg-black/30 hover:bg-black/40 transition-colors duration-300 underline-offset-2 hover:underline"
     >
       <div className="flex items-start gap-5">

@@ -18,3 +18,22 @@ export const BLOG_POSTS_QUERY = defineQuery(`*[_type == "blogPost"][]{
   }
 }, publishedAt, mainImage, blogContent
 }`);
+
+export const SINGLE_BLOG_POST_QUERY = `
+  *[_type == "blogPost" && slug.current == $slug][0]{
+    blogTitle,
+    blogContent,
+    mainImage,
+    author,
+    publishedAt,
+    categories[]->{
+      _id,
+      title,
+      icon{
+        alt,
+        asset
+      }
+    }
+
+  }
+`;
