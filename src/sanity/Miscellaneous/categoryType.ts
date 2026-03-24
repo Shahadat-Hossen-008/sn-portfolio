@@ -21,4 +21,10 @@ export const categoryType = defineType({
         "Upload the icon image if you want to use an icon for this category",
     }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      media: "icon",
+    },
+  },
 });
