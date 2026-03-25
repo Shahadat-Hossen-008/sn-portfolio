@@ -61,7 +61,7 @@ export const blogType = defineType({
     select: {
       title: "blogTitle",
       author: "author",
-      media: "mainImage",
+      media: "mainImage.imageFile",
     },
     prepare({ title, media, author }) {
       return { title, media, subtitle: author && `by ${author}` };

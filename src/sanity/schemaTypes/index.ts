@@ -1,5 +1,6 @@
 import { type SchemaTypeDefinition } from "sanity";
 import { profile } from "./profile";
+import { project } from "./project";
 import { about } from "./about";
 import { blogType } from "./blogType";
 import { customImage } from "../objects/customImage";
@@ -15,10 +16,11 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     profile,
     about,
     tagType,
+    project,
+    customImage,
     blogType,
     blockContentTextType,
     blockContentType,
-    customImage,
     categoryType,
     linkType,
     youtube,
