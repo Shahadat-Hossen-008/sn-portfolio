@@ -7,16 +7,5 @@ import { tagType } from "../Miscellaneous/tagType";
 import { blockContentType } from "../objects/blockContentTextType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [
-    profile,
-    about,
-    tagType,
-    blockContentType,
-    project,
-    customImage({
-      name: "projectImage",
-      title: "Project Image",
-      isClickable: true,
-    }),
-  ],
+  types: [profile, about, tagType, blockContentType, project, customImage],
 };

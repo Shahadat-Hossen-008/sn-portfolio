@@ -25,7 +25,7 @@ export const project = defineType({
     defineField({
       name: "projectImage",
       title: "Project Image",
-      type: "projectImage",
+      type: "customImage",
     }),
     defineField({
       name: "projectDescription",
@@ -94,7 +94,7 @@ export const project = defineType({
     select: {
       title: "projectTitle",
       date: "date",
-      media: "projectImage",
+      media: "projectImage.imageFile",
     },
     prepare({ title, date, media }) {
       return {

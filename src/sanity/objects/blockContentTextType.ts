@@ -1,5 +1,4 @@
 import { defineType, defineArrayMember } from "sanity";
-import { ImageIcon, PlayIcon, CodeBlockIcon } from "@sanity/icons";
 
 export const blockContentType = defineType({
   title: "Block Content",

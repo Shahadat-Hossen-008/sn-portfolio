@@ -11,10 +11,16 @@ export const tagType = defineType({
       name: "label",
       type: "string",
     }),
+    defineField({
+      name: "iconImage",
+      type: "customImage",
+      title: "Icon Image",
+    }),
   ],
   preview: {
     select: {
       title: "label",
+      media: "iconImage.imageFile",
     },
   },
 });

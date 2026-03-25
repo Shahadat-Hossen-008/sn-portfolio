@@ -1,40 +1,37 @@
 import { ImageIcon } from "@sanity/icons";
-import { defineField, defineType } from "sanity";
-import { customImageProps } from "../schemaTypes/schemaPropsTypes/customImage";
+import { defineField } from "sanity";
 
-export const customImage = ({
-  name,
-  title,
-  isClickable = false,
-}: customImageProps) =>
-  defineType({
-    name,
-    type: "image",
-    title: title || "Image",
-    icon: ImageIcon,
-    options: {
-      hotspot: true,
-    },
-
-    fields: [
-      defineField({
-        name: "alt",
-        title: "Alt Text",
-        type: "string",
-        description: "For accessibility, screen readers, SEO",
-        validation: (Rule) =>
-          Rule.required().warning("Alt text is required for accessibility"),
-      }),
-      defineField({
-        name: "link",
-        title: "Link",
-        type: "url",
-        description: " Makes the image clickable",
-        hidden: !isClickable,
-        validation: (Rule) =>
-          Rule.uri({
-            scheme: ["https"],
-          }).warning("Please enter a valid URL starting with https://"),
-      }),
-    ],
-  });
+export const customImage = defineField({
+  name: "customImage",
+  title: "Custom Image",
+  icon: ImageIcon,
+  type: "object",
+  fields: [
+    defineField({
+      type: "image",
+      name: "imageFile",
+      options: { hotspot: true },
+    }),
+    defineField({
+      type: "string",
+      name: "altText",
+      title: "Alternative Text",
+      validation: (rule) =>
+        rule
+          .required()
+          .warning("Alternative text is recommended for accessibility"),
+    }),
+    defineField({
+      type: "boolean",
+      name: "isClickable",
+      title: "Is Clickable?",
+      initialValue: false,
+    }),
+    defineField({
+      type: "url",
+      name: "linkUrl",
+      title: "Link URL",
+      hidden: ({ parent }) => !parent?.isClickable,
+    }),
+  ],
+});
