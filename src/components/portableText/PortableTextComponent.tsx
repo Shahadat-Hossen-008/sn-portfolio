@@ -60,10 +60,10 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
 
   list: {
     bullet: ({ children }) => (
-      <ul className="list-disc ml-6 mb-4">{children}</ul>
+      <ul className="list-disc ml-6 mb-4 text-gray-300">{children}</ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal ml-6 mb-4">{children}</ol>
+      <ol className="list-decimal ml-6 mb-4 text-gray-300">{children}</ol>
     ),
   },
 };
