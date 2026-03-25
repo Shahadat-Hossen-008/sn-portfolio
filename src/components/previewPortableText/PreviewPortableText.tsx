@@ -1,3 +1,6 @@
+/**
+ *This file contains the components used to reder the portable text link mark which is used to stop generate any links in the preview of the portable text, this is used to prevent any errors that may occur when trying to render links in the preview.
+ */
 export const previewPortableTextComponents = {
   marks: {
     link: ({ children }: { children: React.ReactNode }) => {
