@@ -1,21 +1,37 @@
-import { defineField, defineType } from "sanity";
+import { ImageIcon } from "@sanity/icons";
+import { defineField } from "sanity";
 
-export const customImage = defineType({
-  name: "CustomImage",
-  type: "image",
-  title: "Image",
-  options: {
-    hotspot: true,
-  },
-
+export const customImage = defineField({
+  name: "customImage",
+  title: "Custom Image",
+  icon: ImageIcon,
+  type: "object",
   fields: [
     defineField({
-      name: "alt",
-      title: "Alt Text",
+      type: "image",
+      name: "imageFile",
+      options: { hotspot: true },
+    }),
+    defineField({
       type: "string",
-      description: "For accessibility, screen readers, SEO",
-      validation: (Rule) =>
-        Rule.required().warning("Alt text is required for accessibility"),
+      name: "altText",
+      title: "Alternative Text",
+      validation: (rule) =>
+        rule
+          .required()
+          .warning("Alternative text is recommended for accessibility"),
+    }),
+    defineField({
+      type: "boolean",
+      name: "isClickable",
+      title: "Is Clickable?",
+      initialValue: false,
+    }),
+    defineField({
+      type: "url",
+      name: "linkUrl",
+      title: "Link URL",
+      hidden: ({ parent }) => !parent?.isClickable,
     }),
   ],
 });
