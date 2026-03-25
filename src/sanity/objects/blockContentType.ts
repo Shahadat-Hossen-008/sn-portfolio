@@ -64,9 +64,8 @@ export const blockContentType = defineType({
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
     defineArrayMember({
-      type: "CustomImage",
+      type: "customImage",
       icon: ImageIcon,
-      options: { hotspot: true },
     }),
   ],
 });

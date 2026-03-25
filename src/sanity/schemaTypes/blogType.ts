@@ -38,7 +38,7 @@ export const blogType = defineType({
     defineField({
       name: "mainImage",
       title: "Blog Image",
-      type: "CustomImage",
+      type: "customImage",
     }),
     defineField({
       name: "blogContent",

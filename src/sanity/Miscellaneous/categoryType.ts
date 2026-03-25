@@ -16,7 +16,7 @@ export const categoryType = defineType({
     defineField({
       name: "icon",
       title: "Icon",
-      type: "CustomImage",
+      type: "customImage",
       description:
         "Upload the icon image if you want to use an icon for this category",
     }),
@@ -24,7 +24,7 @@ export const categoryType = defineType({
   preview: {
     select: {
       title: "title",
-      media: "icon",
+      media: "icon.imageFile",
     },
   },
 });
