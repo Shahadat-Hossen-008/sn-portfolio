@@ -14,7 +14,7 @@ export default async function page({ params }: { params: { slug: string } }) {
   });
 
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-20 py-4 lg:py-20 bg-black text-white">
+    <section className="container mx-auto px-4 sm:px-6 lg:px-40 py-4 lg:py-20 bg-black text-white">
       <Link
         href={"/blog"}
         className="text-black bg-white px-4 py-3 rounded-lg mb-6 inline-block transition duration-300 hover:bg-gray-200"
@@ -25,7 +25,7 @@ export default async function page({ params }: { params: { slug: string } }) {
       <p className="text-gray-300 text-sm pb-6">
         {format(parseISO(blog.publishedAt), "LLL d, yyyy")}
       </p>
-      <div className="flex-1 h-full rounded-lg pb-8">
+      <div className="w-full h-full rounded-lg pb-8">
         <Image
           src={urlFor(blog.mainImage.imageFile).width(800).height(520).url()}
           alt={blog.blogTitle || "Blog image"}
