@@ -12,7 +12,7 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
     CustomImage: (props) =>
       props.value ? (
         <Image
-          className="rounded-lg not-prose w-full h-auto"
+          className="rounded-lg w-full h-auto my-8"
           src={urlFor(props.value)
             .width(600)
             .height(400)

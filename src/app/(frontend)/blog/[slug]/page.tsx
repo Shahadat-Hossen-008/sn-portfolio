@@ -1,4 +1,4 @@
-import { portableTextComponents } from "@/components/portableText/PortableTextCoomponent";
+import { portableTextComponents } from "@/components/portableText/PortableTextComponent";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { SINGLE_BLOG_POST_QUERY } from "@/sanity/lib/queries";
@@ -25,7 +25,7 @@ export default async function page({ params }: { params: { slug: string } }) {
       <p className="text-gray-300 text-sm pb-6">
         {format(parseISO(blog.publishedAt), "LLL d, yyyy")}
       </p>
-      <div className="flex-1 h-full rounded-lg">
+      <div className="flex-1 h-full rounded-lg pb-8">
         <Image
           src={urlFor(blog.mainImage).width(800).height(520).url()}
           alt={blog.blogTitle || "Blog image"}
