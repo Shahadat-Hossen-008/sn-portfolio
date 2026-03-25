@@ -20,10 +20,10 @@ export default function Blogs({ blogPost }: BlogsProps) {
       className="p-4 bg-black/30 transition duration-300 underline-offset-2 hover:underline"
     >
       <div className="flex items-start gap-5">
-        {mainImage && (
+        {mainImage?.imageFile && (
           <div className="flex-1 h-80 rounded-lg">
             <Image
-              src={urlFor(mainImage).width(800).height(320).url()}
+              src={urlFor(mainImage.imageFile).width(800).height(320).url()}
               alt={blogTitle || "Blog image"}
               width={800}
               height={320}

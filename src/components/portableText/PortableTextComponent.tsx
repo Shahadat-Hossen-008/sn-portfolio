@@ -9,11 +9,11 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
       <YouTube url={value.url} />
     ),
 
-    CustomImage: (props) =>
+    customImage: (props) =>
       props.value ? (
         <Image
           className="rounded-lg w-full h-auto my-8"
-          src={urlFor(props.value)
+          src={urlFor(props.value.imageFile)
             .width(600)
             .height(400)
             .quality(80)

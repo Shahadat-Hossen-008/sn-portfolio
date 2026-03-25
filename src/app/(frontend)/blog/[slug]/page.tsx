@@ -27,7 +27,7 @@ export default async function page({ params }: { params: { slug: string } }) {
       </p>
       <div className="flex-1 h-full rounded-lg pb-8">
         <Image
-          src={urlFor(blog.mainImage).width(800).height(520).url()}
+          src={urlFor(blog.mainImage.imageFile).width(800).height(520).url()}
           alt={blog.blogTitle || "Blog image"}
           width={800}
           height={520}
