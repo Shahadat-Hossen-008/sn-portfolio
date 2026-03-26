@@ -1,4 +1,4 @@
-import { ImageIcon, PresentationIcon } from "@sanity/icons";
+import { PresentationIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
@@ -25,8 +25,7 @@ export const project = defineType({
     defineField({
       name: "projectImage",
       title: "Project Image",
-      type: "CustomImage",
-      icon: ImageIcon,
+      type: "customImage",
     }),
     defineField({
       name: "projectDescription",
@@ -46,17 +45,11 @@ export const project = defineType({
       name: "end",
       title: "End",
       fieldset: "projectDuration",
-      validation: (Rule) =>
-        Rule.custom((currentValue, context) => {
-          const start = context.document?.start;
-          if (typeof currentValue === "string" && typeof start === "string") {
-            if (new Date(currentValue) < new Date(start)) {
-              return "End date cannot be before the start date";
-            }
-          }
-
-          return true;
-        }),
+      validation: (rule) =>
+        rule
+          .required()
+          .min(rule.valueOfField("start"))
+          .error("End date must be after start date"),
     }),
     defineField({
       name: "projectLink",
@@ -86,7 +79,8 @@ export const project = defineType({
       name: "stack",
       title: "Stack",
       description: "Technologies are used in this project",
-      type: "tag",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
     }),
     defineField({
       name: "date",
@@ -100,7 +94,7 @@ export const project = defineType({
     select: {
       title: "projectTitle",
       date: "date",
-      media: "projectImage",
+      media: "projectImage.imageFile",
     },
     prepare({ title, date, media }) {
       return {
