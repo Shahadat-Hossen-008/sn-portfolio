@@ -19,11 +19,16 @@ export const tagType = defineType({
       description: "Upload the icon image",
       options: { hotspot: true },
     }),
+    defineField({
+      name: "iconImage",
+      type: "customImage",
+      title: "Icon Image",
+    }),
   ],
   preview: {
     select: {
       title: "label",
-      media: "icon",
+      media: "iconImage.imageFile",
     },
   },
 });
