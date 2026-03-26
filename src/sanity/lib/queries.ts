@@ -14,5 +14,5 @@ export const ABOUT_QUERY = defineQuery(`*[_type == "aboutPage"][0]{
 }`);
 
 export const PROJECT_QUERY = defineQuery(`*[_type == "project"][]{
-  _id, projectDescription, start, end, githubUrl, "projectImage": projectImage.asset -> url, projectLink, projectTitle 
+  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle 
 }`);

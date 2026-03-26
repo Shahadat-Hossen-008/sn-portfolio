@@ -8,6 +8,7 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import LeftIcon from "../../../public/LeftIcon";
 import RightIcon from "../../../public/RightIcon";
+import { urlFor } from "@/sanity/lib/image";
 
 export default function Project({ projects }: projectProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
@@ -49,13 +50,15 @@ export default function Project({ projects }: projectProps) {
                       className="flex-[0_0_var(--slide-size)] bg-white/5 border border-white/10 rounded-2xl  mr-(--slide-gap)"
                     >
                       <div className="w-full pb-4 lg:pb-6 lg:max-h-115">
-                        <Image
-                          src={project.projectImage || ""}
-                          alt={project.projectTitle}
-                          width={500}
-                          height={400}
-                          className="w-full h-auto rounded-tl-2xl rounded-tr-2xl"
-                        />
+                        {project.projectImage?.imageFile && (
+                          <Image
+                            src={urlFor(project.projectImage.imageFile).url()}
+                            alt={project.projectTitle}
+                            width={500}
+                            height={400}
+                            className="w-full h-auto rounded-tl-2xl rounded-tr-2xl"
+                          />
+                        )}
                       </div>
                       <div className="flex-1 text-base p-5 lg:p-10">
                         <h3 className="text-2xl font-semibold mb-2">

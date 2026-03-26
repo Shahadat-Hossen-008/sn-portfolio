@@ -13,19 +13,42 @@
  */
 
 // Source: schema.json
+export type BlockContentText = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+  listItem?: "bullet" | "number";
+  markDefs?: Array<{
+    href?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+}>;
+
 export type CustomImage = {
-  _type: "CustomImage";
-  asset?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  _type: "customImage";
+  imageFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
   };
-  media?: unknown;
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  alt: string;
-  link?: string;
+  altText: string;
+  isClickable?: boolean;
+  linkUrl?: string;
 };
 
 export type Project = {
@@ -55,47 +78,18 @@ export type Project = {
     _key: string;
   }>;
   start?: string;
-  end?: string;
+  end: string;
   projectLink: string;
   githubUrl: string;
-  stack?: Tag;
+  stack?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "tag";
+  }>;
   date?: string;
 };
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type BlockContentText = Array<{
-  children?: Array<{
-    marks?: Array<string>;
-    text?: string;
-    _type: "span";
-    _key: string;
-  }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-  listItem?: "bullet" | "number";
-  markDefs?: Array<{
-    href?: string;
-    _type: "link";
-    _key: string;
-  }>;
-  level?: number;
-  _type: "block";
-  _key: string;
-}>;
 
 export type Tag = {
   _id: string;
@@ -116,6 +110,23 @@ export type Tag = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  iconImage?: CustomImage;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
 };
 
 export type AboutPage = {
@@ -287,7 +298,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = CustomImage | Project | SanityImageCrop | SanityImageHotspot | BlockContentText | Tag | AboutPage | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = BlockContentText | CustomImage | Project | Tag | SanityImageCrop | SanityImageHotspot | AboutPage | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
@@ -315,7 +326,7 @@ export type ABOUT_QUERYResult = {
   }> | null;
 } | null;
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project"][]{  _id, projectDescription, start, end, githubUrl, "projectImage": projectImage.asset -> url, projectLink, projectTitle }
+// Query: *[_type == "project"][]{  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle }
 export type PROJECT_QUERYResult = Array<{
   _id: string;
   projectDescription: Array<{
@@ -337,9 +348,9 @@ export type PROJECT_QUERYResult = Array<{
     _key: string;
   }>;
   start: string | null;
-  end: string | null;
+  end: string;
   githubUrl: string;
-  projectImage: string | null;
+  projectImage: CustomImage | null;
   projectLink: string;
   projectTitle: string;
 }>;
@@ -350,6 +361,6 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
     "*[_type == \"aboutPage\"][0]{\n  \"description\" : description, \"socialIcons\": socialLinks[]{label, url, \"imageIcon\": icon.asset->url, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
-    "*[_type == \"project\"][]{\n  _id, projectDescription, start, end, githubUrl, \"projectImage\": projectImage.asset -> url, projectLink, projectTitle \n}": PROJECT_QUERYResult;
+    "*[_type == \"project\"][]{\n  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle \n}": PROJECT_QUERYResult;
   }
 }
