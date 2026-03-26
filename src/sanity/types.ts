@@ -13,6 +13,65 @@
  */
 
 // Source: schema.json
+export type CustomImage = {
+  _type: "customImage";
+  imageFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  altText: string;
+  isClickable?: boolean;
+  linkUrl?: string;
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  projectTitle: string;
+  projectImage?: CustomImage;
+  projectDescription: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  start?: string;
+  end: string;
+  projectLink: string;
+  githubUrl: string;
+  stack?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "tag";
+  }>;
+  date?: string;
+};
+
 export type BlockContentText = Array<{
   children?: Array<{
     marks?: Array<string>;
@@ -139,18 +198,7 @@ export type AboutPage = {
   description: BlockContentText;
   socialLinks?: Array<{
     label?: string;
-    icon?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
+    icon?: CustomImage;
     url?: string;
     _key: string;
   }>;
@@ -298,7 +346,24 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = BlockContentText | CustomImage | Project | Tag | SanityImageCrop | SanityImageHotspot | AboutPage | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes =
+  | CustomImage
+  | Project
+  | BlockContentText
+  | Tag
+  | SanityImageCrop
+  | SanityImageHotspot
+  | AboutPage
+  | ProfilePage
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageMetadata
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint
+  | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
@@ -311,13 +376,13 @@ export type PROFILE_QUERYResult = {
   bio: BlockContentText | null;
 } | null;
 // Variable: ABOUT_QUERY
-// Query: *[_type == "aboutPage"][0]{  "description" : description, "socialIcons": socialLinks[]{label, url, "imageIcon": icon.asset->url, _key}, technologies[]->{label, _id}}
+// Query: *[_type == "aboutPage"][0]{   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}}
 export type ABOUT_QUERYResult = {
   description: BlockContentText;
-  socialIcons: Array<{
+  socialLinks: Array<{
     label: string | null;
     url: string | null;
-    imageIcon: string | null;
+    icon: CustomImage | null;
     _key: string;
   }> | null;
   technologies: Array<{
@@ -359,8 +424,7 @@ export type PROJECT_QUERYResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
-    "*[_type == \"aboutPage\"][0]{\n  \"description\" : description, \"socialIcons\": socialLinks[]{label, url, \"imageIcon\": icon.asset->url, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
-    "*[_type == \"project\"][]{\n  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle \n}": PROJECT_QUERYResult;
+    '*[_type == "profilePage"][0]{\n  fullName,\n  headline,\n  "imageUrl": image.asset->url,\n  "cvUrl": uploadCV.asset->url,\n  \'bio\' :bio\n}': PROFILE_QUERYResult;
+    '*[_type == "aboutPage"][0]{\n   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}\n}': ABOUT_QUERYResult;
   }
 }
