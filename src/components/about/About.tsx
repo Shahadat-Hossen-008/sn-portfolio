@@ -2,10 +2,11 @@ import Image from "next/image";
 import { RadialGradientBackground } from "../background/RadialGradientBackground";
 import { aboutProps } from "@/app/types/aboutType";
 import { PortableText } from "next-sanity";
+import { urlFor } from "@/sanity/lib/image";
 
 export default function About({ about }: aboutProps) {
   if (!about) return null;
-  const { description, socialIcons, technologies } = about;
+  const { description, socialLinks, technologies } = about;
   return (
     <section id="about" className="relative py-20">
       <RadialGradientBackground variant="about" />
@@ -22,11 +23,9 @@ export default function About({ about }: aboutProps) {
               <div className=" flex items-center gap-1 flex-wrap">
                 <p className="text-xl text-white">My social links:</p>
                 <div className="flex items-center gap-2 flex-wrap">
-                  {socialIcons &&
-                    socialIcons
-                      .filter(
-                        (icon) => icon.label && icon.url && icon.imageIcon,
-                      )
+                  {socialLinks &&
+                    socialLinks
+                      .filter((icon) => icon.label && icon.url && icon.icon)
                       .map((icon) => (
                         //( !) use this because here we filter social icon that it will not give null
                         <a
@@ -35,12 +34,18 @@ export default function About({ about }: aboutProps) {
                           target="_blank"
                           className="pl-2"
                         >
-                          <Image
-                            src={icon.imageIcon!}
-                            alt={icon.label!}
-                            width={36}
-                            height={36}
-                          />
+                          {icon.icon?.imageFile && (
+                            <Image
+                              src={urlFor(icon.icon.imageFile)
+                                .width(36)
+                                .height(36)
+                                .url()}
+                              alt={icon.icon.altText}
+                              width={36}
+                              height={36}
+                              unoptimized
+                            />
+                          )}
                         </a>
                       ))}
                 </div>

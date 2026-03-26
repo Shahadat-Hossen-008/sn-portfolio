@@ -9,7 +9,6 @@ export const PROFILE_QUERY = defineQuery(`*[_type == "profilePage"][0]{
   'bio' :bio
 }`);
 
-
 export const ABOUT_QUERY = defineQuery(`*[_type == "aboutPage"][0]{
-  "description" : description, "socialIcons": socialLinks[]{label, url, "imageIcon": icon.asset->url, _key}, technologies[]->{label, _id}
+   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}
 }`);

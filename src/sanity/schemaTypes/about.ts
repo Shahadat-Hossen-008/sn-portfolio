@@ -24,9 +24,18 @@ export const about = defineType({
           type: "object",
           fields: [
             { name: "label", type: "string" },
-            { name: "icon", type: "image", description: "Upload the icon image", options:{hotspot: true} },
+            {
+              name: "icon",
+              type: "customImage",
+            },
             { name: "url", type: "url" },
           ],
+          preview: {
+            select: {
+              title: "label",
+              media: "icon.imageFile",
+            },
+          },
         },
       ],
     }),
