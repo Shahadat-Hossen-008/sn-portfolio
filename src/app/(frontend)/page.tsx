@@ -5,7 +5,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import {
   ABOUT_QUERY,
   PROFILE_QUERY,
-  PROJECTS_QUERY,
+  TECH_QUERY,
 } from "@/sanity/lib/queries";
 import Technology from "@/components/technology/Technology";
 
@@ -14,7 +14,7 @@ export default async function page() {
 
   const { data: about } = await sanityFetch({ query: ABOUT_QUERY });
 
-  const { data: tech } = await sanityFetch({ query: PROJECTS_QUERY });
+  const { data: tech } = await sanityFetch({ query: TECH_QUERY });
 
   return (
     <div className="bg-black ">

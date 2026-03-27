@@ -1,5 +1,6 @@
 "use client";
 import { Tech } from "@/app/types/technologyType";
+import { urlFor } from "@/sanity/lib/image";
 import AutoScroll from "embla-carousel-auto-scroll";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
@@ -35,9 +36,9 @@ export default function Technology({ technology }: Tech) {
                 className="lg:flex-[0_0_var(--slide-size)] flex-[0_0_var(--slide-sm-size)]"
                 key={tech._id}
               >
-                {tech.labelIcon && (
+                {tech.iconImage?.imageFile && (
                   <Image
-                    src={tech.labelIcon}
+                    src={urlFor(tech.iconImage?.imageFile).url()}
                     alt={tech.label}
                     width={80}
                     height={100}

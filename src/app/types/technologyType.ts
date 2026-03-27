@@ -1,5 +1,6 @@
-import { PROJECTS_QUERYResult } from "@/sanity/types";
+import { TECH_QUERYResult } from "@/sanity/types";
+
 
 export type Tech = {
-  technology: PROJECTS_QUERYResult;
+  technology: TECH_QUERYResult;
 };
