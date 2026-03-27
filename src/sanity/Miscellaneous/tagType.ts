@@ -10,6 +10,7 @@ export const tagType = defineType({
     defineField({
       name: "label",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "iconImage",
