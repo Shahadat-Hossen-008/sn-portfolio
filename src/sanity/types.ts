@@ -13,15 +13,34 @@
  */
 
 // Source: schema.json
-export type ProfilePage = {
+export type CustomImage = {
+  _type: "customImage";
+  imageFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  altText: string;
+  isClickable?: boolean;
+  linkUrl?: string;
+};
+
+export type Project = {
   _id: string;
-  _type: "profilePage";
+  _type: "project";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  fullName: string;
-  headline: string;
-  bio?: Array<{
+  projectTitle: string;
+  projectImage?: CustomImage;
+  projectDescription: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -39,6 +58,96 @@ export type ProfilePage = {
     _type: "block";
     _key: string;
   }>;
+  start?: string;
+  end: string;
+  projectLink: string;
+  githubUrl: string;
+  stack?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "tag";
+  }>;
+  date?: string;
+};
+
+export type BlockContentText = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+  listItem?: "bullet" | "number";
+  markDefs?: Array<{
+    href?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+}>;
+
+export type Tag = {
+  _id: string;
+  _type: "tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  label?: string;
+  iconImage?: CustomImage;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description: BlockContentText;
+  socialLinks?: Array<{
+    platform?: string;
+    url?: string;
+    _key: string;
+  }>;
+  technologies?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "tag";
+  }>;
+};
+
+export type ProfilePage = {
+  _id: string;
+  _type: "profilePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  fullName: string;
+  headline: string;
+  bio?: BlockContentText;
   image?: {
     asset?: {
       _ref: string;
@@ -61,22 +170,6 @@ export type ProfilePage = {
     media?: unknown;
     _type: "file";
   };
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -181,7 +274,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = ProfilePage | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = CustomImage | Project | BlockContentText | Tag | SanityImageCrop | SanityImageHotspot | AboutPage | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
@@ -202,24 +295,7 @@ export type PROFILE_QUERYResult = {
     _type: "image";
   } | null;
   cvUrl: string | null;
-  bio: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }> | null;
+  bio: BlockContentText | null;
 } | null;
 
 // Query TypeMap
