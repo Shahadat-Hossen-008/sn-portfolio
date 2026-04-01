@@ -16,8 +16,8 @@ export default async function page() {
     <div className="bg-black ">
       {profile && <Navbar cvUrl={profile.cvUrl} />}
       <Profile profile={profile} />
-      <Contact/>
       <About about={about}/>
+      <Contact/>
       <ToastContainer />
     </div>
   );
