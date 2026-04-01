@@ -22,6 +22,7 @@ export default async function page() {
       <Profile profile={profile} />
       <About about={about} />
       <Project projects={projects} />
+      <Contact />
       <ToastContainer/>
     </div>
   );
