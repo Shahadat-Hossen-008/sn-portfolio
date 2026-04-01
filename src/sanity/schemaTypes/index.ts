@@ -1,6 +1,6 @@
 import { type SchemaTypeDefinition } from "sanity";
-import { profile } from "./profile";
 import { project } from "./project";
+import { profile } from "./profile";
 import { about } from "./about";
 import { blogType } from "./blogType";
 import { customImage } from "../objects/customImage";
