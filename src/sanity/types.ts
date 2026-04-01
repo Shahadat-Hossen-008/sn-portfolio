@@ -400,6 +400,13 @@ export type PROJECT_QUERYResult = Array<{
   projectLink: string;
   projectTitle: string;
 }>;
+// Variable: TECH_QUERY
+// Query: *[_type == "tag"][]{  _id, label, iconImage }
+export type TECH_QUERYResult = Array<{
+  _id: string;
+  label: string;
+  iconImage: CustomImage | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -408,5 +415,6 @@ declare module "@sanity/client" {
     "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
     "*[_type == \"aboutPage\"][0]{\n  description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
     "*[_type == \"project\"][]{\n  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle \n}": PROJECT_QUERYResult;
+    "*[_type == \"tag\"][]{\n  _id, label, iconImage \n}": TECH_QUERYResult;
   }
 }
