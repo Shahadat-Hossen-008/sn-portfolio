@@ -97,31 +97,8 @@ export type Tag = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  label: string;
+  label?: string;
   iconImage?: CustomImage;
-};
-
-export type AboutPage = {
-  _id: string;
-  _type: "aboutPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description: BlockContentText;
-  socialLinks?: Array<{
-    label?: string;
-    icon?: CustomImage;
-    url?: string;
-    _key: string;
-  }>;
-  technologies?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
 };
 
 export type SanityImageCrop = {
@@ -138,6 +115,28 @@ export type SanityImageHotspot = {
   y: number;
   height: number;
   width: number;
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description: BlockContentText;
+  socialLinks?: Array<{
+    platform?: string;
+    url?: string;
+    _key: string;
+  }>;
+  technologies?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "tag";
+  }>;
 };
 
 export type ProfilePage = {
@@ -275,7 +274,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = CustomImage | Project | BlockContentText | Tag | AboutPage | SanityImageCrop | SanityImageHotspot | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = CustomImage | Project | BlockContentText | Tag | SanityImageCrop | SanityImageHotspot | AboutPage | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
@@ -286,21 +285,6 @@ export type PROFILE_QUERYResult = {
   imageUrl: string | null;
   cvUrl: string | null;
   bio: BlockContentText | null;
-} | null;
-// Variable: ABOUT_QUERY
-// Query: *[_type == "aboutPage"][0]{   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}}
-export type ABOUT_QUERYResult = {
-  description: BlockContentText;
-  socialLinks: Array<{
-    label: string | null;
-    url: string | null;
-    icon: CustomImage | null;
-    _key: string;
-  }> | null;
-  technologies: Array<{
-    label: string;
-    _id: string;
-  }> | null;
 } | null;
 // Variable: TECH_QUERY
 // Query: *[_type == "tag"][]{  _id, label, iconImage }
