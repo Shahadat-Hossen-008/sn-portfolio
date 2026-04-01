@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
+import { SanityLive } from "@/sanity/lib/live";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <SanityLive />
+      </body>
     </html>
   );
 }
