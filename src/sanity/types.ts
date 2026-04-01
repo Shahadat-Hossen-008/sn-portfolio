@@ -380,7 +380,7 @@ export type PROFILE_QUERYResult = {
   bio: BlockContentText | null;
 } | null;
 // Variable: ABOUT_QUERY
-// Query: *[_type == "aboutPage"][0]{   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}}
+// Query: *[_type == "aboutPage"][0]{  description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}}
 export type ABOUT_QUERYResult = {
   description: BlockContentText;
   socialLinks: Array<{
@@ -394,12 +394,42 @@ export type ABOUT_QUERYResult = {
     _id: string;
   }> | null;
 } | null;
+// Variable: PROJECT_QUERY
+// Query: *[_type == "project"][]{  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle }
+export type PROJECT_QUERYResult = Array<{
+  _id: string;
+  projectDescription: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  start: string | null;
+  end: string;
+  githubUrl: string;
+  projectImage: CustomImage | null;
+  projectLink: string;
+  projectTitle: string;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  image,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
-    "*[_type == \"aboutPage\"][0]{\n   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
+    "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
+    "*[_type == \"aboutPage\"][0]{\n  description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
+    "*[_type == \"project\"][]{\n  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle \n}": PROJECT_QUERYResult;
   }
 }
