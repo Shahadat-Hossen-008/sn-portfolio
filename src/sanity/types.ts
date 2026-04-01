@@ -383,6 +383,38 @@ export type ABOUT_QUERYResult = {
     _id: string;
   }> | null;
 } | null;
+// Variable: BLOG_POSTS_QUERY
+// Query: *[_type == "blogPost"]{  _id,  _createdAt,  title,  slug,  mainImage,  categories[]->{    _id,    label  },  author,  publishedAt,  blogContent}
+export type BLOG_POSTS_QUERYResult = Array<{
+  _id: string;
+  _createdAt: string;
+  title: null;
+  slug: Slug;
+  mainImage: CustomImage | null;
+  categories: Array<{
+    _id: string;
+    label: null;
+  }> | null;
+  author: string | null;
+  publishedAt: string | null;
+  blogContent: BlockContent | null;
+}>;
+// Variable: SINGLE_BLOG_POST_QUERY
+// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  title,  slug,  mainImage,  categories[]->{    _id,    label  },  author,  publishedAt,  blogContent}
+export type SINGLE_BLOG_POST_QUERYResult = {
+  _id: string;
+  _createdAt: string;
+  title: null;
+  slug: Slug;
+  mainImage: CustomImage | null;
+  categories: Array<{
+    _id: string;
+    label: null;
+  }> | null;
+  author: string | null;
+  publishedAt: string | null;
+  blogContent: BlockContent | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -390,5 +422,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
     "*[_type == \"aboutPage\"][0]{\n   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
+    "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  title,\n  slug,\n  mainImage,\n  categories[]->{\n    _id,\n    label\n  },\n  author,\n  publishedAt,\n  blogContent\n}": BLOG_POSTS_QUERYResult;
+    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  title,\n  slug,\n  mainImage,\n  categories[]->{\n    _id,\n    label\n  },\n  author,\n  publishedAt,\n  blogContent\n}": SINGLE_BLOG_POST_QUERYResult;
   }
 }
