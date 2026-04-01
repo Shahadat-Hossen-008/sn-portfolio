@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 
+// Query to fetch profile data
 export const PROFILE_QUERY = defineQuery(`*[_type == "profilePage"][0]{
   fullName,
   headline,
@@ -8,32 +9,6 @@ export const PROFILE_QUERY = defineQuery(`*[_type == "profilePage"][0]{
   'bio' :bio
 }`);
 
-export const BLOG_POSTS_QUERY = defineQuery(`*[_type == "blogPost"][]{
-  blogTitle, _id, author, slug, categories[]->{
-  _id,
-  title,
-  icon{
-    alt,
-    asset
-  }
-}, publishedAt, mainImage, blogContent
+export const ABOUT_QUERY = defineQuery(`*[_type == "aboutPage"][0]{
+   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}
 }`);
-
-export const SINGLE_BLOG_POST_QUERY = `
-  *[_type == "blogPost" && slug.current == $slug][0]{
-    blogTitle,
-    blogContent,
-    mainImage,
-    author,
-    publishedAt,
-    categories[]->{
-      _id,
-      title,
-      icon{
-        alt,
-        asset
-      }
-    }
-
-  }
-`;

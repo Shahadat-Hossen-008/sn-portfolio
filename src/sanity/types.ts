@@ -172,7 +172,19 @@ export type Tag = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  label?: string;
+  label: string;
+  icon?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   iconImage?: CustomImage;
 };
 
@@ -201,7 +213,8 @@ export type AboutPage = {
   title?: string;
   description: BlockContentText;
   socialLinks?: Array<{
-    platform?: string;
+    label?: string;
+    icon?: CustomImage;
     url?: string;
     _key: string;
   }>;
@@ -355,31 +368,27 @@ export type PROFILE_QUERYResult = {
   cvUrl: string | null;
   bio: BlockContentText | null;
 } | null;
-// Variable: BLOG_POSTS_QUERY
-// Query: *[_type == "blogPost"][]{  blogTitle, _id, author, slug, categories[]->{  _id,  title,  icon{    alt,    asset  }}, publishedAt, mainImage, blogContent}
-export type BLOG_POSTS_QUERYResult = Array<{
-  blogTitle: string;
-  _id: string;
-  author: string | null;
-  slug: Slug;
-  categories: Array<{
-    _id: string;
-    title: string;
-    icon: {
-      alt: null;
-      asset: null;
-    } | null;
+// Variable: ABOUT_QUERY
+// Query: *[_type == "aboutPage"][0]{   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}}
+export type ABOUT_QUERYResult = {
+  description: BlockContentText;
+  socialLinks: Array<{
+    label: string | null;
+    url: string | null;
+    icon: CustomImage | null;
+    _key: string;
   }> | null;
-  publishedAt: string | null;
-  mainImage: CustomImage | null;
-  blogContent: BlockContent | null;
-}>;
+  technologies: Array<{
+    label: string;
+    _id: string;
+  }> | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
-    "*[_type == \"blogPost\"][]{\n  blogTitle, _id, author, slug, categories[]->{\n  _id,\n  title,\n  icon{\n    alt,\n    asset\n  }\n}, publishedAt, mainImage, blogContent\n}": BLOG_POSTS_QUERYResult;
+    "*[_type == \"aboutPage\"][0]{\n   description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
   }
 }
