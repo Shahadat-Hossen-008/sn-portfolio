@@ -8,6 +8,7 @@ export const about = defineType({
     defineField({
       name: "title",
       type: "string",
+      description: "Title of the about page",
     }),
     defineField({
       name: "description",
@@ -22,9 +23,19 @@ export const about = defineType({
         {
           type: "object",
           fields: [
-            { name: "platform", type: "string" },
+            { name: "label", type: "string" },
+            {
+              name: "icon",
+              type: "customImage",
+            },
             { name: "url", type: "url" },
           ],
+          preview: {
+            select: {
+              title: "label",
+              media: "icon.imageFile",
+            },
+          },
         },
       ],
     }),
