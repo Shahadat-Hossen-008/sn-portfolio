@@ -29,6 +29,7 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
     "react-toastify": "^11.0.5",
+    "react-player": "^3.4.0",
     "sanity": "^4.22.0",
     "styled-components": "^6.3.11"
   },
