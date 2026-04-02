@@ -13,13 +13,6 @@ export const tagType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "icon",
-      title: "Icon",
-      type: "image",
-      description: "Upload the icon image",
-      options: { hotspot: true },
-    }),
-    defineField({
       name: "iconImage",
       type: "customImage",
       title: "Icon Image",

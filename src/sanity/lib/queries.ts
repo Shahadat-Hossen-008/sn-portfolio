@@ -16,3 +16,8 @@ export const ABOUT_QUERY = defineQuery(`*[_type == "aboutPage"][0]{
 export const PROJECT_QUERY = defineQuery(`*[_type == "project"][]{
   _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle 
 }`);
+
+
+export const TECH_QUERY = defineQuery(`*[_type == "tag"][]{
+  _id, label, iconImage 
+}`);
