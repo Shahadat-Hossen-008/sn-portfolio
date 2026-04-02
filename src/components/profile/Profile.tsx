@@ -1,12 +1,13 @@
 import { ProfileProps } from "@/app/types/profileTypes";
-import Image from "next/image";
 import { RadialGradientBackground } from "../background/RadialGradientBackground";
 import { PortableText } from "next-sanity";
+import SanityImage from "../image/Image";
+import SanityNextImage from "../image/NextImage";
 
 export default function Profile({ profile }: ProfileProps) {
   // If profile data is not available, return null to avoid rendering the component
   if (!profile) return null;
-  const { fullName, headline, imageUrl, cvUrl, bio } = profile;
+  const { fullName, headline, image, cvUrl, bio } = profile;
   return (
     <section className="min-h-screen relative pt-20">
       <RadialGradientBackground variant="hero" />
@@ -21,9 +22,11 @@ export default function Profile({ profile }: ProfileProps) {
           <h4 className="px-4.5 py-5.5 bg-linear-to-r from-primary/10 via-primary/15 to-primary/20 border border-primary/20 rounded-full font-semibold inline-block text-white text-xs md:text-sm tracking-[1.2px]">
             {headline}
           </h4>
-          {bio && <div className="text-base text-white/70">
-                     <PortableText value={bio} />
-                  </div>}
+          {bio && (
+            <div className="text-base text-white/70">
+              <PortableText value={bio} />
+            </div>
+          )}
           <div className="flex gap-5 items-center">
             {cvUrl && (
               <a
@@ -46,13 +49,13 @@ export default function Profile({ profile }: ProfileProps) {
           </div>
         </div>
         <div className="flex-1 flex justify-end">
-          {imageUrl && (
-            <Image
-              src={imageUrl}
+          {image && (
+            <SanityImage
+              image={image}
               alt={fullName}
               width={300}
-              height={300}
-              className="rounded-lg"
+              height={400}
+              className="rounded-lg z-10"
             />
           )}
         </div>
