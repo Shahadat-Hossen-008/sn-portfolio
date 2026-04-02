@@ -28,6 +28,10 @@
     overflow-x: hidden;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 10px;

@@ -1,9 +1,11 @@
+import Contact from "@/components/contact/Contact";
 import Navbar from "@/components/navbar/Navbar";
 import About from "@/components/about/About";
 import Profile from "@/components/profile/Profile";
 import Project from "@/components/projects/Project";
 import Technology from "@/components/technology/Technology";
 import { sanityFetch } from "@/sanity/lib/live";
+import { ToastContainer } from "react-toastify";
 import {
   ABOUT_QUERY,
   PROJECT_QUERY,
@@ -24,6 +26,8 @@ export default async function page() {
       <About about={about} />
       <Technology technology={tech} />
       <Project projects={projects} />
+      <Contact />
+      <ToastContainer/>
     </div>
   );
 }
