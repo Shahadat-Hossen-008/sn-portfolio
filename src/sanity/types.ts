@@ -428,7 +428,7 @@ export type PROJECT_QUERYResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  \"imageUrl\": image.asset->url,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
+    "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  image,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
     "*[_type == \"aboutPage\"][0]{\n  description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
     "*[_type == \"project\"][]{\n  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle \n}": PROJECT_QUERYResult;
   }
