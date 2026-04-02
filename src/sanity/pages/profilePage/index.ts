@@ -5,7 +5,7 @@ export const profile = defineType({
   name: "profilePage",
   title: "Profile Page",
   type: "document",
-  icon: "UserIcon",
+  icon: UserIcon,
   fields: [
     defineField({
       name: "autherInfo",
@@ -29,7 +29,6 @@ export const profile = defineType({
       name: "imagePosition",
       title: "Image Position",
       type: "string",
-      initialValue: "right",
       options: {
         list: [
           { value: "left", title: "Left" },
@@ -56,6 +55,9 @@ export const profile = defineType({
       validation: (Rule) => Rule.required(),
     }),
   ],
+  initialValue:{
+    imagePosition:"right"
+  },
   preview: {
     select: {
       title: "autherInfo.fullName",
