@@ -46,3 +46,7 @@ export const SINGLE_BLOG_POST_QUERY = defineQuery(`*[_type == "blogPost" && slug
   publishedAt,
   blogContent
 }`);
+
+export const TECH_QUERY = defineQuery(`*[_type == "tag"][]{
+  _id, label, iconImage 
+}`);
