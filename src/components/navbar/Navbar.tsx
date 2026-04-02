@@ -13,8 +13,9 @@ export default function Navbar({ cvUrl }: { cvUrl: string | null }) {
     { name: "About", href: "#about" },
     { name: "Projects", href: "#projects" },
     { name: "Contact", href: "#contact" },
+    { name: "Blog", href: "/blog" },
   ];
-  
+
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-20 py-4 lg:py-8 fixed left-0 right-0 top-0 z-100">
       <div
@@ -61,9 +62,7 @@ export default function Navbar({ cvUrl }: { cvUrl: string | null }) {
             aria-label="Menu"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {!isMenuOpen ? (
-              <HamburgerMenu/>) : (<CrossIcon/>
-            )}
+            {!isMenuOpen ? <HamburgerMenu /> : <CrossIcon />}
           </div>
           {isMenuOpen && (
             <div className="absolute top-full right-4 mt-2 w-48 bg-black border border-white/15 rounded-lg shadow-lg py-2 z-50">

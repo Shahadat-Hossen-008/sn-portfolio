@@ -17,6 +17,35 @@ export const PROJECT_QUERY = defineQuery(`*[_type == "project"][]{
   _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle 
 }`);
 
+export const BLOG_POSTS_QUERY = defineQuery(`*[_type == "blogPost"]{
+  _id,
+  _createdAt,
+  title,
+  slug,
+  mainImage,
+  categories[]->{
+    _id,
+    label
+  },
+  author,
+  publishedAt,
+  blogContent
+}`);
+
+export const SINGLE_BLOG_POST_QUERY = defineQuery(`*[_type == "blogPost" && slug.current == $slug][0]{
+  _id,
+  _createdAt,
+  title,
+  slug,
+  mainImage,
+  categories[]->{
+    _id,
+    label
+  },
+  author,
+  publishedAt,
+  blogContent
+}`);
 
 export const TECH_QUERY = defineQuery(`*[_type == "tag"][]{
   _id, label, iconImage 
