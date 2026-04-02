@@ -1,8 +1,10 @@
+import Contact from "@/components/contact/Contact";
 import Navbar from "@/components/navbar/Navbar";
 import About from "@/components/about/About";
 import Profile from "@/components/profile/Profile";
 import Project from "@/components/projects/Project";
 import { sanityFetch } from "@/sanity/lib/live";
+import { ToastContainer } from "react-toastify";
 import {
   ABOUT_QUERY,
   PROFILE_QUERY,
@@ -20,6 +22,8 @@ export default async function page() {
       <Profile profile={profile} />
       <About about={about} />
       <Project projects={projects} />
+      <Contact />
+      <ToastContainer/>
     </div>
   );
 }
