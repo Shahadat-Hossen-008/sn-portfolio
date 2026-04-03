@@ -1,11 +1,12 @@
-import { UserIcon } from "@sanity/icons";
+
+import { BsPersonFill } from "react-icons/bs";
 import { defineField, defineType } from "sanity";
 
 export const profile = defineType({
   name: "profilePage",
   title: "Profile Page",
   type: "document",
-  icon: UserIcon,
+  icon: BsPersonFill,
   fields: [
     defineField({
       name: "autherInfo",
@@ -13,36 +14,9 @@ export const profile = defineType({
       to: [{ type: "author" }],
     }),
     defineField({
-      name: "bio",
-      title: "Bio",
-      type: "array",
-      of: [{ type: "block" }],
-      description: "Write a few sentences about yourself",
-    }),
-    defineField({
-      name: "authorImage",
-      title: "Author Image",
-      description: "Upload your profile picture",
-      type: "customImage",
-    }),
-    defineField({
-      name: "imagePosition",
-      title: "Image Position",
-      type: "string",
-      options: {
-        list: [
-          { value: "left", title: "Left" },
-          { value: "right", title: "Right" },
-        ],
-        layout: "radio",
-      },
-    }),
-    defineField({
-        name: "technologies",
-        title: "Technologies",
-        type: "array",
-        of: [{ type: "category" }],
-
+      name:"pageSections",
+      title:"Page Sections",
+      type: "pageSections"
     }),
     defineField({
       name: "uploadCV",
@@ -55,9 +29,6 @@ export const profile = defineType({
       validation: (Rule) => Rule.required(),
     }),
   ],
-  initialValue:{
-    imagePosition:"right"
-  },
   preview: {
     select: {
       title: "autherInfo.fullName",

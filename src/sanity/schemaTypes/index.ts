@@ -5,7 +5,12 @@ import author from "../entites/author";
 import portableText from "../_root/portableText";
 import { customImage } from "../_root/media";
 import { categoryType } from "../_root/category";
-// Pages
+import technologies from "../buildableSection/technologies";
+import profileContent from "../buildableSection/profileContent";
+import { pageSection } from "../_root/sections";
+import { projectSection } from "../pages/projects";
+import richText from "../buildableSection/richText";
+// pages
 import { profile } from "../pages/profilePage";
 // ?previous define schema
 // import { project } from "./project";
@@ -24,7 +29,15 @@ export const entities: DocumentDefinition[] = [ author];
 export const hoistedObjects: SchemaTypeDefinition[] =[
   portableText,
   customImage,
-  categoryType
+  categoryType,
+
+  pageSection,
+  projectSection,
+
+  // buildable section
+  profileContent,
+  technologies,
+  richText,
 ]
 export const fixedPages: DocumentDefinition[] = [ profile];
 

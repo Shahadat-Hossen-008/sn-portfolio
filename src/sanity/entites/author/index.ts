@@ -1,11 +1,11 @@
 import { StringRule, defineField, defineType } from "sanity";
-import { BsPersonFill } from "react-icons/bs";
+import { UserIcon } from "@sanity/icons";
 
 export default defineType({
   name: "author",
   type: "document",
   title: "Author",
-  icon: BsPersonFill,
+  icon: UserIcon,
   fields: [
     defineField({
       name: "fullName",
@@ -34,7 +34,7 @@ export default defineType({
     prepare({ fullName }) {
       return {
         title: fullName,
-        media: BsPersonFill,
+        media: UserIcon,
         subtitle: "Author",
       };
     },
