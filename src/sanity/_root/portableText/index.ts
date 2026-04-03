@@ -1,6 +1,7 @@
 import { defineArrayMember, defineField } from "sanity";
 import { block } from "./block";
 import { youtube } from "./iframe";
+import { code } from "./code";
 
 export default defineField({
   name: "portableText",
@@ -13,6 +14,7 @@ export default defineField({
       type: "customImage",
       title: "Image",
     }),
+    defineArrayMember(code),
     defineArrayMember(youtube),
   ],
 });
