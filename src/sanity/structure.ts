@@ -1,10 +1,18 @@
 
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
-import { InfoOutlineIcon, UserIcon } from "@sanity/icons";
-import { singletonStructure } from "./plugin/singletonPlugin";
 
-export const structure = singletonStructure([
-  { name: "profilePage", title: "Profile Page", icon: UserIcon },
-  { name: "aboutPage", title: "About Page", icon: InfoOutlineIcon },
-])
+// https://www.sanity.io/docs/structure-builder-cheat-sheet
+import entitiesStructure from "./structure/entitiesStructure";
+import pagesStructure from "./structure/pages";
+import { StructureBuilder } from "sanity/structure";
+
+
+export function structure(S:StructureBuilder) {
+  return  S.list()
+      .title("Content")
+      .items([
+        pagesStructure(S),
+        S.divider(),
+        ...entitiesStructure(S),
+      ]);
+}
