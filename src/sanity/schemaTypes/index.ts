@@ -12,6 +12,8 @@ import { projectSection } from "../pages/projects";
 import richText from "../buildableSection/richText";
 // pages
 import { profile } from "../pages/profilePage";
+import carouselTech from "../buildableSection/carouselTech";
+import { about } from "../pages/aboutPage";
 // ?previous define schema
 // import { project } from "./project";
 // import { profile } from "./profile";
@@ -38,8 +40,9 @@ export const hoistedObjects: SchemaTypeDefinition[] =[
   profileContent,
   technologies,
   richText,
+  carouselTech
 ]
-export const fixedPages: DocumentDefinition[] = [ profile];
+export const fixedPages: DocumentDefinition[] = [ profile, about];
 
 export const schema = {
   types: [

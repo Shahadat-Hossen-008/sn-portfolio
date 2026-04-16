@@ -50,7 +50,6 @@ export default defineType({
 
       return {
         title: plainText ? plainText + "..." : undefined,
-        subtitle: "Rich Text Section",
         // icon: BsFileRichtextFill,
         media: image.imageFile,
       };

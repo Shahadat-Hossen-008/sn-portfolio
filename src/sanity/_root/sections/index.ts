@@ -20,7 +20,12 @@ export const pageSection =  defineType({
     {
       title: "Technology",
       type: "technologySection"
+    },
+    {
+      title: "Carousel Technology",
+      type: "technologyCarousel"
     }
+
   ],
   options:{
     insertMenu:{
@@ -29,7 +34,17 @@ export const pageSection =  defineType({
         {
           name: "grid",
         }
-      ]
+      ],
+      groups: [
+        {
+          name: "profile",
+          of: ["profileContent"],
+        },
+        {
+          name: "sections",
+          of: [ "richTextSection", "technologyCarousel", "technologySection"],
+        },
+      ],
     }
   }
 })
