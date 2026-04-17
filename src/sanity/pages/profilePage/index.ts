@@ -3,11 +3,17 @@ import { BsPersonFill } from "react-icons/bs";
 import { defineField, defineType } from "sanity";
 
 export const profile = defineType({
-  name: "profilePage",
+  name: "myProfilePage",
   title: "Profile Page",
   type: "document",
   icon: BsPersonFill,
   fields: [
+    defineField({
+      name: "slug",
+      type: "slug",
+      title: "Slug",
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({
       name: "autherInfo",
       type: "reference",

@@ -30,7 +30,7 @@ export default defineConfig({
     codeInput(),
     //custom link plugin
     linkField({
-      linkableSchemaTypes: ['profilePage'],
+      linkableSchemaTypes: ['myProfilePage'],
     }),
   ],
 });
