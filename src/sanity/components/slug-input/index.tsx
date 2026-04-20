@@ -30,7 +30,6 @@ export default function SlugInput(props: CustomSlugInputProps) {
   }
 
   const url: string[] = [getBaseUrl(dataset)];
-  console.log(  dataset);
   if (schemaType.options && schemaType.options.prefix) {
     url.push(schemaType.options.prefix);
   }
@@ -52,7 +51,7 @@ export default function SlugInput(props: CustomSlugInputProps) {
           href={url.join("/")}
           style={{ textDecoration: "none" }}
           target="_blank"
-          rel="external"
+          rel="noopener noreferrer"
         >
           <Flex gap={2} direction={"row"} align={"center"}>
             <Text size={isFixed ? 2 : 1} readOnly>

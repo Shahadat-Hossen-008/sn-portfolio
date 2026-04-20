@@ -39,7 +39,7 @@ export const projectSection = defineType({
   ],
   preview: {
     select: {
-      content: "content",
+      content: "projectDescription",
       image: "image",
     },
     prepare({ content, image }) {

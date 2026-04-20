@@ -1,4 +1,3 @@
-import { plural } from "pluralize";
 import { StructureBuilder } from "sanity/structure";
 import { fixedPages } from "@/sanity/schemaTypes";
 import { IoDocuments } from "react-icons/io5";
