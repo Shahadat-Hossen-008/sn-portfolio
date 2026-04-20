@@ -12,18 +12,19 @@ export const about = defineType({
         {
             name:"content",
             title:"Content",
-            icon: SiSanity
+            icon: SiSanity,
+            default: true
 
         }
     ],
     fields: [
 
-        seo({group:"seo"}),
+        seo({group:"seo", slugOptions:{isFixed: true, prefix:"about"}}),
         defineField({
             name:"pageSections",
             title:"Page Sections",
             type: "pageSections",
-            group:"content"
+            group:"content",
         })
     ],
     preview: {

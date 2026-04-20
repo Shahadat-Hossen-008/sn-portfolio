@@ -1,5 +1,7 @@
 
+import { seo, seoGroup } from "@/sanity/_root/seo";
 import { BsPersonFill } from "react-icons/bs";
+import { SiSanity } from "react-icons/si";
 import { defineField, defineType } from "sanity";
 
 export const profile = defineType({
@@ -7,22 +9,28 @@ export const profile = defineType({
   title: "Profile Page",
   type: "document",
   icon: BsPersonFill,
+  groups:[
+    seoGroup,
+    {
+      name:"content",
+      title:"Content",
+      icon: SiSanity,
+      default: true
+    }
+  ],
   fields: [
-    defineField({
-      name: "slug",
-      type: "slug",
-      title: "Slug",
-      validation: (Rule) => Rule.required(),
-    }),
+    seo({group:"seo", slugOptions:{isFixed: true}}),
     defineField({
       name: "autherInfo",
       type: "reference",
       to: [{ type: "author" }],
+      group:"content"
     }),
     defineField({
       name:"pageSections",
       title:"Page Sections",
-      type: "pageSections"
+      type: "pageSections",
+      group:"content"
     }),
     defineField({
       name: "uploadCV",
@@ -33,6 +41,7 @@ export const profile = defineType({
         accept: "application/pdf",
       },
       validation: (Rule) => Rule.required(),
+      group:"content"
     }),
   ],
   preview: {
