@@ -1,54 +1,60 @@
-// sanity/_root/seo.ts
-import { defineField, defineType, StringRule } from "sanity";
+import { defineField, ObjectRule, StringRule } from "sanity";
 import { FaGlobe } from "react-icons/fa";
+import { ISanitySlugOptions } from "./slug/interface";
+import { slug } from "./slug";
 
-interface SeoArgs {
+export interface SeoArgs {
+  slugOptions: ISanitySlugOptions;
   group?: string;
 }
 
-export const seo = ({ group }: SeoArgs = {}) =>
+export const seo = (args: SeoArgs) =>
   defineField({
     name: "seo",
     title: "SEO",
     type: "object",
 
-    group: group || "seoGroup.name",
+    group: args.group || seoGroup.name,
     fields: [
       defineField({
         name: "title",
         title: "Title",
         type: "string",
-        validation: (rule: StringRule) =>
+        validation: (rule: StringRule) => [
+          rule.required().error("Required"),
           rule
-            .required()
             .max(60)
             .warning(
-              "It is recommended keep the main title between 30 and 50 characters."
+              "It is recommended keep the main title between 30 and 50 characters.",
             ),
+        ],
       }),
-     defineField({
-        name: "slug",
-        type: "slug",
-        title: "Slug",
-        options: { source:"seo.title" }
-  }),
+      slug({
+        source: args.slugOptions?.source || "seo.title",
+        isFixed: args.slugOptions?.isFixed || false,
+        prefix: args.slugOptions?.prefix || "",
+      }),
       defineField({
         name: "description",
         title: "Description",
         type: "text",
         rows: 3,
-        validation: (rule: StringRule) =>
+        validation: (rule: StringRule) => [
           rule
             .required()
+            .warning("Please provide a description to improve SEO scores."),
+          rule
             .max(160)
             .warning(
-              "It is recommended to keep the main description below 160 characters."
+              "It is recommended to keep the main description below 160 characters.",
             ),
+        ],
       }),
     ],
+    validation: (rule: ObjectRule) => rule.required(),
   });
 
-  export const seoGroup = {
+export const seoGroup = {
   name: "seo",
   title: "SEO",
   icon: FaGlobe,

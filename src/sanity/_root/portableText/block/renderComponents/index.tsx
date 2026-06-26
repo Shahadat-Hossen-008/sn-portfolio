@@ -1,7 +1,5 @@
-import React from "react";
 import { Text } from "@sanity/ui";
 import { HeadingComponentProps } from "./interface";
-
 
 export const HeadingComponent = ({
   children,

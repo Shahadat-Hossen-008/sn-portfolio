@@ -3,30 +3,29 @@ import { InfoOutlineIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 import { SiSanity } from "react-icons/si";
 export const about = defineType({
-    name: "aboutPage",
-    title: "About Page",
-    type: "document",
-    icon: InfoOutlineIcon,
-    groups:[
-       seoGroup,
-        {
-            name:"content",
-            title:"Content",
-            icon: SiSanity
-
-        }
-    ],
-    fields: [
-
-        seo({group:"seo"}),
-        defineField({
-            name:"pageSections",
-            title:"Page Sections",
-            type: "pageSections",
-            group:"content"
-        })
-    ],
-    preview: {
+  name: "aboutPage",
+  title: "About Page",
+  type: "document",
+  icon: InfoOutlineIcon,
+  groups: [
+    seoGroup,
+    {
+      name: "content",
+      title: "Content",
+      icon: SiSanity,
+      default: true,
+    },
+  ],
+  fields: [
+    seo({ group: "seo", slugOptions: { isFixed: true, prefix: "about" } }),
+    defineField({
+      name: "pageSections",
+      title: "Page Sections",
+      type: "pageSections",
+      group: "content",
+    }),
+  ],
+  preview: {
     select: {
       title: "seo.title",
     },
@@ -37,4 +36,4 @@ export const about = defineType({
       };
     },
   },
-})
+});

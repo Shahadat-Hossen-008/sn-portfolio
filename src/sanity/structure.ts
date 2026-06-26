@@ -1,18 +1,17 @@
-
-
-
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 import entitiesStructure from "./structure/entitiesStructure";
+import miscellaneousStructure from "./structure/miscellaneous";
 import pagesStructure from "./structure/pages";
 import { StructureBuilder } from "sanity/structure";
 
-
-export function structure(S:StructureBuilder) {
-  return  S.list()
-      .title("Content")
-      .items([
-        pagesStructure(S),
-        S.divider(),
-        ...entitiesStructure(S),
-      ]);
+export function structure(S: StructureBuilder) {
+  return S.list()
+    .title("Shahadat's Content")
+    .items([
+      pagesStructure(S),
+      S.divider(),
+      entitiesStructure(S),
+      S.divider(),
+      miscellaneousStructure(S),
+    ]);
 }

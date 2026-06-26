@@ -13,11 +13,89 @@
  */
 
 // Source: schema.json
-export type Category = {
-  _type: "category";
-  title: string;
-  icon?: CustomImage;
-  link?: Link;
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo: {
+    title: string;
+    slug?: Slug;
+    description: string;
+  };
+  pageSections?: PageSections;
+};
+
+export type PageSections = Array<{
+  _key: string;
+} & ProfileContent | {
+  _key: string;
+} & RichTextSection | {
+  _key: string;
+} & CustomImage | {
+  _key: string;
+} & TechnologySection | {
+  _key: string;
+} & TechnologyCarousel>;
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
+export type TechnologyCarousel = {
+  _type: "technologyCarousel";
+  technology: Array<{
+    _key: string;
+  } & Category>;
+};
+
+export type RichTextSection = {
+  _type: "richTextSection";
+  content: PortableText;
+};
+
+export type TechnologySection = {
+  _type: "technologySection";
+  technology: Array<{
+    _key: string;
+  } & Category>;
+};
+
+export type ProfileContent = {
+  _type: "profileContent";
+  content: PortableText;
+  image: CustomImage;
+  imagePosition?: "left" | "right";
+};
+
+export type Project = {
+  _type: "project";
+  projectTitle: string;
+  projectDescription: PortableText;
+  image: CustomImage;
+  projectLink: Link;
+};
+
+export type Link = {
+  _type: "link";
+  text?: string;
+  type: string;
+  internalLink?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "myProfilePage";
+  };
+  url?: string;
+  email?: string;
+  phone?: string;
+  value?: string;
+  blank?: boolean;
+  parameters?: string;
+  anchor?: string;
 };
 
 export type CustomImage = {
@@ -57,65 +135,38 @@ export type PortableText = Array<{
 } | {
   _key: string;
 } & CustomImage | {
+  _key: string;
+} & Code | {
   url: string;
   _type: "youtube";
   _key: string;
 }>;
 
-export type Link = {
-  _type: "link";
-  text?: string;
-  type: string;
-  internalLink?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "profilePage";
-  };
-  url?: string;
-  email?: string;
-  phone?: string;
-  value?: string;
-  blank?: boolean;
-  parameters?: string;
-  anchor?: string;
+export type Category = {
+  _type: "category";
+  title: string;
+  icon?: CustomImage;
+  link?: Link;
 };
 
-export type ProfilePage = {
+export type MyProfilePage = {
   _id: string;
-  _type: "profilePage";
+  _type: "myProfilePage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  seo: {
+    title: string;
+    slug?: Slug;
+    description: string;
+  };
   autherInfo?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "author";
   };
-  bio?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  authorImage?: CustomImage;
-  imagePosition?: "left" | "right";
-  technologies?: Array<{
-    _key: string;
-  } & Category>;
+  pageSections?: PageSections;
   uploadCV: {
     asset?: {
       _ref: string;
@@ -152,6 +203,14 @@ export type Author = {
   _rev: string;
   fullName: string;
   description: string;
+};
+
+export type Code = {
+  _type: "code";
+  language?: string;
+  filename?: string;
+  code?: string;
+  highlightedLines?: Array<number>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -250,44 +309,19 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
-
-export type AllSanitySchemaTypes = Category | CustomImage | PortableText | Link | ProfilePage | SanityImageCrop | SanityImageHotspot | Author | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = AboutPage | PageSections | Slug | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | Project | Link | CustomImage | PortableText | Category | MyProfilePage | SanityImageCrop | SanityImageHotspot | Author | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
 // Query: *[_type == "profilePage"][0]{  fullName,  headline,  image,  "cvUrl": uploadCV.asset->url,  'bio' :bio}
-export type PROFILE_QUERYResult = {
-  fullName: null;
-  headline: null;
-  image: null;
-  cvUrl: string | null;
-  bio: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }> | null;
-} | null;
+export type PROFILE_QUERYResult = null;
 // Variable: ABOUT_QUERY
 // Query: *[_type == "aboutPage"][0]{  description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}}
-export type ABOUT_QUERYResult = null;
+export type ABOUT_QUERYResult = {
+  description: null;
+  socialLinks: null;
+  technologies: null;
+} | null;
 // Variable: PROJECT_QUERY
 // Query: *[_type == "project"][]{  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle }
 export type PROJECT_QUERYResult = Array<never>;

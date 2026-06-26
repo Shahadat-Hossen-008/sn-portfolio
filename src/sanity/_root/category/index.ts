@@ -21,10 +21,10 @@ export const categoryType = defineType({
         "Upload the icon image if you want to use an icon for this category",
     }),
     defineField({
-        name:"link",
-        title:"Link",
-        type:"link"
-    })
+      name: "link",
+      title: "Link",
+      type: "link",
+    }),
   ],
   preview: {
     select: {

@@ -14,6 +14,8 @@ import richText from "../buildableSection/richText";
 import { profile } from "../pages/profilePage";
 import carouselTech from "../buildableSection/carouselTech";
 import { about } from "../pages/aboutPage";
+import { blogTag } from "../miscellaneous/blog-tag";
+import { techTag } from "../miscellaneous/tech-tag";
 // ?previous define schema
 // import { project } from "./project";
 // import { profile } from "./profile";
@@ -27,8 +29,8 @@ import { about } from "../pages/aboutPage";
 // import { linkType } from "../objects/linkType";
 // import { youtube } from "../objects/youTubeTypes";
 
-export const entities: DocumentDefinition[] = [ author];
-export const hoistedObjects: SchemaTypeDefinition[] =[
+export const entitiesWithoutPages: DocumentDefinition[] = [author];
+export const hoistedObjects: SchemaTypeDefinition[] = [
   portableText,
   customImage,
   categoryType,
@@ -40,14 +42,17 @@ export const hoistedObjects: SchemaTypeDefinition[] =[
   profileContent,
   technologies,
   richText,
-  carouselTech
-]
-export const fixedPages: DocumentDefinition[] = [ profile, about];
+  carouselTech,
+];
+export const fixedPages: DocumentDefinition[] = [profile, about];
+
+export const miscellaneous = [blogTag, techTag];
 
 export const schema = {
   types: [
-    ...entities,
+    ...entitiesWithoutPages,
     ...hoistedObjects,
     ...fixedPages,
+    ...miscellaneous,
   ],
 };

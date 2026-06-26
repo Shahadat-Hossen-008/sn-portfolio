@@ -1,4 +1,3 @@
-import { plural } from "pluralize";
 import { StructureBuilder } from "sanity/structure";
 import { fixedPages } from "@/sanity/schemaTypes";
 import { IoDocuments } from "react-icons/io5";
@@ -12,10 +11,10 @@ export default function pagesStructure(S: StructureBuilder) {
       S.list()
         .title("Pages")
         .id("pages")
-        .items(
-          [...fixedPages.map((page) =>
-            createSingleDocumentStructure(page.name, page.title ?? "page",  S),
-          )]
-        ),
+        .items([
+          ...fixedPages.map((page) =>
+            createSingleDocumentStructure(page.name, page.title ?? "page", S),
+          ),
+        ]),
     );
 }

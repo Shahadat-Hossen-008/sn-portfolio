@@ -1,30 +1,27 @@
 import { TagIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
-export const categoryType = defineType({
-  name: "category",
-  title: "Category",
+export const techTag = defineType({
+  name: "techTag",
+  title: "Tech Tag",
   type: "document",
   icon: TagIcon,
   fields: [
     defineField({
-      name: "title",
-      title: "Category Name",
+      name: "label",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "icon",
-      title: "Icon",
+      name: "iconImage",
       type: "customImage",
-      description:
-        "Upload the icon image if you want to use an icon for this category",
+      title: "Icon Image",
     }),
   ],
   preview: {
     select: {
-      title: "title",
-      media: "icon.imageFile",
+      title: "label",
+      media: "iconImage.imageFile",
     },
   },
 });
