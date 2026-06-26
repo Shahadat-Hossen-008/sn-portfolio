@@ -1,3 +1,4 @@
+// sanity/_root/seo.ts
 import { defineField, ObjectRule, StringRule } from "sanity";
 import { FaGlobe } from "react-icons/fa";
 import { ISanitySlugOptions } from "./slug/interface";
