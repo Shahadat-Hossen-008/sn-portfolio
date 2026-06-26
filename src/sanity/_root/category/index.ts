@@ -4,7 +4,7 @@ import { defineField, defineType } from "sanity";
 export const categoryType = defineType({
   name: "category",
   title: "Category",
-  type: "document",
+  type: "object",
   icon: TagIcon,
   fields: [
     defineField({
@@ -19,6 +19,11 @@ export const categoryType = defineType({
       type: "customImage",
       description:
         "Upload the icon image if you want to use an icon for this category",
+    }),
+    defineField({
+      name: "link",
+      title: "Link",
+      type: "link",
     }),
   ],
   preview: {

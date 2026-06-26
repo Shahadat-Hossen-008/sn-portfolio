@@ -13,29 +13,89 @@
  */
 
 // Source: schema.json
-export type Youtube = {
-  _type: "youtube";
-  url: string;
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo: {
+    title: string;
+    slug?: Slug;
+    description: string;
+  };
+  pageSections?: PageSections;
+};
+
+export type PageSections = Array<{
+  _key: string;
+} & ProfileContent | {
+  _key: string;
+} & RichTextSection | {
+  _key: string;
+} & CustomImage | {
+  _key: string;
+} & TechnologySection | {
+  _key: string;
+} & TechnologyCarousel>;
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
+export type TechnologyCarousel = {
+  _type: "technologyCarousel";
+  technology: Array<{
+    _key: string;
+  } & Category>;
+};
+
+export type RichTextSection = {
+  _type: "richTextSection";
+  content: PortableText;
+};
+
+export type TechnologySection = {
+  _type: "technologySection";
+  technology: Array<{
+    _key: string;
+  } & Category>;
+};
+
+export type ProfileContent = {
+  _type: "profileContent";
+  content: PortableText;
+  image: CustomImage;
+  imagePosition?: "left" | "right";
+};
+
+export type Project = {
+  _type: "project";
+  projectTitle: string;
+  projectDescription: PortableText;
+  image: CustomImage;
+  projectLink: Link;
 };
 
 export type Link = {
-  _id: string;
   _type: "link";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  label: string;
-  href: string;
-};
-
-export type Category = {
-  _id: string;
-  _type: "category";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  icon?: CustomImage;
+  text?: string;
+  type: string;
+  internalLink?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "myProfilePage";
+  };
+  url?: string;
+  email?: string;
+  phone?: string;
+  value?: string;
+  blank?: boolean;
+  parameters?: string;
+  anchor?: string;
 };
 
 export type CustomImage = {
@@ -57,146 +117,66 @@ export type CustomImage = {
   linkUrl?: string;
 };
 
-export type BlockContent = Array<{
+export type PortableText = Array<{
   children?: Array<{
     marks?: Array<string>;
     text?: string;
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-  listItem?: "bullet";
+  style?: "normal" | "h1" | "h2" | "h3" | "blockquote";
+  listItem?: "bullet" | "number";
   markDefs?: Array<{
-    href?: Link;
-    _type: "link";
     _key: string;
-  }>;
+  } & Link>;
   level?: number;
   _type: "block";
   _key: string;
 } | {
   _key: string;
-} & Youtube | {
+} & CustomImage | {
   _key: string;
-} & CustomImage>;
-
-export type BlockContentText = Array<{
-  children?: Array<{
-    marks?: Array<string>;
-    text?: string;
-    _type: "span";
-    _key: string;
-  }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-  listItem?: "bullet" | "number";
-  markDefs?: Array<{
-    href?: string;
-    _type: "link";
-    _key: string;
-  }>;
-  level?: number;
-  _type: "block";
+} & Code | {
+  url: string;
+  _type: "youtube";
   _key: string;
 }>;
 
-export type BlogPost = {
+export type Category = {
+  _type: "category";
+  title: string;
+  icon?: CustomImage;
+  link?: Link;
+};
+
+export type MyProfilePage = {
   _id: string;
-  _type: "blogPost";
+  _type: "myProfilePage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  blogTitle: string;
-  slug: Slug;
-  author?: string;
-  publishedAt?: string;
-  mainImage?: CustomImage;
-  blogContent?: BlockContent;
-  categories?: Array<{
+  seo: {
+    title: string;
+    slug?: Slug;
+    description: string;
+  };
+  autherInfo?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
-
-export type Project = {
-  _id: string;
-  _type: "project";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  projectTitle: string;
-  projectImage?: CustomImage;
-  projectDescription: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  start?: string;
-  end: string;
-  projectLink: string;
-  githubUrl: string;
-  stack?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
-  date?: string;
-};
-
-export type Tag = {
-  _id: string;
-  _type: "tag";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  label: string;
-  iconImage?: CustomImage;
-};
-
-export type AboutPage = {
-  _id: string;
-  _type: "aboutPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description: BlockContentText;
-  socialLinks?: Array<{
-    label?: string;
-    icon?: CustomImage;
-    url?: string;
-    _key: string;
-  }>;
-  technologies?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
+    [internalGroqTypeReferenceTo]?: "author";
+  };
+  pageSections?: PageSections;
+  uploadCV: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
 };
 
 export type SanityImageCrop = {
@@ -215,37 +195,22 @@ export type SanityImageHotspot = {
   width: number;
 };
 
-export type ProfilePage = {
+export type Author = {
   _id: string;
-  _type: "profilePage";
+  _type: "author";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   fullName: string;
-  headline: string;
-  bio?: BlockContentText;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  uploadCV: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    media?: unknown;
-    _type: "file";
-  };
+  description: string;
+};
+
+export type Code = {
+  _type: "code";
+  language?: string;
+  filename?: string;
+  code?: string;
+  highlightedLines?: Array<number>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -344,112 +309,31 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Youtube | Link | Category | CustomImage | BlockContent | BlockContentText | BlogPost | Slug | Project | Tag | AboutPage | SanityImageCrop | SanityImageHotspot | ProfilePage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = AboutPage | PageSections | Slug | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | Project | Link | CustomImage | PortableText | Category | MyProfilePage | SanityImageCrop | SanityImageHotspot | Author | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
 // Query: *[_type == "profilePage"][0]{  fullName,  headline,  image,  "cvUrl": uploadCV.asset->url,  'bio' :bio}
-export type PROFILE_QUERYResult = {
-  fullName: string;
-  headline: string;
-  image: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  } | null;
-  cvUrl: string | null;
-  bio: BlockContentText | null;
-} | null;
+export type PROFILE_QUERYResult = null;
 // Variable: ABOUT_QUERY
 // Query: *[_type == "aboutPage"][0]{  description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}}
 export type ABOUT_QUERYResult = {
-  description: BlockContentText;
-  socialLinks: Array<{
-    label: string | null;
-    url: string | null;
-    icon: CustomImage | null;
-    _key: string;
-  }> | null;
-  technologies: Array<{
-    label: string;
-    _id: string;
-  }> | null;
+  description: null;
+  socialLinks: null;
+  technologies: null;
 } | null;
 // Variable: PROJECT_QUERY
 // Query: *[_type == "project"][]{  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle }
-export type PROJECT_QUERYResult = Array<{
-  _id: string;
-  projectDescription: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  start: string | null;
-  end: string;
-  githubUrl: string;
-  projectImage: CustomImage | null;
-  projectLink: string;
-  projectTitle: string;
-}>;
+export type PROJECT_QUERYResult = Array<never>;
 // Variable: BLOG_POSTS_QUERY
 // Query: *[_type == "blogPost"]{  _id,  _createdAt,  title,  slug,  mainImage,  categories[]->{    _id,    label  },  author,  publishedAt,  blogContent}
-export type BLOG_POSTS_QUERYResult = Array<{
-  _id: string;
-  _createdAt: string;
-  title: null;
-  slug: Slug;
-  mainImage: CustomImage | null;
-  categories: Array<{
-    _id: string;
-    label: null;
-  }> | null;
-  author: string | null;
-  publishedAt: string | null;
-  blogContent: BlockContent | null;
-}>;
+export type BLOG_POSTS_QUERYResult = Array<never>;
 // Variable: SINGLE_BLOG_POST_QUERY
 // Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  title,  slug,  mainImage,  categories[]->{    _id,    label  },  author,  publishedAt,  blogContent}
-export type SINGLE_BLOG_POST_QUERYResult = {
-  _id: string;
-  _createdAt: string;
-  title: null;
-  slug: Slug;
-  mainImage: CustomImage | null;
-  categories: Array<{
-    _id: string;
-    label: null;
-  }> | null;
-  author: string | null;
-  publishedAt: string | null;
-  blogContent: BlockContent | null;
-} | null;
+export type SINGLE_BLOG_POST_QUERYResult = null;
 // Variable: TECH_QUERY
 // Query: *[_type == "tag"][]{  _id, label, iconImage }
-export type TECH_QUERYResult = Array<{
-  _id: string;
-  label: string;
-  iconImage: CustomImage | null;
-}>;
+export type TECH_QUERYResult = Array<never>;
 
 // Query TypeMap
 import "@sanity/client";

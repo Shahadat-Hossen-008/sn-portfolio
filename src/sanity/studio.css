@@ -1,0 +1,14 @@
+/* Sanity Studio custom styles */
+/* Increase font size for desk tool lists */
+
+.sanity-desktop .sanity-pane__root,
+.sanity-desktop .sanity-list__item,
+.sanity-desktop .sanity-list__item .sanity-list__itemTitle {
+  font-size: 16px !important;
+}
+
+/* Style dividers to be more visible */
+.sanity-desktop .sanity-divider {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  margin: 6px 0 !important;
+}

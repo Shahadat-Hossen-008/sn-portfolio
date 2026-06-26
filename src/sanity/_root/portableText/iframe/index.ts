@@ -1,6 +1,7 @@
 import { defineType, defineField } from "sanity";
 import { PlayIcon } from "@sanity/icons";
-import { YouTubePreview } from "../schemaTypes/preview/youtubeType/YouTubeTypePreview";
+import { YouTubePreview } from "./renderComponents";
+
 
 export const youtube = defineType({
   name: "youtube",
