@@ -13,6 +13,70 @@
  */
 
 // Source: schema.json
+export type TechTag = {
+  _id: string;
+  _type: "techTag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  label: string;
+  iconImage?: CustomImage;
+};
+
+export type CustomImage = {
+  _type: "customImage";
+  imageFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  altText: string;
+  isClickable?: boolean;
+  linkUrl?: string;
+};
+
+export type BlogTag = {
+  _id: string;
+  _type: "blogTag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+};
+
+export type ProjectPage = {
+  _id: string;
+  _type: "projectPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo: {
+    title: string;
+    slug?: Slug;
+    description: string;
+  };
+  projects?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "project";
+  }>;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
 export type AboutPage = {
   _id: string;
   _type: "aboutPage";
@@ -39,17 +103,11 @@ export type PageSections = Array<{
   _key: string;
 } & TechnologyCarousel>;
 
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
-
 export type TechnologyCarousel = {
   _type: "technologyCarousel";
   technology: Array<{
     _key: string;
-  } & Category>;
+  } & TechnologyItem>;
 };
 
 export type RichTextSection = {
@@ -61,7 +119,7 @@ export type TechnologySection = {
   _type: "technologySection";
   technology: Array<{
     _key: string;
-  } & Category>;
+  } & TechnologyItem>;
 };
 
 export type ProfileContent = {
@@ -71,50 +129,11 @@ export type ProfileContent = {
   imagePosition?: "left" | "right";
 };
 
-export type Project = {
-  _type: "project";
-  projectTitle: string;
-  projectDescription: PortableText;
-  image: CustomImage;
-  projectLink: Link;
-};
-
-export type Link = {
-  _type: "link";
-  text?: string;
-  type: string;
-  internalLink?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "myProfilePage";
-  };
-  url?: string;
-  email?: string;
-  phone?: string;
-  value?: string;
-  blank?: boolean;
-  parameters?: string;
-  anchor?: string;
-};
-
-export type CustomImage = {
-  _type: "customImage";
-  imageFile?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  altText: string;
-  isClickable?: boolean;
-  linkUrl?: string;
+export type TechnologyItem = {
+  _type: "technologyItem";
+  title: string;
+  icon?: CustomImage;
+  link?: Link;
 };
 
 export type PortableText = Array<{
@@ -142,11 +161,67 @@ export type PortableText = Array<{
   _key: string;
 }>;
 
-export type Category = {
-  _type: "category";
-  title: string;
-  icon?: CustomImage;
-  link?: Link;
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  projectTitle: string;
+  projectImage?: CustomImage;
+  projectDescription?: PortableText;
+  start?: string;
+  end: string;
+  projectLink: Link;
+  githubUrl: string;
+  stack?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "techTag";
+  }>;
+  date?: string;
+};
+
+export type Link = {
+  _type: "link";
+  text?: string;
+  type: string;
+  internalLink?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "myProfilePage";
+  };
+  url?: string;
+  email?: string;
+  phone?: string;
+  value?: string;
+  blank?: boolean;
+  parameters?: string;
+  anchor?: string;
+};
+
+export type BlogPost = {
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  blogTitle: string;
+  slug: Slug;
+  author?: string;
+  publishedAt?: string;
+  mainImage?: CustomImage;
+  blogContent?: PortableText;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "blogTag";
+  }>;
 };
 
 export type MyProfilePage = {
@@ -309,41 +384,86 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = AboutPage | PageSections | Slug | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | Project | Link | CustomImage | PortableText | Category | MyProfilePage | SanityImageCrop | SanityImageHotspot | Author | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | ProjectPage | Slug | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | TechnologyItem | PortableText | Project | Link | BlogPost | MyProfilePage | SanityImageCrop | SanityImageHotspot | Author | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
-// Query: *[_type == "profilePage"][0]{  fullName,  headline,  image,  "cvUrl": uploadCV.asset->url,  'bio' :bio}
-export type PROFILE_QUERYResult = null;
-// Variable: ABOUT_QUERY
-// Query: *[_type == "aboutPage"][0]{  description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}}
-export type ABOUT_QUERYResult = {
-  description: null;
-  socialLinks: null;
-  technologies: null;
+// Query: *[_type == "myProfilePage"][0]{  "fullName": autherInfo->fullName,  "headline": autherInfo->description,  "cvUrl": uploadCV.asset->url}
+export type PROFILE_QUERYResult = {
+  fullName: string | null;
+  headline: string | null;
+  cvUrl: string | null;
 } | null;
-// Variable: PROJECT_QUERY
-// Query: *[_type == "project"][]{  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle }
-export type PROJECT_QUERYResult = Array<never>;
-// Variable: BLOG_POSTS_QUERY
-// Query: *[_type == "blogPost"]{  _id,  _createdAt,  title,  slug,  mainImage,  categories[]->{    _id,    label  },  author,  publishedAt,  blogContent}
-export type BLOG_POSTS_QUERYResult = Array<never>;
-// Variable: SINGLE_BLOG_POST_QUERY
-// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  title,  slug,  mainImage,  categories[]->{    _id,    label  },  author,  publishedAt,  blogContent}
-export type SINGLE_BLOG_POST_QUERYResult = null;
+// Variable: ABOUT_QUERY
+// Query: *[_type == "aboutPage"][0]{  "description": pageSections[_type == "richTextSection"][0].content,  "technologies": pageSections[_type == "technologySection" || _type == "technologyCarousel"].technology[]{"label": title}}
+export type ABOUT_QUERYResult = {
+  description: PortableText | null;
+  technologies: Array<{
+    label: string;
+  }> | null;
+} | null;
 // Variable: TECH_QUERY
-// Query: *[_type == "tag"][]{  _id, label, iconImage }
-export type TECH_QUERYResult = Array<never>;
+// Query: *[_type == "techTag"][]{  _id,  label,  iconImage}
+export type TECH_QUERYResult = Array<{
+  _id: string;
+  label: string;
+  iconImage: CustomImage | null;
+}>;
+// Variable: PROJECT_QUERY
+// Query: *[_type == "project"][]{  _id,  projectDescription,  start,  end,  githubUrl,  projectImage,  projectLink,  "projectLinkUrl": coalesce(projectLink.url, ""),  projectTitle}
+export type PROJECT_QUERYResult = Array<{
+  _id: string;
+  projectDescription: PortableText | null;
+  start: string | null;
+  end: string;
+  githubUrl: string;
+  projectImage: CustomImage | null;
+  projectLink: Link;
+  projectLinkUrl: string | "";
+  projectTitle: string;
+}>;
+// Variable: BLOG_POSTS_QUERY
+// Query: *[_type == "blogPost"]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent}
+export type BLOG_POSTS_QUERYResult = Array<{
+  _id: string;
+  _createdAt: string;
+  blogTitle: string;
+  slug: Slug;
+  mainImage: CustomImage | null;
+  categories: Array<{
+    _id: string;
+    title: string;
+  }> | null;
+  author: string | null;
+  publishedAt: string | null;
+  blogContent: PortableText | null;
+}>;
+// Variable: SINGLE_BLOG_POST_QUERY
+// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent}
+export type SINGLE_BLOG_POST_QUERYResult = {
+  _id: string;
+  _createdAt: string;
+  blogTitle: string;
+  slug: Slug;
+  mainImage: CustomImage | null;
+  categories: Array<{
+    _id: string;
+    title: string;
+  }> | null;
+  author: string | null;
+  publishedAt: string | null;
+  blogContent: PortableText | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"profilePage\"][0]{\n  fullName,\n  headline,\n  image,\n  \"cvUrl\": uploadCV.asset->url,\n  'bio' :bio\n}": PROFILE_QUERYResult;
-    "*[_type == \"aboutPage\"][0]{\n  description,  socialLinks[]{label, url, icon, _key}, technologies[]->{label, _id}\n}": ABOUT_QUERYResult;
-    "*[_type == \"project\"][]{\n  _id, projectDescription, start, end, githubUrl, projectImage, projectLink, projectTitle \n}": PROJECT_QUERYResult;
-    "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  title,\n  slug,\n  mainImage,\n  categories[]->{\n    _id,\n    label\n  },\n  author,\n  publishedAt,\n  blogContent\n}": BLOG_POSTS_QUERYResult;
-    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  title,\n  slug,\n  mainImage,\n  categories[]->{\n    _id,\n    label\n  },\n  author,\n  publishedAt,\n  blogContent\n}": SINGLE_BLOG_POST_QUERYResult;
-    "*[_type == \"tag\"][]{\n  _id, label, iconImage \n}": TECH_QUERYResult;
+    "*[_type == \"myProfilePage\"][0]{\n  \"fullName\": autherInfo->fullName,\n  \"headline\": autherInfo->description,\n  \"cvUrl\": uploadCV.asset->url\n}": PROFILE_QUERYResult;
+    "*[_type == \"aboutPage\"][0]{\n  \"description\": pageSections[_type == \"richTextSection\"][0].content,\n  \"technologies\": pageSections[_type == \"technologySection\" || _type == \"technologyCarousel\"].technology[]{\"label\": title}\n}": ABOUT_QUERYResult;
+    "*[_type == \"techTag\"][]{\n  _id,\n  label,\n  iconImage\n}": TECH_QUERYResult;
+    "*[_type == \"project\"][]{\n  _id,\n  projectDescription,\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink,\n  \"projectLinkUrl\": coalesce(projectLink.url, \"\"),\n  projectTitle\n}": PROJECT_QUERYResult;
+    "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent\n}": BLOG_POSTS_QUERYResult;
+    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent\n}": SINGLE_BLOG_POST_QUERYResult;
   }
 }

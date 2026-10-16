@@ -11,7 +11,7 @@ export default defineType({
       name: "technology",
       title: "Technology",
       type: "array",
-      of: [ {type: "category"}],
+      of: [ {type: "technologyItem"}],
       validation: (rule) => rule.required(),
     }),
   ],

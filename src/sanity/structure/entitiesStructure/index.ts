@@ -1,4 +1,4 @@
-import { entitiesWithoutPages } from "@/sanity/schemaTypes";
+import { entities } from "@/sanity/schemaTypes";
 import { BsFolderSymlinkFill } from "react-icons/bs";
 import { StructureBuilder } from "sanity/structure";
 
@@ -10,7 +10,7 @@ export default function entitiesStructure(S: StructureBuilder) {
       S.list()
         .title("Entities")
         .items([
-          ...[...entitiesWithoutPages].map((entity) =>
+          ...[...entities].map((entity) =>
             S.documentTypeListItem(entity.name)
               .title(entity.title ?? entity.name)
               .icon(entity.icon),

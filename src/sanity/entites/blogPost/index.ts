@@ -1,7 +1,7 @@
 import { DocumentIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
-export const blogType = defineType({
+export default defineType({
   name: "blogPost",
   title: "Blog Post",
   type: "document",
@@ -18,12 +18,11 @@ export const blogType = defineType({
     }),
     defineField({
       name: "slug",
+      title: "Slug",
       type: "slug",
       options: { source: "blogTitle" },
       validation: (Rule) =>
-        Rule.required().error(
-          "slug is required generate a page on the website",
-        ),
+        Rule.required().error("slug is required generate a page on the website"),
     }),
     defineField({
       name: "author",
@@ -43,18 +42,13 @@ export const blogType = defineType({
     defineField({
       name: "blogContent",
       title: "Blog Content",
-      type: "blockContent",
+      type: "portableText",
     }),
     defineField({
       name: "categories",
       title: "Categories",
       type: "array",
-      of: [
-        {
-          type: "reference",
-          to: [{ type: "category" }],
-        },
-      ],
+      of: [{ type: "reference", to: [{ type: "blogTag" }] }],
     }),
   ],
   preview: {

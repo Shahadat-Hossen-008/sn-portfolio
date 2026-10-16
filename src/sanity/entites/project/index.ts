@@ -76,7 +76,7 @@ export const projectTemplate = defineType({
         title: "Stack",
         description: "Technologies are used in this project",
         type: "array",
-        of: [{ type: "reference", to: [{ type: "category" }] }],
+        of: [{ type: "reference", to: [{ type: "techTag" }] }],
       }),
       defineField({
         name: "date",

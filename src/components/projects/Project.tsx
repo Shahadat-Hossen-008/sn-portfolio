@@ -69,9 +69,11 @@ export default function Project({ projects }: projectProps) {
                           {format(parseISO(project.start || ""), "LLL d, yyyy")}{" "}
                           - {format(parseISO(project.end || ""), "LLL d, yyyy")}
                         </p>
-                        <PortableText value={project.projectDescription} />
+                        {project.projectDescription && (
+                          <PortableText value={project.projectDescription} />
+                        )}
                         <a
-                          href={project.projectLink}
+                          href={project.projectLinkUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="mt-4 inline-block bg-white text-[#212121] rounded-full px-6.5 py-3 text-base transition-colors duration-300 hover:bg-gray-200 mr-5"

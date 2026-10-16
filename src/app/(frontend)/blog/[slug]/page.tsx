@@ -6,12 +6,16 @@ import { format, parseISO } from "date-fns";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";
-export default async function page({ params }: { params: { slug: string } }) {
+import { notFound } from "next/navigation";
+
+export default async function page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { data: blog } = await sanityFetch({
     query: SINGLE_BLOG_POST_QUERY,
     params: { slug: slug },
   });
+
+  if (!blog) notFound();
 
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-40 py-4 lg:py-20 bg-black text-white">
@@ -22,23 +26,29 @@ export default async function page({ params }: { params: { slug: string } }) {
         Back to Blogs
       </Link>
       <h2 className="text-2xl lg:text-5xl font-bold py-5">{blog.blogTitle}</h2>
-      <p className="text-gray-300 text-sm pb-6">
-        {format(parseISO(blog.publishedAt), "LLL d, yyyy")}
-      </p>
-      <div className="w-full h-full rounded-lg pb-8">
-        <Image
-          src={urlFor(blog.mainImage.imageFile).width(800).height(520).url()}
-          alt={blog.blogTitle || "Blog image"}
-          width={800}
-          height={520}
-          className="rounded-lg w-full h-full"
-          unoptimized
+      {blog.publishedAt && (
+        <p className="text-gray-300 text-sm pb-6">
+          {format(parseISO(blog.publishedAt), "LLL d, yyyy")}
+        </p>
+      )}
+      {blog.mainImage?.imageFile && (
+        <div className="w-full h-full rounded-lg pb-8">
+          <Image
+            src={urlFor(blog.mainImage.imageFile).width(800).height(520).url()}
+            alt={blog.mainImage.altText || blog.blogTitle || "Blog image"}
+            width={800}
+            height={520}
+            className="rounded-lg w-full h-full"
+            unoptimized
+          />
+        </div>
+      )}
+      {blog.blogContent && (
+        <PortableText
+          value={blog.blogContent}
+          components={portableTextComponents}
         />
-      </div>
-      <PortableText
-        value={blog.blogContent}
-        components={portableTextComponents}
-      />
+      )}
     </section>
   );
 }
