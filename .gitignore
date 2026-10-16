@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sanity migration backups (contain full document bodies — never commit)
+.migration-backup*.json

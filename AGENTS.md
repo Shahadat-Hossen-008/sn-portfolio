@@ -30,6 +30,7 @@ Studio**, both hosted in the *same* Next.js app.
 pnpm dev       # runs `typegen` first via predev, then next dev
 pnpm build     # runs `typegen` first via prebuild, then next build
 pnpm lint      # eslint (stock eslint-config-next, flat config)
+pnpm test      # vitest run — pure helpers only, never touches Sanity
 pnpm typegen   # sanity schema extract + sanity typegen generate
 ```
 
@@ -39,8 +40,7 @@ pnpm typegen   # sanity schema extract + sanity typegen generate
 - `src/sanity/types.ts` — generated schema + query-result types
 
 Both are committed and **must be committed together** with any schema change.
-They are currently dirty in the working tree; a schema/query change without
-regenerating them is a bug.
+A schema/query change without regenerating them is a bug.
 
 ---
 
@@ -49,9 +49,9 @@ regenerating them is a bug.
 ### 3.1 Two apps in one Next.js tree
 
 ```
-src/app/layout.tsx                 root shell (html/body)
+src/app/layout.tsx                 root shell (html/body); no metadata
 src/app/(frontend)/                public site — route group, no URL segment
-  layout.tsx                       renders <SanityLive />, <ToastContainer/> lives in page
+  layout.tsx                       SITE_SETTINGS_QUERY once → <Navbar/> <Footer/> <SanityLive/> GTM, generateMetadata
   page.tsx                         home: PROFILE + ABOUT + TECH + PROJECT
   blog/page.tsx
   blog/[slug]/page.tsx
@@ -71,8 +71,9 @@ utils/                             DEAD duplicate of src/sanity/utils — do not
 
 | Folder | Contents |
 |---|---|
-| `_root/` | Shared primitives: `media/` (customImage), `portableText/`, `category/`, `sections/` (`pageSections`), `seo/` (+`slug/`) |
-| `entites/` | Referenced content records: `author`, `project` (note: folder is misspelled `entites`) |
+| `_root/` | Shared primitives: `media/` (customImage), `portableText/`, `category/`, `sections/` (`pageSections`), `seo/` (+`slug/`), `nav-link/` (`navLink`), `footer-column/` (`footerColumn`) |
+| `global/` | Singletons: `siteSettings/` (identity / header / footer / seo / analytics) |
+| `entites/` | Referenced content records: `author`, `blogPost`, `project` (note: folder is misspelled `entites`) |
 | `pages/` | Singleton page documents: `profilePage` (`myProfilePage`), `aboutPage`, `projectPage` |
 | `buildableSection/` | Composable page blocks: `profileContent`, `technologies`, `richText`, `carouselTech` |
 | `miscellaneous/` | Loose leaf docs: `blog-tag/`, `tech-tag/` (kebab-case, unlike everything else) |
@@ -82,16 +83,22 @@ utils/                             DEAD duplicate of src/sanity/utils — do not
 | `env.ts`, `utils/` | Studio-side helpers |
 
 **Frontend side (data):** `lib/client.ts`, `lib/live.ts`, `lib/queries.ts`,
-`lib/image.ts`. Note `lib/*.ts` uses single quotes / no semicolons while the
-rest of the repo uses double quotes + semicolons.
+`lib/image.ts`, plus the pure helpers `lib/routes.ts`, `lib/links.ts`,
+`lib/metadata.ts`, `lib/analytics.ts`. Older `lib/*.ts` use single quotes / no
+semicolons; newer ones use double quotes + semicolons to match the rest of the
+repo. Either is accepted in `lib/`; be consistent within a file.
 
 ### 3.3 Registration is the source of truth
 
-`src/sanity/schemaTypes/index.ts` exports four arrays — `entities`,
-`hoistedObjects`, `fixedPages`, `miscellaneous` — spread into `schema.types`.
-A schema file that is not in one of those arrays **does not exist** to Sanity,
-to `typegen`, or to GROQ. Comments at `index.ts:21-32` reference the deleted
-pre-refactor layout; ignore them.
+`src/sanity/schemaTypes/index.ts` exports five arrays — `globalSchemas`,
+`entities`, `hoistedObjects`, `fixedPages`, `miscellaneous` — spread into
+`schema.types`. A schema file that is not in one of those arrays **does not
+exist** to Sanity, to `typegen`, or to GROQ.
+
+The same file also exports `schema.templates` (singletons are filtered out of
+the create-new menu) and `singletonDocumentActions` (delete/duplicate are blocked
+for singletons only). `sanity.config.ts` wires the latter into
+`document.actions`.
 
 ### 3.4 Data flow
 
@@ -99,6 +106,9 @@ pre-refactor layout; ignore them.
 `defineQuery` against generated `SanityQueries` → passes **plain serializable
 props** down to components. **Components never fetch.** `components/**` contains
 zero imports of `sanityFetch`/`client`.
+
+`SITE_SETTINGS_QUERY` is fetched **once** in `src/app/(frontend)/layout.tsx` and
+passed to `<Navbar>` / `<Footer>` as props. Nothing else may fetch it.
 
 Client/server split is by interactivity only:
 
@@ -109,10 +119,37 @@ Client/server split is by interactivity only:
 
 ### 3.5 Studio sidebar
 
-`src/sanity/structure.ts` composes: **Pages** (divider) **Entities** (divider)
-**Miscellaneous**. Page singletons are pinned via
+`src/sanity/structure.ts` composes: **[pinned singletons]** (divider) **Pages**
+(divider) **Entities** (divider) **Miscellaneous**. Singletons (currently
+`siteSettings`) are pinned via
 `structure/utils/create-document-structure.ts` (`S.document().documentId(typeName)`),
-which is why the `[0]` in the page queries is safe.
+which is why the `[0]` in the page and settings queries is safe.
+
+### 3.6 Site settings
+
+`siteSettings` is a single pinned document (`_id === "siteSettings"`) holding
+site-wide defaults:
+
+- `identity` — `siteTitle`, `siteDescription`, `logo` (customImage; `altText` is
+  the logo alt), `favicon`, `socialLinks[]` (shared by header and footer)
+- `header` — `links[]` (`navLink`), `cta` (`navLink`), `showSocialLinks`
+- `footer` — `mainContent`, `email`, `phone`, `columns[]` (`footerColumn`), `base`
+- `seo` — `titleTemplate` (`{title}` placeholder), `defaultOgImage`, `robots`
+- `analytics` — `googleTagManagerID` (must match `^GTM-[A-Z0-9]+$`)
+
+Two rules that are easy to break:
+
+1. **Nothing is guaranteed to exist.** The document is created by hand in the
+   Studio; `SITE_SETTINGS_QUERY` returns `null` until then. The navbar and footer
+   render nothing in that state and `buildMetadata` falls back to built-in
+   defaults. Every consumer null-checks.
+2. **Routes are declared, not inferred.** `RESOLUTION` for internal `navLink`
+   references goes through `ROUTES_BY_TYPE` in `src/sanity/lib/routes.ts`,
+   which is the single source of truth for both the Studio `reference.to` list
+   and the frontend href. `aboutPage` / `projectPage` are **absent** because
+   those routes do not exist yet — linking to them is impossible until the route
+   is added there.
+
 
 ---
 
@@ -163,32 +200,31 @@ which is why the `[0]` in the page queries is safe.
 
 ## 5. Traps — read before you touch these
 
-### 5.2 GROQ queries are out of sync with the schema
+### 5.2 GROQ queries vs the schema
 
-Several queries target `_type` values that no longer exist. Symptom: generated
-result types collapse to `null` / `Array<never>` in `src/sanity/types.ts`, and
-because `never` allows arbitrary property access, **TypeScript stops complaining
-while the page renders nothing.** Check `types.ts` for `null` / `Array<never>`
-result types as your canary.
+As of the site-settings work the registered types and the queries agree. The
+generated result types in `src/sanity/types.ts` are a real shape — check them
+after every `typegen` run, because when a query targets an unregistered `_type`
+the result collapses to `null` / `Array<never>` and `never` silently allows
+arbitrary property access, so **TypeScript stops complaining while the page
+renders nothing.**
 
-Known drift (verify before fixing — the schema may have moved again):
+Two behaviours to hold onto:
 
-| Query | Queries | Actually registered |
-|---|---|---|
-| `PROFILE_QUERY` | `profilePage` | `myProfilePage` (different fields too) |
-| `TECH_QUERY` | `tag` | `techTag` |
-| `BLOG_POSTS_QUERY` / `SINGLE_BLOG_POST_QUERY` | `blogPost` | *nothing* — `schemaTypes/blogType.ts` is orphaned |
-| `ABOUT_QUERY` | `aboutPage` | exists, but only `seo` + `pageSections` |
-
-Also `blogTitle` vs `title` mismatch between the orphaned blog schema, the
-queries, and `Blog.tsx`.
+- `blogPost` **is** registered (`entites/blogPost`), and now carries its own
+  `seo` object (`includeSlug: false` — its route slug stays on the top-level
+  `slug` field). The old claim that it was orphaned was wrong.
+- `PROFILE_QUERY` / `ABOUT_QUERY` / `TECH_QUERY` / `PROJECT_QUERY` all target
+  registered types. They return `null` / `[]` because the dataset is **empty of
+  those documents** (see 5.6), not because the types are missing.
 
 ### 5.3 Dead / legacy code — do not build on it
 
 - `src/sanity/schemaTypes/{about,blogType,profile}.ts` and
-  `src/sanity/schemaTypes/preview/**` — orphaned. `about.ts` also collides on
-  `_type` with `pages/aboutPage`. They are the *specification the stale GROQ was
-  written against*, which is why 5.2 exists.
+  `src/sanity/schemaTypes/preview/**` — orphaned (not in the registry). They are
+  the *specification the old GROQ was written against*. The registry now imports
+  from `global/`, `entites/`, `pages/`, `buildableSection/`, `_root/` and
+  `miscellaneous/` only.
 - `src/sanity/_root/seo/slug/restricted-slugs.ts` — the guard checks
   `_type == "generalPage"`, a type that doesn't exist, and every caller passes
   `isFixed: true` which short-circuits it. Fully unreachable.
@@ -232,18 +268,24 @@ Don't copy this pattern for new server actions.
 - `format(parseISO(...))` throws `RangeError` on `undefined`/empty dates
   (`Project.tsx`, `blog/[slug]/page.tsx`)
 - `project.projectLink` is a **link object**, not a string
-- `.map` on possibly-null query results (`Technology.tsx`, `blog/page.tsx`)
-- no `notFound()` in `blog/[slug]/page.tsx`
+- `.map` on possibly-null query results (`Technology.tsx`)
 - `parseISO` imported from `date-fns/fp` in `Project.tsx` — wrong submodule
 - image transforms are inconsistent; three call sites pass `unoptimized`, two
   pass no dimensions at all
+
+**Dataset state (checked against `production`)**: the dataset holds only
+`author`, `blogPost`, `category`, `profile`, `project`, `tag` plus assets. **No
+`siteSettings`, no `myProfilePage`, no `aboutPage`, no `projectPage` exist yet**,
+so the navbar, footer and homepage hero render nothing until those documents are
+created by hand in the Studio. `SITE_SETTINGS_QUERY` returning `null` is the
+expected, handled state — not a bug.
 
 ### 5.7 Naming inconsistencies (don't propagate them)
 
 `entites/` (typo) · kebab `blog-tag/` vs camel elsewhere · `pageSection` const
 for `pageSections` `_type` · `structure.ts` file vs `structure/` dir ·
-`"nestjs"` in both layouts' `metadata` · `"Duretion:"` in `Project.tsx`.
-Fix in place when you touch the file; don't add more.
+`"Duretion:"` in `Project.tsx`. Fix in place when you touch the file; don't add
+more.
 
 ---
 
@@ -251,15 +293,28 @@ Fix in place when you touch the file; don't add more.
 
 **Adding a document type**
 
-1. Create `src/sanity/<entites|pages|miscellaneous>/<name>/index.ts` with
-   `defineType`.
-2. Register it in `src/sanity/schemaTypes/index.ts` in the right array.
+1. Create `src/sanity/<global|entites|pages|miscellaneous>/<name>/index.ts`
+   with `defineType`.
+2. Register it in `src/sanity/schemaTypes/index.ts` in the right array
+   (`globalSchemas` for singletons, `entities` for referenced records, …).
 3. If it's a singleton page: add `seo()` and wire it into
-   `structure/pages/index.ts` so it appears pinned in the sidebar.
+   `structure/pages/index.ts` so it appears pinned in the sidebar. If it's a
+   *global* singleton, add it to `globalSchemas` instead — it is then pinned at
+   the top of the sidebar and automatically excluded from `schema.templates` and
+   `singletonDocumentActions`.
 4. Add a `defineQuery` const in `src/sanity/lib/queries.ts`.
 5. Run `pnpm typegen`; check the new `*Result` type in `src/sanity/types.ts` is
    a real shape and **not** `null` / `Array<never>`.
 6. Commit `extract.json` + `types.ts` with the change.
+
+**Adding a route**
+
+Frontend routes and CMS internal links are wired together in exactly one place:
+`ROUTES_BY_TYPE` in `src/sanity/lib/routes.ts`. Adding an entry there does two
+things at once — the frontend can resolve the new `_type` to an href, and the
+Studio `navLink` `reference` field starts offering that document type. Until the
+entry exists, an internal link to that document type is impossible (and any
+stale link resolves to `null` and is dropped rather than rendered dead).
 
 **Adding a page-section block**
 
@@ -276,19 +331,21 @@ Fix in place when you touch the file; don't add more.
 **Before you finish**
 
 ```bash
+pnpm test       # vitest, pure helpers only (routes/links/metadata/analytics)
 pnpm lint
 pnpm build      # typegen + next build; catches TS2305-class registry errors
 ```
 
 `pnpm build` is the real gate. `pnpm lint` alone will not catch the schema/query
-drift.
+drift. `pnpm test` covers the pure helpers but does **not** touch Sanity — a
+green suite is not evidence that CMS data renders.
 
 ---
 
 ## 7. Reference docs in-repo
 
 - `docs/blog-rendering.md` — how the blog routes render (accurate but incomplete:
-  it does not mention `revalidate: false` in production or the missing `blogPost` type)
+  it does not mention `revalidate: false` in production or the `blogPost` seo object)
 - `src/components/contact/Email.FLow.md` — mail flow, the three env vars, and the
   intentional-ish `MAIL_RECIEVER_ADDRESS` misspelling
 - `src/components/image/imagePerformance.readme.md` — `<picture>` vs `next/image`
@@ -301,3 +358,10 @@ drift.
 `MAIL_RECIEVER_ADDRESS`, `NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_DEVELOP`,
 `NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_PRODUCTION`. There is **no** read token,
 no draft mode, no preview — `defineLive` is configured with only `client`.
+
+`NEXT_PUBLIC_SITE_URL` (e.g. `https://shahadat.dev`) is optional but recommended:
+it is the origin used for canonical URLs and `metadataBase` in
+`src/sanity/lib/metadata.ts`. Without it (or Vercel's
+`VERCEL_PROJECT_PRODUCTION_URL`) canonical URLs are omitted rather than guessed.
+The `..._STUDIO_PREVIEW_URL_*` vars are **not** used for this — they point at
+`/studio`.

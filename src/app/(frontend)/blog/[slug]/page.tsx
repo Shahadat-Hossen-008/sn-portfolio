@@ -1,14 +1,58 @@
 import { portableTextComponents } from "@/components/portableText/PortableTextComponent";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
-import { SINGLE_BLOG_POST_QUERY } from "@/sanity/lib/queries";
+import {
+  buildMetadata,
+  getRedirectTarget,
+  parseJsonLd,
+  type PageSeo,
+} from "@/sanity/lib/metadata";
+import {
+  LAYOUT_QUERY,
+  SITE_SETTINGS_QUERY,
+  SINGLE_BLOG_POST_QUERY,
+} from "@/sanity/lib/queries";
 import { format, parseISO } from "date-fns";
 import { PortableText } from "next-sanity";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
-export default async function page({ params }: { params: Promise<{ slug: string }> }) {
+type BlogPostPageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+/**
+ * Redirect is handled here rather than inside `buildMetadata`, so the
+ * navigation call is visible at the call site and `buildMetadata` stays a pure
+ * mapper (see `getRedirectTarget`).
+ */
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const [{ data: blog }, { data: layout }, { data: siteSettings }] =
+    await Promise.all([
+      sanityFetch({ query: SINGLE_BLOG_POST_QUERY, params: { slug } }),
+      sanityFetch({ query: LAYOUT_QUERY }),
+      sanityFetch({ query: SITE_SETTINGS_QUERY }),
+    ]);
+
+  const redirectTarget = getRedirectTarget(blog?.seo);
+
+  if (redirectTarget) redirect(redirectTarget);
+
+  return buildMetadata({
+    layout,
+    siteSettings,
+    pageSeo: (blog?.seo ?? undefined) as PageSeo | undefined,
+    path: `/blog/${slug}`,
+  });
+}
+
+export default async function page({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const { data: blog } = await sanityFetch({
     query: SINGLE_BLOG_POST_QUERY,
@@ -17,10 +61,18 @@ export default async function page({ params }: { params: Promise<{ slug: string 
 
   if (!blog) notFound();
 
+  const jsonLd = parseJsonLd(blog.seo?.jsonld);
+
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-40 py-4 lg:py-20 bg-black text-white">
+    <section className="container mx-auto px-4 sm:px-6 lg:px-40 pt-20 pb-4 lg:pb-20 bg-black text-white">
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
       <Link
-        href={"/blog"}
+        href="/blog"
         className="text-black bg-white px-4 py-3 rounded-lg mb-6 inline-block transition duration-300 hover:bg-gray-200"
       >
         Back to Blogs

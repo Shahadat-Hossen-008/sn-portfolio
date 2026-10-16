@@ -1,5 +1,4 @@
 import Contact from "@/components/contact/Contact";
-import Navbar from "@/components/navbar/Navbar";
 import About from "@/components/about/About";
 import Profile from "@/components/profile/Profile";
 import Project from "@/components/projects/Project";
@@ -21,7 +20,6 @@ export default async function page() {
 
   return (
     <div className="bg-black ">
-      {profile && <Navbar cvUrl={profile.cvUrl} />}
       <Profile profile={profile} />
       <About about={about} />
       <Technology technology={tech} />

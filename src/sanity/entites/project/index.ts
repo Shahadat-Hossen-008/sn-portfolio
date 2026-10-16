@@ -55,9 +55,6 @@ export const projectTemplate = defineType({
       icon: LinkIcon,
       type: "link",
       validation: (rule) => rule.required(),
-      options:{
-        enableText: true
-      }
     }),
       defineField({
         name: "githubUrl",

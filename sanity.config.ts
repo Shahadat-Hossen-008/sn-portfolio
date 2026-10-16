@@ -8,11 +8,13 @@ import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { codeInput } from "@sanity/code-input";
-import { linkField } from "sanity-plugin-link-field";
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
-import { schema } from "./src/sanity/schemaTypes";
+import {
+  schema,
+  singletonDocumentActions,
+} from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 import "./src/sanity/studio.css";
 
@@ -23,6 +25,10 @@ export default defineConfig({
   projectId,
   dataset,
   schema,
+  document: {
+    // Singletons only: every other schema type keeps the stock action list.
+    actions: singletonDocumentActions,
+  },
   plugins: [
     structureTool({ structure }),
     // Vision is for querying with GROQ from inside the Studio
@@ -30,9 +36,5 @@ export default defineConfig({
     visionTool({ defaultApiVersion: apiVersion }),
     // Code plugin in schema
     codeInput(),
-    //custom link plugin
-    linkField({
-      linkableSchemaTypes: ["myProfilePage"],
-    }),
   ],
 });

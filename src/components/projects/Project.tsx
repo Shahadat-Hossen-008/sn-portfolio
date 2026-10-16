@@ -9,6 +9,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import LeftIcon from "../../../public/LeftIcon";
 import RightIcon from "../../../public/RightIcon";
 import { urlFor } from "@/sanity/lib/image";
+import { resolveNavHref } from "@/sanity/lib/links";
+import type { SanityNavLink } from "@/sanity/lib/links";
 
 export default function Project({ projects }: projectProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
@@ -44,7 +46,15 @@ export default function Project({ projects }: projectProps) {
                     (project): project is NonNullable<typeof project> =>
                       project !== null,
                   )
-                  .map((project) => (
+                  .map((project) => {
+                    // `projectLink` is a `link` object; legacy bare-string values
+                    // and malformed URLs resolve to `null` and are omitted rather
+                    // than rendered as a broken href.
+                    const projectHref = resolveNavHref(
+                      project.projectLink as unknown as SanityNavLink,
+                    );
+
+                    return (
                     <div
                       key={project._id}
                       className="flex-[0_0_var(--slide-size)] bg-white/5 border border-white/10 rounded-2xl  mr-(--slide-gap)"
@@ -72,14 +82,16 @@ export default function Project({ projects }: projectProps) {
                         {project.projectDescription && (
                           <PortableText value={project.projectDescription} />
                         )}
-                        <a
-                          href={project.projectLinkUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-4 inline-block bg-white text-[#212121] rounded-full px-6.5 py-3 text-base transition-colors duration-300 hover:bg-gray-200 mr-5"
-                        >
-                          View Project
-                        </a>
+                        {projectHref && (
+                          <a
+                            href={projectHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 inline-block bg-white text-[#212121] rounded-full px-6.5 py-3 text-base transition-colors duration-300 hover:bg-gray-200 mr-5"
+                          >
+                            View Project
+                          </a>
+                        )}
                         <a
                           href={project.githubUrl}
                           target="_blank"
@@ -90,7 +102,8 @@ export default function Project({ projects }: projectProps) {
                         </a>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
             </div>
           </div>
           <button

@@ -1,0 +1,129 @@
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+
+import { anchorHref, resolveRoute } from "./routes";
+
+/**
+ * A `navLink` exactly as `SITE_SETTINGS_QUERY` projects it.
+ *
+ * `reference` is intentionally narrow: GROQ never returns the referenced
+ * document, only enough of it (`_type` + `slug`) for `resolveRoute` to decide
+ * whether a real path exists.
+ */
+export type SanityNavLink = {
+  _key?: string | null;
+  label?: string | null;
+  type?: string | null;
+  url?: string | null;
+  openInNewTab?: boolean | null;
+  isDisabled?: boolean | null;
+  reference?: { _type?: string | null; slug?: string | null } | null;
+};
+
+export type ResolvedNavLink = SanityNavLink & {
+  /** `null` when the link cannot be resolved — the caller skips rendering it. */
+  href: string | null;
+  external: boolean;
+};
+
+/** Links that must leave the SPA: `http(s)`, `mailto:`, `tel:`. */
+export function isExternalHref(href: string): boolean {
+  return /^(https?:\/\/|mailto:|tel:)/i.test(href);
+}
+
+/**
+ * Normalises a CMS-authored external URL.
+ *
+ * Sanity's `string` type (rather than `url`) is used for social links and for
+ * `link.url` so `mailto:` / `tel:` and anchor fragments survive validation. A
+ * bare host like `github.com/me` is upgraded to `https://github.com/me`.
+ *
+ * Anything that cannot be parsed — including values that contain whitespace or
+ * quote characters such as the legacy `"https://…"` project links — returns
+ * `null` so the link is dropped instead of rendering a broken href.
+ */
+export function normalizeExternalUrl(
+  raw: string | null | undefined,
+): string | null {
+  const trimmed = raw?.trim();
+
+  if (!trimmed) return null;
+  if (/^(mailto:|tel:)/i.test(trimmed)) return trimmed;
+  // Whitespace and quotes cannot appear in a URL and are the exact shape of the
+  // malformed legacy values in the dataset — reject rather than try to repair.
+  if (/[\s"'<>]/.test(trimmed)) return null;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  // Reject anything with a scheme we do not render as a link (javascript:, data:).
+  if (/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) return null;
+
+  try {
+    return new URL(`https://${trimmed}`).toString();
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The one place a CMS link becomes an `href`.
+ *
+ * Returns `null` — never a guessed path — when:
+ *   - an internal reference points at a document type with no route, or at a
+ *     `blogPost` that has no slug yet,
+ *   - an anchor is blank,
+ *   - an external URL does not parse.
+ */
+export function resolveNavHref(link: SanityNavLink | null | undefined): string | null {
+  if (!link) return null;
+
+  switch (link.type) {
+    case "internal":
+      return resolveRoute(link.reference?._type, link.reference?.slug);
+
+    case "anchor":
+      return anchorHref(link.url);
+
+    case "external":
+      return normalizeExternalUrl(link.url);
+
+    default:
+      return null;
+  }
+}
+
+/**
+ * Resolves and filters a link list.
+ *
+ * Unresolvable entries are dropped rather than rendered as dead `href`s, so a
+ * half-configured `siteSettings` degrades to a shorter (but correct) nav.
+ */
+export function resolveNavLinks(
+  links: readonly SanityNavLink[] | null | undefined,
+): ResolvedNavLink[] {
+  if (!links?.length) return [];
+
+  return links
+    .map((link) => {
+      const href = resolveNavHref(link);
+
+      return {
+        ...link,
+        href,
+        external: href ? isExternalHref(href) : false,
+      };
+    })
+    .filter((link): link is ResolvedNavLink => Boolean(link.href));
+}
+
+/** Social links are `string` in the schema, so they go through the same rules. */
+export function resolveSocialHref(url: string | null | undefined): string | null {
+  return normalizeExternalUrl(url);
+}
+
+export type SanityImageRef = {
+  imageFile?: (SanityImageSource & { asset?: unknown }) | null;
+  altText?: string | null;
+} | null;
+
+/** `true` when the object carries a usable Sanity image asset reference. */
+export function hasSanityImage(image: SanityImageRef | undefined): boolean {
+  return Boolean(image?.imageFile);
+}
