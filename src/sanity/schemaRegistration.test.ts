@@ -12,7 +12,11 @@ import { schema } from "@/sanity/schemaTypes";
  * another schema (e.g. a Portable Text annotation, an object field) but is not
  * resolvable — the failure mode being `Could not resolve jsonType of undefined`.
  */
-describe("schema", () => {
+describe("schema registration", () => {
+  it("keeps the link schema first so referenced types resolve", () => {
+    expect(schema.types[0]?.name).toBe("link");
+  });
+
   it("compiles with no validation errors", () => {
     expect(() =>
       createSchema({ name: "sn-portfolio", types: schema.types }),

@@ -12,7 +12,7 @@ type NavLinkItemProps = {
 };
 
 /**
- * Renders one already-resolved `navLink`.
+ * Renders one already-resolved navigation link.
  *
  * Internal links and anchors go through `next/link` for client navigation;
  * external links use a plain anchor so the browser (not the router) decides how

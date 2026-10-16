@@ -3,7 +3,7 @@ import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { anchorHref, resolveRoute } from "./routes";
 
 /**
- * A `navLink` exactly as `SITE_SETTINGS_QUERY` projects it.
+ * A `link` exactly as `SITE_SETTINGS_QUERY` projects it.
  *
  * `reference` is intentionally narrow: GROQ never returns the referenced
  * document, only enough of it (`_type` + `slug`) for `resolveRoute` to decide
@@ -47,16 +47,28 @@ export function normalizeExternalUrl(
   const trimmed = raw?.trim();
 
   if (!trimmed) return null;
-  if (/^(mailto:|tel:)/i.test(trimmed)) return trimmed;
   // Whitespace and quotes cannot appear in a URL and are the exact shape of the
   // malformed legacy values in the dataset — reject rather than try to repair.
   if (/[\s"'<>]/.test(trimmed)) return null;
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  // Reject anything with a scheme we do not render as a link (javascript:, data:).
-  if (/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) return null;
 
   try {
-    return new URL(`https://${trimmed}`).toString();
+    const isAbsolute = /^https?:\/\//i.test(trimmed);
+    const isMailOrTel = /^(mailto:|tel:)/i.test(trimmed);
+    const candidate = isAbsolute || isMailOrTel ? trimmed : `https://${trimmed}`;
+    const parsed = new URL(candidate);
+
+    if (parsed.protocol === "mailto:" || parsed.protocol === "tel:") {
+      return parsed.pathname ? trimmed : null;
+    }
+
+    if (
+      (parsed.protocol !== "http:" && parsed.protocol !== "https:") ||
+      !parsed.hostname
+    ) {
+      return null;
+    }
+
+    return isAbsolute ? trimmed : parsed.toString();
   } catch {
     return null;
   }

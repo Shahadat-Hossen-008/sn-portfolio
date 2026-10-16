@@ -33,6 +33,11 @@ describe("normalizeExternalUrl", () => {
   it("rejects non-link schemes and junk", () => {
     expect(normalizeExternalUrl("javascript:alert(1)")).toBeNull();
     expect(normalizeExternalUrl("data:text/html,hi")).toBeNull();
+    expect(normalizeExternalUrl("https://")).toBeNull();
+    expect(normalizeExternalUrl("https://?q=1")).toBeNull();
+    expect(normalizeExternalUrl("mailto:")).toBeNull();
+    expect(normalizeExternalUrl("tel:")).toBeNull();
+    expect(normalizeExternalUrl("mailto:me@example.com bad")).toBeNull();
     expect(normalizeExternalUrl("")).toBeNull();
     expect(normalizeExternalUrl("   ")).toBeNull();
     expect(normalizeExternalUrl(null)).toBeNull();
@@ -76,6 +81,9 @@ describe("resolveNavHref", () => {
   it("resolves anchors against the site root", () => {
     expect(resolveNavHref({ type: "anchor", url: "#about" })).toBe("/#about");
     expect(resolveNavHref({ type: "anchor", url: "" })).toBeNull();
+    expect(resolveNavHref({ type: "anchor", url: "//example.com" })).toBeNull();
+    expect(resolveNavHref({ type: "anchor", url: "/\\example.com" })).toBeNull();
+    expect(resolveNavHref({ type: "anchor", url: "/foo bar" })).toBeNull();
   });
 
   it("resolves external URLs", () => {

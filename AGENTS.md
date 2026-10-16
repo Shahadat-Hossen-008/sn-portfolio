@@ -71,8 +71,8 @@ utils/                             DEAD duplicate of src/sanity/utils — do not
 
 | Folder | Contents |
 |---|---|
-| `_root/` | Shared primitives: `media/` (customImage), `portableText/`, `category/`, `sections/` (`pageSections`), `seo/` (+`slug/`), `nav-link/` (`navLink`), `footer-column/` (`footerColumn`) |
-| `global/` | Singletons: `siteSettings/` (identity / header / footer / seo / analytics) |
+| `_root/` | Shared primitives: `media/` (customImage), `portableText/`, `category/`, `sections/` (`pageSections`), `seo/` (+`slug/`), `link/` |
+| `global/` | Singletons: `siteSettings/` (SEO / analytics), `layout/` (identity / header / footer) |
 | `entites/` | Referenced content records: `author`, `blogPost`, `project` (note: folder is misspelled `entites`) |
 | `pages/` | Singleton page documents: `profilePage` (`myProfilePage`), `aboutPage`, `projectPage` |
 | `buildableSection/` | Composable page blocks: `profileContent`, `technologies`, `richText`, `carouselTech` |
@@ -107,8 +107,9 @@ for singletons only). `sanity.config.ts` wires the latter into
 props** down to components. **Components never fetch.** `components/**` contains
 zero imports of `sanityFetch`/`client`.
 
-`SITE_SETTINGS_QUERY` is fetched **once** in `src/app/(frontend)/layout.tsx` and
-passed to `<Navbar>` / `<Footer>` as props. Nothing else may fetch it.
+`LAYOUT_QUERY` is fetched in `src/app/(frontend)/layout.tsx` and passed to
+`<Navbar>` / `<Footer>` as props. `SITE_SETTINGS_QUERY` is fetched separately
+for metadata and analytics. Components never fetch either singleton.
 
 Client/server split is by interactivity only:
 
@@ -120,22 +121,23 @@ Client/server split is by interactivity only:
 ### 3.5 Studio sidebar
 
 `src/sanity/structure.ts` composes: **[pinned singletons]** (divider) **Pages**
-(divider) **Entities** (divider) **Miscellaneous**. Singletons (currently
-`siteSettings`) are pinned via
+(divider) **Entities** (divider) **Miscellaneous**. Singletons (`siteSettings`,
+`layout`, and the fixed pages) are pinned via
 `structure/utils/create-document-structure.ts` (`S.document().documentId(typeName)`),
 which is why the `[0]` in the page and settings queries is safe.
 
 ### 3.6 Site settings
 
-`siteSettings` is a single pinned document (`_id === "siteSettings"`) holding
-site-wide defaults:
+`siteSettings` and `layout` are separate pinned documents (`_id` equals each
+schema name):
 
-- `identity` — `siteTitle`, `siteDescription`, `logo` (customImage; `altText` is
-  the logo alt), `favicon`, `socialLinks[]` (shared by header and footer)
-- `header` — `links[]` (`navLink`), `cta` (`navLink`), `showSocialLinks`
-- `footer` — `mainContent`, `email`, `phone`, `columns[]` (`footerColumn`), `base`
-- `seo` — `titleTemplate` (`{title}` placeholder), `defaultOgImage`, `robots`
-- `analytics` — `googleTagManagerID` (must match `^GTM-[A-Z0-9]+$`)
+- `layout.identity` — `siteTitle`, `siteDescription`, `logo` (customImage;
+  `altText` is the logo alt), `favicon`, `socialLinks[]` (shared by header/footer)
+- `layout.header` — `links[]` (`link`), `cta` (`link`), `showSocialLinks`
+- `layout.footer` — `mainContent`, `email`, `phone`, `columns[]` (`link`), `base`
+- `siteSettings.seo` — `titleTemplate` (`{title}` placeholder),
+  `defaultOgImage`, `robots`
+- `siteSettings.analytics` — `googleTagManagerID` (must match `^GTM-[A-Z0-9]+$`)
 
 Two rules that are easy to break:
 
@@ -143,7 +145,7 @@ Two rules that are easy to break:
    Studio; `SITE_SETTINGS_QUERY` returns `null` until then. The navbar and footer
    render nothing in that state and `buildMetadata` falls back to built-in
    defaults. Every consumer null-checks.
-2. **Routes are declared, not inferred.** `RESOLUTION` for internal `navLink`
+2. **Routes are declared, not inferred.** Resolution for internal `link`
    references goes through `ROUTES_BY_TYPE` in `src/sanity/lib/routes.ts`,
    which is the single source of truth for both the Studio `reference.to` list
    and the frontend href. `aboutPage` / `projectPage` are **absent** because
@@ -312,7 +314,7 @@ more.
 Frontend routes and CMS internal links are wired together in exactly one place:
 `ROUTES_BY_TYPE` in `src/sanity/lib/routes.ts`. Adding an entry there does two
 things at once — the frontend can resolve the new `_type` to an href, and the
-Studio `navLink` `reference` field starts offering that document type. Until the
+Studio `link` `reference` field starts offering that document type. Until the
 entry exists, an internal link to that document type is impossible (and any
 stale link resolves to `null` and is dropped rather than rendered dead).
 

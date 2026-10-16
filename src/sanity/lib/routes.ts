@@ -2,7 +2,7 @@
  * Single source of truth for "which CMS document becomes which frontend URL".
  *
  * This module is intentionally dependency-free so it can be imported from both
- * the Studio schema layer (`src/sanity/_root/nav-link`) and the Next.js
+ * the Studio schema layer (`src/sanity/_root/link`) and the Next.js
  * frontend (`src/sanity/lib/links.ts`) without pulling React or Next in.
  *
  * Why an explicit map instead of `reference->seo.slug.current`?
@@ -24,7 +24,8 @@
 
 export const ROUTES_BY_TYPE = {
   myProfilePage: () => "/",
-  blogPost: (slug?: string | null) => (slug ? `/blog/${slug}` : null),
+  blogPost: (slug?: string | null) =>
+    slug ? `/blog/${encodeURIComponent(slug)}` : null,
 } as const;
 
 export type RoutedType = keyof typeof ROUTES_BY_TYPE;
@@ -88,8 +89,11 @@ export function anchorHref(anchor: string | null | undefined): string | null {
   if (!trimmed) return null;
   if (trimmed === "#") return "/";
 
-  // An absolute route without a fragment is left untouched.
-  if (trimmed.startsWith("/") && !trimmed.includes("#")) return trimmed;
+  // Keep safe, same-origin root-relative routes intact.
+  if (trimmed.startsWith("/") && !trimmed.includes("#")) {
+    if (!/^\/(?!\/)[^\s\\'"<>]*$/.test(trimmed)) return null;
+    return trimmed;
+  }
 
   const fragment = trimmed.replace(/^\/?#/, "");
 

@@ -16,6 +16,9 @@ describe("resolveRoute", () => {
 
   it("maps a blog post to its detail route", () => {
     expect(resolveRoute("blogPost", "hello-world")).toBe("/blog/hello-world");
+    expect(resolveRoute("blogPost", "hello#world?")).toBe(
+      "/blog/hello%23world%3F",
+    );
   });
 
   it("refuses to guess a route for a slug-less blog post", () => {
@@ -50,7 +53,14 @@ describe("anchorHref", () => {
   it("leaves already normalised and absolute values alone", () => {
     expect(anchorHref("/#about")).toBe("/#about");
     expect(anchorHref("/blog")).toBe("/blog");
+    expect(anchorHref("/blog?sort=recent")).toBe("/blog?sort=recent");
     expect(anchorHref("#")).toBe("/");
+  });
+
+  it("rejects malformed or protocol-relative routes", () => {
+    expect(anchorHref("//example.com")).toBeNull();
+    expect(anchorHref("/\\example.com")).toBeNull();
+    expect(anchorHref("/path with spaces")).toBeNull();
   });
 
   it("trims and rejects blank input", () => {
