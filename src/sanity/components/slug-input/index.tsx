@@ -58,7 +58,7 @@ export default function SlugInput(props: CustomSlugInputProps) {
             <Text size={isFixed ? 2 : 1} readOnly>
               {url
                 .join("/")
-                .replace(new RegExp("https?:\/\/[^\/]+\/studio"), "")}
+                .replace(new RegExp("https?:\/\/[^\/]+"), "")}
             </Text>
             <Text size={1} readOnly>
               <HiOutlineExternalLink />
