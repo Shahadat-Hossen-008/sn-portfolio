@@ -1932,7 +1932,7 @@
               },
               "optional": true
             },
-            "ctaLink": {
+            "cta": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",

@@ -314,7 +314,7 @@ export type Layout = {
       _type: "link";
       _key: string;
     }>;
-    ctaLink?: {
+    cta?: {
       label: string;
       type: "internal" | "external";
       reference?: {
@@ -682,27 +682,9 @@ export type TECH_QUERYResult = Array<{
   iconImage: CustomImage | null;
 }>;
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project"][]{  _id,  start,  end,  githubUrl,  projectImage,  projectLink{    ...,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  },  projectDescription[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  projectTitle}
+// Query: *[_type == "project"][]{  _id,  "projectDescription": projectDescription[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  start,  end,  githubUrl,  projectImage,  projectLink,  projectTitle}
 export type PROJECT_QUERYResult = Array<{
   _id: string;
-  start: string | null;
-  end: string;
-  githubUrl: string;
-  projectImage: CustomImage | null;
-  projectLink: {
-    label: string;
-    type: "external" | "internal";
-    reference: {
-      _type: "blogPost";
-      slug: string;
-    } | {
-      _type: "myProfilePage";
-      slug: string | null;
-    } | null;
-    url?: string;
-    openInNewTab?: boolean;
-    isDisabled?: boolean;
-  };
   projectDescription: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -764,10 +746,32 @@ export type PROJECT_QUERYResult = Array<{
     _key: string;
     markDefs: null;
   }> | null;
+  start: string | null;
+  end: string;
+  githubUrl: string;
+  projectImage: CustomImage | null;
+  projectLink: {
+    label: string;
+    type: "external" | "internal";
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "myProfilePage";
+    };
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+  };
   projectTitle: string;
 }>;
 // Variable: BLOG_POSTS_QUERY
-// Query: *[_type == "blogPost"]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}}}
+// Query: *[_type == "blogPost"]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  "blogContent": blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}}}
 export type BLOG_POSTS_QUERYResult = Array<{
   _id: string;
   _createdAt: string;
@@ -843,7 +847,7 @@ export type BLOG_POSTS_QUERYResult = Array<{
   }> | null;
 }>;
 // Variable: SINGLE_BLOG_POST_QUERY
-// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  }}
+// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  "blogContent": blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  }}
 export type SINGLE_BLOG_POST_QUERYResult = {
   _id: string;
   _createdAt: string;
@@ -951,7 +955,7 @@ export type SINGLE_BLOG_POST_QUERYResult = {
   } | null;
 } | null;
 // Variable: LAYOUT_QUERY
-// Query: *[_type == "layout"][0]{  identity {    siteTitle,    siteDescription,    logo {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    favicon {      asset->{_id, url, metadata{dimensions{width, height}}}    },    socialLinks[]{      network,      label,      url    }  },  header {    links[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    showSocialLinks  },  footer {    mainContent,    email,    phone,    base,    columns[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    }  }}
+// Query: *[_type == "layout"][0]{  identity {    siteTitle,    siteDescription,    logo {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    favicon {      asset->{_id, url, metadata{dimensions{width, height}}}    },    socialLinks[]{      network,      label,      url    }  },  header {    links[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    cta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    showSocialLinks  },  footer {    mainContent,    email,    phone,    base,    columns[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    }  }}
 export type LAYOUT_QUERYResult = {
   identity: {
     siteTitle: string;
@@ -1005,6 +1009,20 @@ export type LAYOUT_QUERYResult = {
         slug: string | null;
       } | null;
     }> | null;
+    cta: {
+      label: string;
+      type: "external" | "internal";
+      url: string | null;
+      openInNewTab: boolean | null;
+      isDisabled: boolean | null;
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+    } | null;
     showSocialLinks: boolean | null;
   } | null;
   footer: {
@@ -1068,10 +1086,10 @@ declare module "@sanity/client" {
     "*[_type == \"myProfilePage\"][0]{\n  \"fullName\": autherInfo->fullName,\n  \"headline\": autherInfo->description,\n  \"cvUrl\": uploadCV.asset->url\n}": PROFILE_QUERYResult;
     "*[_type == \"aboutPage\"][0]{\n  \"description\": pageSections[_type == \"richTextSection\"][0].content[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \"technologies\": pageSections[_type == \"technologySection\" || _type == \"technologyCarousel\"].technology[]{\"label\": title}\n}": ABOUT_QUERYResult;
     "*[_type == \"techTag\"][]{\n  _id,\n  label,\n  iconImage\n}": TECH_QUERYResult;
-    "*[_type == \"project\"][]{\n  _id,\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink{\n    ...,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  },\n  projectDescription[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  projectTitle\n}": PROJECT_QUERYResult;
-    "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n}": BLOG_POSTS_QUERYResult;
-    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
-    "*[_type == \"layout\"][0]{\n  identity {\n    siteTitle,\n    siteDescription,\n    logo {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    favicon {\n      asset->{_id, url, metadata{dimensions{width, height}}}\n    },\n    socialLinks[]{\n      network,\n      label,\n      url\n    }\n  },\n  header {\n    links[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    showSocialLinks\n  },\n  footer {\n    mainContent,\n    email,\n    phone,\n    base,\n    columns[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    }\n  }\n}": LAYOUT_QUERYResult;
+    "*[_type == \"project\"][]{\n  _id,\n  \"projectDescription\": projectDescription[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink,\n  projectTitle\n}": PROJECT_QUERYResult;
+    "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  \"blogContent\": blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n}": BLOG_POSTS_QUERYResult;
+    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  \"blogContent\": blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
+    "*[_type == \"layout\"][0]{\n  identity {\n    siteTitle,\n    siteDescription,\n    logo {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    favicon {\n      asset->{_id, url, metadata{dimensions{width, height}}}\n    },\n    socialLinks[]{\n      network,\n      label,\n      url\n    }\n  },\n  header {\n    links[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    cta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    showSocialLinks\n  },\n  footer {\n    mainContent,\n    email,\n    phone,\n    base,\n    columns[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    }\n  }\n}": LAYOUT_QUERYResult;
     "*[_type == \"siteSettings\"][0]{\n  seo {\n    titleTemplate,\n    defaultOgImage {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    }\n  },\n  analytics {\n    googleTagManagerID\n  }\n}": SITE_SETTINGS_QUERYResult;
   }
 }

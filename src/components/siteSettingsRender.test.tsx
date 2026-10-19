@@ -67,6 +67,24 @@ const layout = {
         openInNewTab: null,
         isDisabled: null,
       },
+      {
+        _key: "l3",
+        label: "Unsafe",
+        type: "external",
+        reference: null,
+        url: "javascript:alert(1)",
+        openInNewTab: null,
+        isDisabled: null,
+      },
+      {
+        _key: "l4",
+        label: "Missing reference",
+        type: "internal",
+        reference: null,
+        url: null,
+        openInNewTab: null,
+        isDisabled: null,
+      },
     ],
   },
 } as unknown as Layout;
@@ -95,8 +113,8 @@ describe("Navbar", () => {
     expect(html).not.toContain('href="https://mysite.com/contact"');
   });
 
-  it("does not render a CTA that is not part of the Studio layout schema", () => {
-    expect(html).not.toContain("Download CV");
+  it("does not render a CTA when one is not configured", () => {
+    expect(html).not.toContain("CTA");
   });
 
   it("shows only resolvable social links and blocks non-link schemes", () => {
@@ -124,6 +142,9 @@ describe("Footer", () => {
     expect(html).toContain("Links");
     expect(html).toContain('href="https://github.com/me"');
     expect(html).not.toContain("Dead");
+    expect(html).not.toContain("Unsafe");
+    expect(html).not.toContain("Missing reference");
+    expect(html).not.toContain('href="#"');
   });
 
   it("renders nothing when the singleton is missing", () => {

@@ -5,7 +5,6 @@ import NavLinkItem from "@/components/navlink/NavLinkItem";
 import SocialLinks from "@/components/social/SocialLinks";
 import { urlFor } from "@/sanity/lib/image";
 import { isExternalHref, resolveLink } from "@/sanity/lib/links";
-import type { SanityLink } from "@/sanity/lib/links";
 import { hasSanityImage } from "@/sanity/lib/images";
 import type { Layout } from "@/app/types/siteSettingsTypes";
 
@@ -26,7 +25,7 @@ export default function Footer({ layout }: { layout: Layout }) {
 
   if (!identity) return null;
 
-  const links = ((footer?.columns ?? []) as SanityLink[]).flatMap((link) => {
+  const links = (footer?.columns ?? []).flatMap((link) => {
     const href = resolveLink(link);
     return href ? [{ ...link, href, external: isExternalHref(href) }] : [];
   });

@@ -44,6 +44,11 @@ export const LINK_REFERENCE_FRAGMENT = /* groq */ `
   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }
 `;
 
+const PORTABLE_TEXT_PROJECTION = /* groq */ `[]{
+  ...,
+  markDefs[]{..., ${LINK_REFERENCE_FRAGMENT}}
+}`;
+
 /**
  * Singleton profile page (`myProfilePage`).
  *
@@ -78,7 +83,7 @@ export const PROFILE_QUERY = defineQuery(`*[_type == "myProfilePage"][0]{
  * is intentionally not projected here.
  */
 export const ABOUT_QUERY = defineQuery(`*[_type == "aboutPage"][0]{
-  "description": pageSections[_type == "richTextSection"][0].content,
+  "description": pageSections[_type == "richTextSection"][0].content${PORTABLE_TEXT_PROJECTION},
   "technologies": pageSections[_type == "technologySection" || _type == "technologyCarousel"].technology[]{"label": title}
 }`);
 
@@ -100,7 +105,7 @@ export const TECH_QUERY = defineQuery(`*[_type == "techTag"][]{
  */
 export const PROJECT_QUERY = defineQuery(`*[_type == "project"][]{
   _id,
-  projectDescription,
+  "projectDescription": projectDescription${PORTABLE_TEXT_PROJECTION},
   start,
   end,
   githubUrl,
@@ -121,7 +126,7 @@ export const BLOG_POSTS_QUERY = defineQuery(`*[_type == "blogPost"]{
   categories[]->{_id, title},
   author,
   publishedAt,
-  blogContent
+  "blogContent": blogContent${PORTABLE_TEXT_PROJECTION}
 }`);
 
 /**
@@ -137,7 +142,7 @@ export const SINGLE_BLOG_POST_QUERY = defineQuery(`*[_type == "blogPost" && slug
   categories[]->{_id, title},
   author,
   publishedAt,
-  blogContent,
+  "blogContent": blogContent${PORTABLE_TEXT_PROJECTION},
   ${SEO_FIELDS_FRAGMENT}
 }`);
 
@@ -194,16 +199,12 @@ export const LAYOUT_QUERY = defineQuery(`*[_type == "layout"][0]{
     base,
     columns[]{
       _key,
-      title,
-      links[]{
-        _key,
-        label,
-        type,
-        url,
-        openInNewTab,
-        isDisabled,
-        ${LINK_REFERENCE_FRAGMENT}
-      }
+      label,
+      type,
+      url,
+      openInNewTab,
+      isDisabled,
+      ${LINK_REFERENCE_FRAGMENT}
     }
   }
 }`);

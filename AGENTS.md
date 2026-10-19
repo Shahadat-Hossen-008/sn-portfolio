@@ -30,9 +30,14 @@ Studio**, both hosted in the *same* Next.js app.
 pnpm dev       # runs `typegen` first via predev, then next dev
 pnpm build     # runs `typegen` first via prebuild, then next build
 pnpm lint      # eslint (stock eslint-config-next, flat config)
-pnpm test      # vitest run — pure helpers only, never touches Sanity
+pnpm test      # helpers, components, schema registration and structure; no live dataset
 pnpm typegen   # sanity schema extract + sanity typegen generate
 ```
+
+`predev` and `prebuild` run TypeGen before Next.js starts/builds;
+`sanity.cli.ts` does not enable automatic TypeGen for Sanity CLI commands.
+Run `pnpm typegen` manually after schema or GROQ changes when you need refreshed
+types outside those Next.js lifecycle scripts.
 
 `typegen` regenerates **two committed files**:
 
@@ -51,7 +56,7 @@ A schema/query change without regenerating them is a bug.
 ```
 src/app/layout.tsx                 root shell (html/body); no metadata
 src/app/(frontend)/                public site — route group, no URL segment
-  layout.tsx                       SITE_SETTINGS_QUERY once → <Navbar/> <Footer/> <SanityLive/> GTM, generateMetadata
+  layout.tsx                       layout + settings queries → <Navbar/> <Footer/> <SanityLive/> GTM, generateMetadata
   page.tsx                         home: PROFILE + ABOUT + TECH + PROJECT
   blog/page.tsx
   blog/[slug]/page.tsx
@@ -71,12 +76,12 @@ utils/                             DEAD duplicate of src/sanity/utils — do not
 
 | Folder | Contents |
 |---|---|
-| `_root/` | Shared primitives: `media/` (customImage), `portableText/`, `category/`, `sections/` (`pageSections`), `seo/` (+`slug/`), `link/` |
+| `_root/` | Shared primitives: `media/` (`customImage`), `portableText/`, `sections/` (`pageSections`), `seo/` (+`slug/`), `link/`, `nav-link/`, `technology-item/` |
 | `global/` | Singletons: `siteSettings/` (SEO / analytics), `layout/` (identity / header / footer) |
 | `entites/` | Referenced content records: `author`, `blogPost`, `project` (note: folder is misspelled `entites`) |
 | `pages/` | Singleton page documents: `profilePage` (`myProfilePage`), `aboutPage`, `projectPage` |
 | `buildableSection/` | Composable page blocks: `profileContent`, `technologies`, `richText`, `carouselTech` |
-| `miscellaneous/` | Loose leaf docs: `blog-tag/`, `tech-tag/` (kebab-case, unlike everything else) |
+| `miscellaneous/` | Loose leaf docs: `blogTag`, `techTag` |
 | `structure/` | Custom Studio sidebar (one module per top-level group) + `utils/create-document-structure.ts` |
 | `components/` | Custom Studio input components (`slug-input`) |
 | `schemaTypes/index.ts` | **The registry.** Everything must be registered here or it does not exist |
@@ -107,9 +112,10 @@ for singletons only). `sanity.config.ts` wires the latter into
 props** down to components. **Components never fetch.** `components/**` contains
 zero imports of `sanityFetch`/`client`.
 
-`LAYOUT_QUERY` is fetched in `src/app/(frontend)/layout.tsx` and passed to
-`<Navbar>` / `<Footer>` as props. `SITE_SETTINGS_QUERY` is fetched separately
-for metadata and analytics. Components never fetch either singleton.
+`LAYOUT_QUERY` is fetched for metadata and layout rendering in
+`src/app/(frontend)/layout.tsx`; the render result is passed to `<Navbar>` /
+`<Footer>` as props. `SITE_SETTINGS_QUERY` is fetched for metadata and
+analytics. Components never fetch either singleton.
 
 Client/server split is by interactivity only:
 
@@ -134,10 +140,15 @@ schema name):
 - `layout.identity` — `siteTitle`, `siteDescription`, `logo` (customImage;
   `altText` is the logo alt), `favicon`, `socialLinks[]` (shared by header/footer)
 - `layout.header` — `links[]` (`link`), `cta` (`link`), `showSocialLinks`
-- `layout.footer` — `mainContent`, `email`, `phone`, `columns[]` (`link`), `base`
+- `layout.footer` — `mainContent`, `email`, `phone`, `columns[]` (`link`),
+  `base`
 - `siteSettings.seo` — `titleTemplate` (`{title}` placeholder),
   `defaultOgImage`, `robots`
 - `siteSettings.analytics` — `googleTagManagerID` (must match `^GTM-[A-Z0-9]+$`)
+
+`layout.footer.columns` is a flat array of `link` objects. Keep its GROQ
+projection and Footer consumer flat, and resolve each href through
+`resolveLink()` so invalid or unroutable entries are omitted.
 
 Two rules that are easy to break:
 
@@ -183,6 +194,8 @@ Two rules that are easy to break:
 - `pageSections` array on `aboutPage`/`profilePage` is the page body builder:
   drop `profileContent` / `richTextSection` / `technologySection` /
   `technologyCarousel` / `customImage` blocks into it.
+- For new schema arrays, use `defineArrayMember()` for each `of` member; older
+  definitions may still use shorthand, so avoid unrelated churn.
 - Preview via `preview.select` + `prepare`; icon-as-media (`media: SomeIcon`)
   is idiomatic here.
 - `defineField(..., { strict: false })` is used deliberately to extend intrinsic
@@ -204,34 +217,52 @@ Two rules that are easy to break:
 
 ### 5.2 GROQ queries vs the schema
 
-As of the site-settings work the registered types and the queries agree. The
-generated result types in `src/sanity/types.ts` are a real shape — check them
-after every `typegen` run, because when a query targets an unregistered `_type`
-the result collapses to `null` / `Array<never>` and `never` silently allows
-arbitrary property access, so **TypeScript stops complaining while the page
-renders nothing.**
+The registry and source queries must be checked as separate contracts:
+`src/sanity/schemaTypes/index.ts` is the schema registry, while
+`src/sanity/lib/queries.ts` is the frontend projection contract. A query can
+target a registered type and still project fields that do not exist in its
+schema. Generated types can also be stale: the checked-in
+`src/sanity/types.ts` currently maps an older `LAYOUT_QUERY` (no `header.cta`,
+flat footer links), while the source query includes `header.cta` and projects
+`footer.columns` as `{title, links[]}`. Regenerate with `pnpm typegen` after
+schema/query edits and review the actual result types; do not trust a successful
+TypeScript check alone.
 
-Two behaviours to hold onto:
+When a query targets an unregistered `_type`, its result can collapse to `null`
+or `Array<never>`, and `never` may silently permit arbitrary property access.
+Always confirm that each generated `*Result` has the intended shape.
+
+Other verified schema/query considerations:
 
 - `blogPost` **is** registered (`entites/blogPost`), and now carries its own
   `seo` object (`includeSlug: false` — its route slug stays on the top-level
   `slug` field). The old claim that it was orphaned was wrong.
-- `PROFILE_QUERY` / `ABOUT_QUERY` / `TECH_QUERY` / `PROJECT_QUERY` all target
-  registered types. They return `null` / `[]` because the dataset is **empty of
-  those documents** (see 5.6), not because the types are missing.
+- `PROFILE_QUERY`, `ABOUT_QUERY`, `TECH_QUERY`, and `PROJECT_QUERY` target
+  registered types. Whether they currently return documents depends on the
+  configured dataset; source inspection cannot establish live dataset contents.
+- `blogPost.author` is a plain string even though an `author` document type
+  exists and the profile page references it. If authors should be reusable on
+  posts, changing this to a reference requires a content migration and query /
+  frontend updates; do not change the field shape silently.
+- `BLOG_POSTS_QUERY` returns every post without ordering or pagination, and
+  includes each full `blogContent` body although the list only visually
+  line-clamps the rendered content. This is acceptable only while the content
+  set is small; consider a dedicated excerpt, smaller projection, deterministic
+  order, and pagination as the blog grows.
+- The homepage awaits four independent Sanity queries sequentially. Use
+  `Promise.all()` for independent fetches rather than adding a network
+  waterfall.
 
 ### 5.3 Dead / legacy code — do not build on it
 
-- `src/sanity/schemaTypes/{about,blogType,profile}.ts` and
-  `src/sanity/schemaTypes/preview/**` — orphaned (not in the registry). They are
-  the *specification the old GROQ was written against*. The registry now imports
-  from `global/`, `entites/`, `pages/`, `buildableSection/`, `_root/` and
-  `miscellaneous/` only.
+- The former duplicate YouTube preview under `schemaTypes/preview/` was
+  unreferenced and removed; the registered YouTube type still uses the preview
+  under `_root/portableText/iframe/renderComponents`.
 - `src/sanity/_root/seo/slug/restricted-slugs.ts` — the guard checks
   `_type == "generalPage"`, a type that doesn't exist, and every caller passes
   `isFixed: true` which short-circuits it. Fully unreachable.
-- `src/components/image/NextImage.tsx` — zero call sites (imported, never
-  rendered, in `Profile.tsx:5`).
+- `src/components/image/NextImage.tsx` — zero call sites in the current source
+  tree.
 - `utils/get-base-url.ts`, `utils/type.ts` — byte-identical duplicates of
   `src/sanity/utils/*`, imported by nothing.
 - Root `schema.json` — stale artifact, not produced by any script.
@@ -241,19 +272,24 @@ Two behaviours to hold onto:
 ### 5.4 Portable Text: schema ↔ renderer must be changed together
 
 `src/components/portableText/PortableTextComponent.tsx` is
-`Partial<PortableTextReactComponents>`. Existing bugs to be aware of:
+`Partial<PortableTextReactComponents>`. The renderer is wired to the schema's
+`linkUrl` annotation, `customImage.altText`, code blocks, blockquotes, and the
+`youtube` object. Keep the schema, GROQ projections, and renderer aligned:
 
-- link annotation is declared `name: "linkUrl", type: "link"`; the renderer reads
-  `value.href.href` → falls back to `"#"`
-- `customImage` field is `altText`; the renderer reads `alt` → alt is always empty
-- `code` blocks have **no** renderer
-- `blockquote` has no renderer
-- hardcoded `target="_blank"` breaks `linkField` internal links
+- Project, blog, and about Portable Text query projections expand internal
+  references to the `_type` and slug required by `resolveLink()`.
+- The legacy `portableImage` block currently present in blog content has the
+  same confirmed `imageFile` / `altText` shape as `customImage`; both render
+  through the guarded image renderer.
+- Malformed/unresolved links and unsupported image/video values are omitted or
+  rendered as plain text; no fallback `href="#"` is used.
 
 `PreviewPortableText.tsx` is a second, untyped map used only by the blog list.
 
-`pageSections` currently has **no frontend renderer at all** — content built in
-the Studio through it does not appear on the site.
+`pageSections` has no general frontend renderer. The homepage queries only
+selected fields/blocks (`ABOUT_QUERY` extracts rich text and technology items;
+`PROFILE_QUERY` omits its sections), so arbitrary page-builder content entered
+in the Studio does not automatically appear on the site.
 
 ### 5.5 Contact form (`app/actions/sendEmail.ts`)
 
@@ -268,24 +304,29 @@ Don't copy this pattern for new server actions.
 ### 5.6 Other easy-to-hit runtime errors
 
 - `format(parseISO(...))` throws `RangeError` on `undefined`/empty dates
-  (`Project.tsx`, `blog/[slug]/page.tsx`)
+  (`Project.tsx`; `blog/[slug]/page.tsx` uses the guarded `formatDate` helper)
 - `project.projectLink` is a **link object**, not a string
 - `.map` on possibly-null query results (`Technology.tsx`)
 - `parseISO` imported from `date-fns/fp` in `Project.tsx` — wrong submodule
 - image transforms are inconsistent; three call sites pass `unoptimized`, two
   pass no dimensions at all
 
-**Dataset state (checked against `production`)**: the dataset holds only
-`author`, `blogPost`, `category`, `profile`, `project`, `tag` plus assets. **No
-`siteSettings`, no `myProfilePage`, no `aboutPage`, no `projectPage` exist yet**,
-so the navbar, footer and homepage hero render nothing until those documents are
-created by hand in the Studio. `SITE_SETTINGS_QUERY` returning `null` is the
-expected, handled state — not a bug.
+**Dataset state is not established by the source tree.** Do not assume a live
+dataset is empty or contains a particular set of documents based on an old
+snapshot. The schema defines types, not content. Handle singleton queries as
+nullable and verify the configured dataset through the authorized Sanity
+environment when content presence matters. `SITE_SETTINGS_QUERY` returning
+`null` is a supported state, not by itself a schema error.
+
+`NEXT_PUBLIC_SANITY_API_VERSION` optionally overrides the API version; the
+current fallback is `2026-03-02`. `defineLive()` is configured with only the
+public client (no read token, draft mode, or Presentation/Visual Editing
+configuration), and `<SanityLive />` is rendered in the public frontend layout.
 
 ### 5.7 Naming inconsistencies (don't propagate them)
 
-`entites/` (typo) · kebab `blog-tag/` vs camel elsewhere · `pageSection` const
-for `pageSections` `_type` · `structure.ts` file vs `structure/` dir ·
+`entites/` (typo) · `pageSection` const for `pageSections` `_type` ·
+`structure.ts` file vs `structure/` dir ·
 `"Duretion:"` in `Project.tsx`. Fix in place when you touch the file; don't add
 more.
 
@@ -323,8 +364,7 @@ stale link resolves to `null` and is dropped rather than rendered dead).
 1. Create the object type under `src/sanity/buildableSection/<name>/index.ts`.
 2. Add it to `hoistedObjects` in `schemaTypes/index.ts`.
 3. Add it to the `of` array **and** the `insertMenu.groups` in
-   `_root/sections/index.ts` (the existing `customImage` omission is a bug — copy
-   the pattern correctly, not the omission).
+   `_root/sections/index.ts`.
 4. Give it a `preview` — several section types have none and render
    identically in the desk.
 5. If the frontend should render it, add a branch to
@@ -333,14 +373,15 @@ stale link resolves to `null` and is dropped rather than rendered dead).
 **Before you finish**
 
 ```bash
-pnpm test       # vitest, pure helpers only (routes/links/metadata/analytics)
+pnpm test       # helpers, components, schema registration and structure; no live dataset
 pnpm lint
 pnpm build      # typegen + next build; catches TS2305-class registry errors
 ```
 
-`pnpm build` is the real gate. `pnpm lint` alone will not catch the schema/query
-drift. `pnpm test` covers the pure helpers but does **not** touch Sanity — a
-green suite is not evidence that CMS data renders.
+`pnpm build` is the real gate. `pnpm lint` alone will not catch schema/query
+drift. `pnpm test` compiles the registered schema and exercises singleton
+structure logic with a local stub, but it does **not** query Sanity or prove
+that live CMS content renders.
 
 ---
 
@@ -356,10 +397,12 @@ green suite is not evidence that CMS data renders.
 - Sanity structure builder cheat sheet: <https://www.sanity.io/docs/structure-builder-cheat-sheet>
 
 **Env vars** (`.env.local`, gitignored): `NEXT_PUBLIC_SANITY_PROJECT_ID`,
-`NEXT_PUBLIC_SANITY_DATASET`, `SMTP_USER`, `SMTP_PASSWORD`,
-`MAIL_RECIEVER_ADDRESS`, `NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_DEVELOP`,
+`NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION`, `SMTP_USER`,
+`SMTP_PASSWORD`, `MAIL_RECIEVER_ADDRESS`,
+`NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_DEVELOP`,
 `NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_PRODUCTION`. There is **no** read token,
-no draft mode, no preview — `defineLive` is configured with only `client`.
+draft mode, or Visual Editing preview integration — `defineLive` is configured
+with only `client`.
 
 `NEXT_PUBLIC_SITE_URL` (e.g. `https://shahadat.dev`) is optional but recommended:
 it is the origin used for canonical URLs and `metadataBase` in

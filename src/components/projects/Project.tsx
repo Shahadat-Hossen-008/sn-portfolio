@@ -11,6 +11,7 @@ import RightIcon from "../../../public/RightIcon";
 import { urlFor } from "@/sanity/lib/image";
 import { resolveLink } from "@/sanity/lib/links";
 import type { SanityLink } from "@/sanity/lib/links";
+import { portableTextComponents } from "@/components/portableText/PortableTextComponent";
 
 export default function Project({ projects }: projectProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
@@ -80,7 +81,10 @@ export default function Project({ projects }: projectProps) {
                           - {format(parseISO(project.end || ""), "LLL d, yyyy")}
                         </p>
                         {project.projectDescription && (
-                          <PortableText value={project.projectDescription} />
+                          <PortableText
+                            value={project.projectDescription}
+                            components={portableTextComponents}
+                          />
                         )}
                         {projectHref && (
                           <a

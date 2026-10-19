@@ -9,7 +9,6 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "migrate:legacy": "node scripts/migrate-legacy-content.mjs",
     "predev": "pnpm run typegen",
     "prebuild": "pnpm run typegen",
     "typegen": "sanity schema extract --enforce-required-fields --path=./src/sanity/extract.json && sanity typegen generate"
