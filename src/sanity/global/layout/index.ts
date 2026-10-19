@@ -5,6 +5,7 @@ import {
   type DocumentDefinition,
 } from "sanity";
 import { FaBars, FaLayerGroup, FaUserCircle } from "react-icons/fa";
+import { link } from "@/sanity/_root/link";
 
 export const LAYOUT_TYPE = "layout";
 
@@ -152,16 +153,12 @@ export const layout: DocumentDefinition = defineType({
           name: "links",
           title: "Navigation links",
           description:
-            "Rendered in both the desktop bar and the mobile menu. Homepage sections use the `Homepage anchor` link type.",
+            "Rendered in both the desktop bar and the mobile menu.",
           type: "array",
-          of: [{ type: "link" }],
+          of: [link()],
           validation: (rule) => rule.min(1).warning("Add at least one link."),
         }),
-        defineField({
-          name: "cta",
-          title: "Call to action",
-          type: "link",
-        }),
+        link("cta"),
         defineField({
           name: "showSocialLinks",
           title: "Show social links",
@@ -205,7 +202,7 @@ export const layout: DocumentDefinition = defineType({
           name: "columns",
           title: "Columns",
           type: "array",
-          of: [{ type: "link" }],
+          of: [link()],
         }),
         defineField({
           name: "base",

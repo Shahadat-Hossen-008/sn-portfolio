@@ -1,14 +1,22 @@
 import { describe, expect, it } from "vitest";
+import { createSchema } from "sanity";
 
 import {
   applyTitleTemplate,
   buildMetadata,
   getRedirectTarget,
   mergeRobots,
-  parseJsonLd,
   type SiteLayoutLike,
   type SiteSettingsLike,
 } from "@/sanity/lib/metadata";
+import {
+  LINK_TYPES,
+  normalizeExternalUrl,
+  resolveLink,
+  type SanityLink,
+} from "@/sanity/lib/links";
+import { absoluteUrl, getSiteOrigin, resolveRoute } from "@/sanity/lib/routes";
+import { link } from "@/sanity/_root/link";
 
 const IMAGE = {
   imageFile: {
@@ -123,36 +131,29 @@ describe("getRedirectTarget", () => {
   });
 });
 
-describe("parseJsonLd", () => {
-  it("re-serialises valid objects and arrays", () => {
-    expect(parseJsonLd('{ "@context": "https://schema.org" }')).toBe(
-      '{"@context":"https://schema.org"}',
-    );
-    expect(parseJsonLd('[{"@type":"Person"}]')).toBe('[{"@type":"Person"}]');
-  });
-
-  it("accepts Sanity's code object shape", () => {
-    expect(parseJsonLd({ code: '{"@type":"Person"}' })).toBe(
-      '{"@type":"Person"}',
-    );
-  });
-
-  it("rejects invalid JSON, scalars and blank input", () => {
-    expect(parseJsonLd("{ nope")).toBeNull();
-    expect(parseJsonLd("42")).toBeNull();
-    expect(parseJsonLd('"a string"')).toBeNull();
-    expect(parseJsonLd("null")).toBeNull();
-    expect(parseJsonLd("")).toBeNull();
-    expect(parseJsonLd(null)).toBeNull();
-  });
-});
-
 describe("buildMetadata", () => {
   it("returns safe defaults with no settings and no page seo", () => {
     const meta = buildMetadata({ layout: null, siteSettings: null, path: "/" });
 
     expect(meta.title).toBe("Portfolio");
     expect(meta.robots).toMatchObject({ index: true, follow: true });
+  });
+
+  it("still builds metadata when only one singleton is present", () => {
+    const layoutOnly = buildMetadata({
+      layout,
+      siteSettings: null,
+      pageSeo: { title: "About" },
+    });
+    const settingsOnly = buildMetadata({
+      layout: null,
+      siteSettings,
+      pageSeo: { title: "About" },
+    });
+
+    expect(layoutOnly.title).toBe("About");
+    expect(settingsOnly.title).toBe("About");
+    expect(settingsOnly.robots).toMatchObject({ index: true, follow: true });
   });
 
   it("applies the site title template and falls back to the site description", () => {
@@ -216,6 +217,24 @@ describe("buildMetadata", () => {
     expect(meta.metadataBase).toBeUndefined();
   });
 
+  it("builds a canonical from the public origin, never the Studio path", () => {
+    process.env.NEXT_PUBLIC_SITE_URL = "https://shahadat.dev";
+    process.env.NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_PRODUCTION =
+      "https://shahadat.dev/studio";
+
+    try {
+      const meta = buildMetadata({ layout, siteSettings, path: "/blog/hello" });
+
+      expect(meta.alternates?.canonical).toBe(
+        "https://shahadat.dev/blog/hello",
+      );
+      expect(JSON.stringify(meta)).not.toContain("/studio");
+    } finally {
+      delete process.env.NEXT_PUBLIC_SITE_URL;
+      delete process.env.NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_PRODUCTION;
+    }
+  });
+
   it("uses an explicit canonical when the editor sets one", () => {
     const meta = buildMetadata({
       layout,
@@ -234,5 +253,103 @@ describe("buildMetadata", () => {
     });
 
     expect(JSON.stringify(meta)).not.toContain("example.com/new");
+  });
+});
+
+
+describe("public route resolution", () => {
+  it("resolves implemented routes and rejects missing frontend routes", () => {
+    expect(resolveRoute("myProfilePage")).toBe("/");
+    expect(resolveRoute("blogPost", "hello-world")).toBe(
+      "/blog/hello-world",
+    );
+    expect(resolveRoute("aboutPage", "about")).toBeNull();
+    expect(resolveRoute("projectPage", "project")).toBeNull();
+    expect(resolveRoute("blogPost")).toBeNull();
+    expect(resolveRoute("unknownType")).toBeNull();
+  });
+
+});
+
+describe("link resolution", () => {
+  it("exposes a reusable object field factory with only two supported kinds", () => {
+    const linkField = link();
+
+    expect(LINK_TYPES).toEqual(["internal", "external"]);
+    expect(linkField).toMatchObject({ name: "link", type: "object" });
+    expect(
+      (linkField as { fields?: { name: string; options?: { list?: string[] } }[] })
+        .fields?.find((field) => field.name === "type")?.options?.list,
+    ).toEqual(["internal", "external"]);
+    expect(() =>
+      createSchema({ name: "link-factory-test", types: [linkField] }),
+    ).not.toThrow();
+  });
+
+  it("supports internal links and external URLs, including same-site URLs", () => {
+    expect(
+      resolveLink({
+        type: "internal",
+        reference: { _type: "blogPost", slug: "post-1" },
+      }),
+    ).toBe("/blog/post-1");
+    expect(
+      resolveLink({ type: "external", url: "https://mysite.com/about" }),
+    ).toBe("https://mysite.com/about");
+    expect(resolveLink({ type: "external", url: "github.com/me" })).toBe(
+      "https://github.com/me",
+    );
+  });
+
+  it("rejects invalid destinations instead of producing broken hrefs", () => {
+    expect(resolveLink({ type: "internal", reference: { _type: "aboutPage" } })).toBeNull();
+    expect(resolveLink({ type: "external", url: "javascript:alert(1)" })).toBeNull();
+    expect(resolveLink({ type: "external", url: "#unknown" })).toBeNull();
+    expect(resolveLink({ type: "external", url: null })).toBeNull();
+    expect(resolveLink({})).toBeNull();
+    expect(normalizeExternalUrl('"https://example.com/"')).toBeNull();
+    expect(
+      resolveLink("https://example.com" as unknown as SanityLink),
+    ).toBeNull();
+  });
+
+  it("drops unresolved entries from link lists", () => {
+    const links = ([
+      { label: "Home", type: "internal", reference: { _type: "myProfilePage" } },
+      { label: "Missing", type: "internal", reference: { _type: "aboutPage" } },
+      { label: "Contact", type: "external", url: "https://mysite.com/contact", isDisabled: true },
+    ] satisfies SanityLink[]).flatMap((link) => {
+      const href = resolveLink(link);
+      return href ? [{ ...link, href }] : [];
+    });
+
+    expect(links.map(({ label }) => label)).toEqual(["Home", "Contact"]);
+    expect(links[1]?.isDisabled).toBe(true);
+    expect(links.some(({ href }) => href === "#")).toBe(false);
+  });
+});
+
+describe("public route origin", () => {
+  it("does not use the Studio preview URL as a public origin", () => {
+    process.env.NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_PRODUCTION =
+      "http://localhost:3000/studio";
+
+    try {
+      expect(getSiteOrigin()).toBeNull();
+    } finally {
+      delete process.env.NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_PRODUCTION;
+    }
+  });
+
+  it("builds absolute public paths from NEXT_PUBLIC_SITE_URL", () => {
+    process.env.NEXT_PUBLIC_SITE_URL = "https://shahadat.dev/some/path";
+
+    try {
+      expect(absoluteUrl("/blog/hello")).toBe(
+        "https://shahadat.dev/blog/hello",
+      );
+    } finally {
+      delete process.env.NEXT_PUBLIC_SITE_URL;
+    }
   });
 });

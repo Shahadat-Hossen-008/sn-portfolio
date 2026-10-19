@@ -354,14 +354,6 @@
                 }
               },
               "optional": true
-            },
-            "jsonld": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "code"
-              },
-              "optional": true
             }
           }
         },
@@ -410,53 +402,6 @@
           }
         },
         "optional": true
-      }
-    }
-  },
-  {
-    "name": "code",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "code"
-          }
-        },
-        "language": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "filename": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "code": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "highlightedLines": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "array",
-            "of": {
-              "type": "number"
-            }
-          },
-          "optional": true
-        }
       }
     }
   },
@@ -641,14 +586,6 @@
                 "of": {
                   "type": "string"
                 }
-              },
-              "optional": true
-            },
-            "jsonld": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "code"
               },
               "optional": true
             }
@@ -1330,10 +1267,6 @@
               {
                 "type": "string",
                 "value": "external"
-              },
-              {
-                "type": "string",
-                "value": "anchor"
               }
             ]
           },
@@ -2106,14 +2039,6 @@
                 }
               },
               "optional": true
-            },
-            "jsonld": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "code"
-              },
-              "optional": true
             }
           }
         },
@@ -2363,14 +2288,6 @@
                 }
               },
               "optional": true
-            },
-            "jsonld": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "code"
-              },
-              "optional": true
             }
           }
         },
@@ -2517,6 +2434,53 @@
           "type": "string"
         },
         "optional": false
+      }
+    }
+  },
+  {
+    "name": "code",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "code"
+          }
+        },
+        "language": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "filename": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "code": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "highlightedLines": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "number"
+            }
+          },
+          "optional": true
+        }
       }
     }
   },

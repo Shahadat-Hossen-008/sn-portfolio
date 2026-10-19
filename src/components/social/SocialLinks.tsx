@@ -12,7 +12,7 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 
-import { resolveSocialHref } from "@/sanity/lib/links";
+import { normalizeExternalUrl } from "@/sanity/lib/links";
 import type { SiteSocialLink } from "@/app/types/siteSettingsTypes";
 
 const NETWORK_ICONS: Record<string, ComponentType<{ className?: string }>> = {
@@ -62,7 +62,7 @@ export default function SocialLinks({
 }: SocialLinksProps) {
   const entries = (links ?? [])
     .map((link) => {
-      const href = resolveSocialHref(link.url);
+      const href = normalizeExternalUrl(link.url);
       return href ? { ...link, href } : null;
     })
     .filter((link): link is SiteSocialLink & { href: string } => link !== null);

@@ -75,7 +75,6 @@ export type ProjectPage = {
     canonicalUrl?: string;
     redirect?: string;
     keywords?: Array<string>;
-    jsonld?: Code;
   };
   projects?: Array<{
     _ref: string;
@@ -84,14 +83,6 @@ export type ProjectPage = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "project";
   }>;
-};
-
-export type Code = {
-  _type: "code";
-  language?: string;
-  filename?: string;
-  code?: string;
-  highlightedLines?: Array<number>;
 };
 
 export type Slug = {
@@ -124,7 +115,6 @@ export type AboutPage = {
     canonicalUrl?: string;
     redirect?: string;
     keywords?: Array<string>;
-    jsonld?: Code;
   };
   pageSections?: PageSections;
 };
@@ -225,7 +215,7 @@ export type Project = {
 export type Link = {
   _type: "link";
   label: string;
-  type: "internal" | "external" | "anchor";
+  type: "internal" | "external";
   reference?: {
     _ref: string;
     _type: "reference";
@@ -350,7 +340,6 @@ export type BlogPost = {
     canonicalUrl?: string;
     redirect?: string;
     keywords?: Array<string>;
-    jsonld?: Code;
   };
   blogTitle: string;
   slug: Slug;
@@ -391,7 +380,6 @@ export type MyProfilePage = {
     canonicalUrl?: string;
     redirect?: string;
     keywords?: Array<string>;
-    jsonld?: Code;
   };
   autherInfo?: {
     _ref: string;
@@ -420,6 +408,14 @@ export type Author = {
   _rev: string;
   fullName: string;
   description: string;
+};
+
+export type Code = {
+  _type: "code";
+  language?: string;
+  filename?: string;
+  code?: string;
+  highlightedLines?: Array<number>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -518,7 +514,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | ProjectPage | Code | Slug | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | TechnologyItem | PortableText | Project | Link | Layout | SanityImageCrop | SanityImageHotspot | SiteSettings | BlogPost | MyProfilePage | Author | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | ProjectPage | Slug | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | TechnologyItem | PortableText | Project | Link | Layout | SanityImageCrop | SanityImageHotspot | SiteSettings | BlogPost | MyProfilePage | Author | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
@@ -572,7 +568,7 @@ export type BLOG_POSTS_QUERYResult = Array<{
   blogContent: PortableText | null;
 }>;
 // Variable: SINGLE_BLOG_POST_QUERY
-// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent,    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords,    jsonld  }}
+// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent,    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  }}
 export type SINGLE_BLOG_POST_QUERYResult = {
   _id: string;
   _createdAt: string;
@@ -617,7 +613,6 @@ export type SINGLE_BLOG_POST_QUERYResult = {
     canonicalUrl: string | null;
     redirect: string | null;
     keywords: Array<string> | null;
-    jsonld: Code | null;
   } | null;
 } | null;
 // Variable: LAYOUT_QUERY
@@ -663,7 +658,7 @@ export type LAYOUT_QUERYResult = {
     links: Array<{
       _key: string;
       label: string;
-      type: "anchor" | "external" | "internal";
+      type: "external" | "internal";
       url: string | null;
       openInNewTab: boolean | null;
       isDisabled: boolean | null;
@@ -677,7 +672,7 @@ export type LAYOUT_QUERYResult = {
     }> | null;
     cta: {
       label: string;
-      type: "anchor" | "external" | "internal";
+      type: "external" | "internal";
       url: string | null;
       openInNewTab: boolean | null;
       isDisabled: boolean | null;
@@ -744,7 +739,7 @@ declare module "@sanity/client" {
     "*[_type == \"techTag\"][]{\n  _id,\n  label,\n  iconImage\n}": TECH_QUERYResult;
     "*[_type == \"project\"][]{\n  _id,\n  projectDescription,\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink,\n  projectTitle\n}": PROJECT_QUERYResult;
     "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent\n}": BLOG_POSTS_QUERYResult;
-    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent,\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords,\n    jsonld\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
+    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent,\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
     "*[_type == \"layout\"][0]{\n  identity {\n    siteTitle,\n    siteDescription,\n    logo {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    favicon {\n      asset->{_id, url, metadata{dimensions{width, height}}}\n    },\n    socialLinks[]{\n      network,\n      label,\n      url\n    }\n  },\n  header {\n    links[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    cta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    showSocialLinks\n  },\n  footer {\n    mainContent,\n    email,\n    phone,\n    base,\n    columns[]{\n      _key,\n      title,\n      links[]{\n        _key,\n        label,\n        type,\n        url,\n        openInNewTab,\n        isDisabled,\n        \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n      }\n    }\n  }\n}": LAYOUT_QUERYResult;
     "*[_type == \"siteSettings\"][0]{\n  seo {\n    titleTemplate,\n    defaultOgImage {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    }\n  },\n  analytics {\n    googleTagManagerID\n  }\n}": SITE_SETTINGS_QUERYResult;
   }

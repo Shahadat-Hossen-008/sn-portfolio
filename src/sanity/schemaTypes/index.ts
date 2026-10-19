@@ -16,7 +16,6 @@ import { projectTemplate } from "../entites/project";
 import portableText from "../_root/portableText";
 import { customImage } from "../_root/media";
 import { technologyItem } from "../_root/technology-item";
-import { link } from "../_root/link";
 import technologies from "../buildableSection/technologies";
 import profileContent from "../buildableSection/profileContent";
 import { pageSection } from "../_root/sections";
@@ -89,10 +88,7 @@ const withoutSingletonTemplates = (templates: Template[]): Template[] =>
   );
 
 export const schema = {
-  // `link` is registered first so its `jsonType` is resolved before other
-  // types (e.g. `portableText`, `project`) that reference it as an annotation
-  // or field type are validated.
-  types: [link, ...globalSchemas, ...entities, ...hoistedObjects, ...fixedPages, ...miscellaneous],
+  types: [...globalSchemas, ...entities, ...hoistedObjects, ...fixedPages, ...miscellaneous],
   templates: withoutSingletonTemplates,
 };
 

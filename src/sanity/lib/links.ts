@@ -1,27 +1,35 @@
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { resolveRoute } from "./routes";
 
-import { anchorHref, resolveRoute } from "./routes";
+/** The supported link kinds shared by Studio schemas and frontend utilities. */
+export const LINK_TYPES = ["internal", "external"] as const;
+
+export type LinkType = (typeof LINK_TYPES)[number];
+
+export const LINK_TYPE_LABELS: Record<LinkType, string> = {
+  internal: "Internal page",
+  external: "External URL",
+};
 
 /**
- * A `link` exactly as `SITE_SETTINGS_QUERY` projects it.
+ * A Sanity link object as projected by the frontend queries.
  *
  * `reference` is intentionally narrow: GROQ never returns the referenced
  * document, only enough of it (`_type` + `slug`) for `resolveRoute` to decide
  * whether a real path exists.
  */
-export type SanityNavLink = {
+export type SanityLink = {
   _key?: string | null;
   label?: string | null;
-  type?: string | null;
+  type?: LinkType | null;
+  /** `null` is expected for internal links; external URLs are validated when resolved. */
   url?: string | null;
   openInNewTab?: boolean | null;
   isDisabled?: boolean | null;
   reference?: { _type?: string | null; slug?: string | null } | null;
 };
 
-export type ResolvedNavLink = SanityNavLink & {
-  /** `null` when the link cannot be resolved — the caller skips rendering it. */
-  href: string | null;
+export type ResolvedNavLink = SanityLink & {
+  href: string;
   external: boolean;
 };
 
@@ -34,7 +42,7 @@ export function isExternalHref(href: string): boolean {
  * Normalises a CMS-authored external URL.
  *
  * Sanity's `string` type (rather than `url`) is used for social links and for
- * `link.url` so `mailto:` / `tel:` and anchor fragments survive validation. A
+ * `link.url` so `mailto:` / `tel:` survive validation. A
  * bare host like `github.com/me` is upgraded to `https://github.com/me`.
  *
  * Anything that cannot be parsed — including values that contain whitespace or
@@ -80,18 +88,14 @@ export function normalizeExternalUrl(
  * Returns `null` — never a guessed path — when:
  *   - an internal reference points at a document type with no route, or at a
  *     `blogPost` that has no slug yet,
- *   - an anchor is blank,
  *   - an external URL does not parse.
  */
-export function resolveNavHref(link: SanityNavLink | null | undefined): string | null {
+export function resolveLink(link: SanityLink | null | undefined): string | null {
   if (!link) return null;
 
   switch (link.type) {
     case "internal":
       return resolveRoute(link.reference?._type, link.reference?.slug);
-
-    case "anchor":
-      return anchorHref(link.url);
 
     case "external":
       return normalizeExternalUrl(link.url);
@@ -107,35 +111,3 @@ export function resolveNavHref(link: SanityNavLink | null | undefined): string |
  * Unresolvable entries are dropped rather than rendered as dead `href`s, so a
  * half-configured `siteSettings` degrades to a shorter (but correct) nav.
  */
-export function resolveNavLinks(
-  links: readonly SanityNavLink[] | null | undefined,
-): ResolvedNavLink[] {
-  if (!links?.length) return [];
-
-  return links
-    .map((link) => {
-      const href = resolveNavHref(link);
-
-      return {
-        ...link,
-        href,
-        external: href ? isExternalHref(href) : false,
-      };
-    })
-    .filter((link): link is ResolvedNavLink => Boolean(link.href));
-}
-
-/** Social links are `string` in the schema, so they go through the same rules. */
-export function resolveSocialHref(url: string | null | undefined): string | null {
-  return normalizeExternalUrl(url);
-}
-
-export type SanityImageRef = {
-  imageFile?: (SanityImageSource & { asset?: unknown }) | null;
-  altText?: string | null;
-} | null;
-
-/** `true` when the object carries a usable Sanity image asset reference. */
-export function hasSanityImage(image: SanityImageRef | undefined): boolean {
-  return Boolean(image?.imageFile);
-}

@@ -38,15 +38,6 @@ export const INTERNAL_REFERENCE_TYPES = Object.keys(
 ) as RoutedType[];
 
 /**
- * Homepage sections that may be targeted by an anchor link. Only these
- * fragments are approved; anything else resolves to `null` so editors cannot
- * create dead fragment links.
- */
-export const HOMEPAGE_SECTIONS = ["about", "projects", "contact"] as const;
-
-export type HomepageSection = (typeof HOMEPAGE_SECTIONS)[number];
-
-/**
  * Resolves a CMS document reference to a frontend path.
  *
  * Returns `null` (never a guessed URL) when the document type is unknown, has
@@ -66,40 +57,6 @@ export function resolveRoute(
   if (!resolver) return null;
 
   return resolver(slug);
-}
-
-/**
- * Homepage-anchor model.
- *
- * Editors write `#about` because that is what they see in the preview on the
- * homepage, but a bare fragment is a no-op on `/blog`. Anchors are therefore
- * normalised against the site root so they work from every route, and only
- * approved homepage sections are accepted:
- *
- *   `#about`     -> `/#about`
- *   `about`      -> `/#about`  (forgiving: no `#` typed)
- *   `/#about`    -> `/#about`
- *   `#`          -> `/`        (bare root anchor)
- *   `/blog`      -> `/blog`    (absolute route, no fragment)
- *   `#nope`      -> `null`     (not an approved section)
- */
-export function anchorHref(anchor: string | null | undefined): string | null {
-  const trimmed = anchor?.trim();
-
-  if (!trimmed) return null;
-  if (trimmed === "#") return "/";
-
-  // Keep safe, same-origin root-relative routes intact.
-  if (trimmed.startsWith("/") && !trimmed.includes("#")) {
-    if (!/^\/(?!\/)[^\s\\'"<>]*$/.test(trimmed)) return null;
-    return trimmed;
-  }
-
-  const fragment = trimmed.replace(/^\/?#/, "");
-
-  if (!HOMEPAGE_SECTIONS.includes(fragment as HomepageSection)) return null;
-
-  return `/#${fragment}`;
 }
 
 /** Absolute URL for metadata / Open Graph, used only on the server. */

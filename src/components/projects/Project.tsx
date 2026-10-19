@@ -9,8 +9,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import LeftIcon from "../../../public/LeftIcon";
 import RightIcon from "../../../public/RightIcon";
 import { urlFor } from "@/sanity/lib/image";
-import { resolveNavHref } from "@/sanity/lib/links";
-import type { SanityNavLink } from "@/sanity/lib/links";
+import { resolveLink } from "@/sanity/lib/links";
+import type { SanityLink } from "@/sanity/lib/links";
 
 export default function Project({ projects }: projectProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
@@ -50,8 +50,8 @@ export default function Project({ projects }: projectProps) {
                     // `projectLink` is a `link` object; legacy bare-string values
                     // and malformed URLs resolve to `null` and are omitted rather
                     // than rendered as a broken href.
-                    const projectHref = resolveNavHref(
-                      project.projectLink as unknown as SanityNavLink,
+                    const projectHref = resolveLink(
+                      project.projectLink as unknown as SanityLink,
                     );
 
                     return (

@@ -1,6 +1,6 @@
 import { urlFor } from "@/sanity/lib/image";
-import { resolveNavHref } from "@/sanity/lib/links";
-import type { SanityNavLink } from "@/sanity/lib/links";
+import { resolveLink } from "@/sanity/lib/links";
+import type { SanityLink } from "@/sanity/lib/links";
 import { YouTube } from "../youTube/YouTube";
 import { PortableTextReactComponents } from "next-sanity";
 import Image from "next/image";
@@ -45,7 +45,7 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
 
   marks: {
     link: ({ value, children }) => {
-      const href = resolveNavHref(value as SanityNavLink);
+      const href = resolveLink(value as SanityLink);
 
       if (!href) {
         return <span>{children}</span>;

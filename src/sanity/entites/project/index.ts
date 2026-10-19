@@ -1,6 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { LinkIcon, ProjectsIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
+import { link } from "@/sanity/_root/link";
 
 export const projectTemplate = defineType({
   name: "project",
@@ -49,13 +50,12 @@ export const projectTemplate = defineType({
             .min(rule.valueOfField("start"))
             .error("End date must be after start date"),
       }),
-      defineField({
-      name: "projectLink",
-      title: "Project Link",
-      icon: LinkIcon,
-      type: "link",
-      validation: (rule) => rule.required(),
-    }),
+      {
+        ...link("projectLink"),
+        title: "Project Link",
+        icon: LinkIcon,
+        validation: (rule) => rule.required(),
+      },
       defineField({
         name: "githubUrl",
         title: "GITHUB URL",

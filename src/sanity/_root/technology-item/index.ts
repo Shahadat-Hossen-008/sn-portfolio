@@ -1,5 +1,6 @@
 import { TagIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
+import { link } from "@/sanity/_root/link";
 
 /**
  * An inline technology entry inside a page-builder technology block
@@ -33,11 +34,7 @@ export const technologyItem = defineType({
       description:
         "Upload the icon image if you want to use an icon for this technology",
     }),
-    defineField({
-      name: "link",
-      title: "Link",
-      type: "link",
-    }),
+    link(),
   ],
   preview: {
     select: {

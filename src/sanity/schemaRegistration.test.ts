@@ -13,10 +13,6 @@ import { schema } from "@/sanity/schemaTypes";
  * resolvable — the failure mode being `Could not resolve jsonType of undefined`.
  */
 describe("schema registration", () => {
-  it("keeps the link schema first so referenced types resolve", () => {
-    expect(schema.types[0]?.name).toBe("link");
-  });
-
   it("compiles with no validation errors", () => {
     expect(() =>
       createSchema({ name: "sn-portfolio", types: schema.types }),

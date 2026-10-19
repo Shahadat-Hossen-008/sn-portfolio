@@ -4,7 +4,9 @@ import Link from "next/link";
 import NavLinkItem from "@/components/navlink/NavLinkItem";
 import SocialLinks from "@/components/social/SocialLinks";
 import { urlFor } from "@/sanity/lib/image";
-import { hasSanityImage, resolveNavLinks } from "@/sanity/lib/links";
+import { isExternalHref, resolveLink } from "@/sanity/lib/links";
+import type { SanityLink } from "@/sanity/lib/links";
+import { hasSanityImage } from "@/sanity/lib/images";
 import type { Layout } from "@/app/types/siteSettingsTypes";
 
 /**
@@ -13,8 +15,7 @@ import type { Layout } from "@/app/types/siteSettingsTypes";
  * Structure mirrors the Studio `layout.footer` object: brand column (logo,
  * pitch, email, phone, socials) + configurable link columns + a base bar.
  *
- * Columns use the same `link` type as the header, so both go through
- * `resolveNavLinks` and neither can render a dead href.
+ * Footer columns filter unresolved links and cannot render a dead href.
  *
  * Renders nothing at all when `layout` does not exist yet, rather than an
  * empty shell.
@@ -28,7 +29,12 @@ export default function Footer({ layout }: { layout: Layout }) {
   const columns = (footer?.columns ?? [])
     .map((column) => ({
       ...column,
-      links: resolveNavLinks(column.links),
+      links: ((column.links ?? []) as SanityLink[]).flatMap((link) => {
+        const href = resolveLink(link);
+        return href
+          ? [{ ...link, href, external: isExternalHref(href) }]
+          : [];
+      }),
     }))
     .filter((column) => column.links.length > 0);
 
@@ -104,7 +110,7 @@ export default function Footer({ layout }: { layout: Layout }) {
           {columns.length > 0 && (
             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {columns.map((column) => (
-                  <nav
+                <nav
                   key={column._key}
                   aria-label={column.title ?? undefined}
                   className="flex flex-col items-start gap-4"

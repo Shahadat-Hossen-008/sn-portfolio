@@ -6,7 +6,12 @@ import { useEffect, useState } from "react";
 import NavLinkItem from "@/components/navlink/NavLinkItem";
 import SocialLinks from "@/components/social/SocialLinks";
 import { urlFor } from "@/sanity/lib/image";
-import { hasSanityImage, resolveNavLinks } from "@/sanity/lib/links";
+import {
+  isExternalHref,
+  resolveLink,
+} from "@/sanity/lib/links";
+import type { ResolvedNavLink } from "@/sanity/lib/links";
+import { hasSanityImage } from "@/sanity/lib/images";
 import type { Layout } from "@/app/types/siteSettingsTypes";
 import HamburgerMenu from "../../../public/icons/HamburgerMenu";
 import CrossIcon from "../../../public/icons/CrossIcon";
@@ -24,8 +29,8 @@ const CTA_CLASS =
  *
  * The same resolved link array feeds the desktop bar and the mobile menu, so
  * the two can never drift apart. Unresolvable links (an internal reference to a
- * document with no route, a blank anchor) are filtered out in
- * `resolveNavLinks` rather than rendered as dead hrefs.
+ * document with no route or a blank URL) are filtered out in
+ * Unresolvable links are filtered rather than rendered as dead hrefs.
  *
  * Renders nothing when the singleton has not been created yet.
  */
@@ -38,8 +43,14 @@ export default function Navbar({ layout }: { layout: Layout }) {
   const header = layout?.header;
 
   const logo = identity?.logo;
-  const navLinks = resolveNavLinks(header?.links);
-  const cta = header?.cta ? resolveNavLinks([header.cta])[0] : undefined;
+  const navLinks = (header?.links ?? []).flatMap((link): ResolvedNavLink[] => {
+    const href = resolveLink(link);
+    return href ? [{ ...link, href, external: isExternalHref(href) }] : [];
+  });
+  const ctaHref = resolveLink(header?.cta);
+  const cta: ResolvedNavLink | undefined = ctaHref
+    ? { ...header?.cta, href: ctaHref, external: isExternalHref(ctaHref) }
+    : undefined;
 
   // Next keeps this component mounted across navigations, so the open mobile
   // menu is closed explicitly on navigation (`closeMenu`) rather than by an

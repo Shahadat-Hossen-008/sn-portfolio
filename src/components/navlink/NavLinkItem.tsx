@@ -14,7 +14,7 @@ type NavLinkItemProps = {
 /**
  * Renders one already-resolved navigation link.
  *
- * Internal links and anchors go through `next/link` for client navigation;
+ * Internal links go through `next/link` for client navigation;
  * external links use a plain anchor so the browser (not the router) decides how
  * to leave the app. `isDisabled` renders the label as text with no href at
  * all — it is never a link that goes nowhere.

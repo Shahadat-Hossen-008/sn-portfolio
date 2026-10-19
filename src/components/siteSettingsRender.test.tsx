@@ -35,8 +35,8 @@ const layout = {
   header: {
     links: [
       { _key: "h", label: "Home", type: "internal", reference: { _type: "myProfilePage", slug: null }, url: null, openInNewTab: null, isDisabled: null },
-      { _key: "a", label: "About", type: "anchor", reference: null, url: "#about", openInNewTab: null, isDisabled: null },
-      { _key: "c", label: "Contact", type: "anchor", reference: null, url: "#contact", openInNewTab: null, isDisabled: true },
+      { _key: "a", label: "About", type: "external", reference: null, url: "https://mysite.com/about", openInNewTab: null, isDisabled: null },
+      { _key: "c", label: "Contact", type: "external", reference: null, url: "https://mysite.com/contact", openInNewTab: null, isDisabled: true },
       { _key: "b", label: "Blog post", type: "internal", reference: { _type: "blogPost", slug: "ratemate" }, url: null, openInNewTab: null, isDisabled: null },
       { _key: "n", label: "Nowhere", type: "internal", reference: { _type: "aboutPage", slug: "about" }, url: null, openInNewTab: null, isDisabled: null },
       { _key: "g", label: "GitHub", type: "external", reference: null, url: "https://github.com/x", openInNewTab: true, isDisabled: null },
@@ -77,21 +77,21 @@ describe("Navbar", () => {
     expect(html).toContain('alt="Shahadat&#x27;s personal logo"');
   });
 
-  it("resolves each link type to the right href", () => {
+  it("resolves internal and external links to the right href", () => {
     expect(html).toContain('href="/"');
-    expect(html).toContain('href="/#about"');
+    expect(html).toContain('href="https://mysite.com/about"');
     expect(html).toContain('href="/blog/ratemate"');
     expect(html).toContain('href="https://github.com/x"');
   });
 
   it("drops links whose internal reference has no route", () => {
     expect(html).not.toContain("Nowhere");
-    expect(html).not.toContain("/about");
+    expect(html).not.toContain('href="/about"');
   });
 
   it("renders a disabled entry as text, never as a link", () => {
     expect(html).toContain("Contact");
-    expect(html).not.toContain('href="/#contact"');
+    expect(html).not.toContain('href="https://mysite.com/contact"');
   });
 
   it("renders the CTA with rel protection when it opens a new tab", () => {

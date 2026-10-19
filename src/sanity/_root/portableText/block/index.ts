@@ -1,4 +1,5 @@
 import { HeadingComponent } from "./renderComponents";
+import { link } from "@/sanity/_root/link";
 
 export const block = {
   name: "block",
@@ -54,12 +55,6 @@ export const block = {
         value: "underline",
       },
     ],
-    annotations: [
-      {
-        name: "linkUrl",
-        type: "link",
-        title: "Link URL",
-      },
-    ],
+    annotations: [link("linkUrl")],
   },
 };
