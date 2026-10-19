@@ -41,14 +41,6 @@ const layout = {
       { _key: "n", label: "Nowhere", type: "internal", reference: { _type: "aboutPage", slug: "about" }, url: null, openInNewTab: null, isDisabled: null },
       { _key: "g", label: "GitHub", type: "external", reference: null, url: "https://github.com/x", openInNewTab: true, isDisabled: null },
     ],
-    cta: {
-      label: "Download CV",
-      type: "external",
-      reference: null,
-      url: "https://example.com/cv.pdf",
-      openInNewTab: true,
-      isDisabled: false,
-    },
     showSocialLinks: true,
   },
   footer: {
@@ -58,14 +50,23 @@ const layout = {
     base: "© 2026 Shahadat",
     columns: [
       {
-        _key: "c1",
-        title: "Elsewhere",
-        links: [
-          { _key: "l1", label: "GitHub", type: "external", reference: null, url: "github.com/me", openInNewTab: null, isDisabled: null },
-          { _key: "l2", label: "Dead", type: "internal", reference: { _type: "projectPage" }, url: null, openInNewTab: null, isDisabled: null },
-        ],
+        _key: "l1",
+        label: "GitHub",
+        type: "external",
+        reference: null,
+        url: "github.com/me",
+        openInNewTab: null,
+        isDisabled: null,
       },
-      { _key: "c2", title: "Empty", links: [] },
+      {
+        _key: "l2",
+        label: "Dead",
+        type: "internal",
+        reference: { _type: "projectPage" },
+        url: null,
+        openInNewTab: null,
+        isDisabled: null,
+      },
     ],
   },
 } as unknown as Layout;
@@ -94,10 +95,8 @@ describe("Navbar", () => {
     expect(html).not.toContain('href="https://mysite.com/contact"');
   });
 
-  it("renders the CTA with rel protection when it opens a new tab", () => {
-    expect(html).toContain("Download CV");
-    expect(html).toContain('href="https://example.com/cv.pdf"');
-    expect(html).toContain('rel="noopener noreferrer"');
+  it("does not render a CTA that is not part of the Studio layout schema", () => {
+    expect(html).not.toContain("Download CV");
   });
 
   it("shows only resolvable social links and blocks non-link schemes", () => {
@@ -121,11 +120,10 @@ describe("Footer", () => {
     expect(html).toContain("© 2026 Shahadat");
   });
 
-  it("resolves column links and drops empty columns and dead links", () => {
-    expect(html).toContain("Elsewhere");
+  it("resolves footer links and drops unresolved entries", () => {
+    expect(html).toContain("Links");
     expect(html).toContain('href="https://github.com/me"');
     expect(html).not.toContain("Dead");
-    expect(html).not.toContain("Empty");
   });
 
   it("renders nothing when the singleton is missing", () => {

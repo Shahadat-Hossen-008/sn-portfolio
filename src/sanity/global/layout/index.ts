@@ -1,4 +1,4 @@
-import { FiSettings } from "react-icons/fi";
+import { FiLayout } from "react-icons/fi";
 import {
   defineField,
   defineType,
@@ -25,7 +25,7 @@ export const layout: DocumentDefinition = defineType({
   name: LAYOUT_TYPE,
   title: "Layout",
   type: "document",
-  icon: FiSettings,
+  icon: FiLayout,
   groups: [
     { name: "identity", title: "Identity", icon: FaUserCircle },
     { name: "header", title: "Header", icon: FaBars },
@@ -158,7 +158,10 @@ export const layout: DocumentDefinition = defineType({
           of: [link()],
           validation: (rule) => rule.min(1).warning("Add at least one link."),
         }),
-        link("cta"),
+      defineField({
+        ...link("cta"),
+        title: "CTA",
+      }),
         defineField({
           name: "showSocialLinks",
           title: "Show social links",

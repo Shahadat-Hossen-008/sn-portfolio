@@ -42,7 +42,12 @@ export const pageSection =  defineType({
         },
         {
           name: "sections",
-          of: [ "richTextSection", "technologyCarousel", "technologySection"],
+          of: [
+            "richTextSection",
+            "technologyCarousel",
+            "technologySection",
+            "customImage",
+          ],
         },
       ],
     }

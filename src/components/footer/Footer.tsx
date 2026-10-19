@@ -12,8 +12,8 @@ import type { Layout } from "@/app/types/siteSettingsTypes";
 /**
  * Site-wide footer.
  *
- * Structure mirrors the Studio `layout.footer` object: brand column (logo,
- * pitch, email, phone, socials) + configurable link columns + a base bar.
+ * Structure mirrors the Studio `layout.footer` object: brand content, a
+ * configurable link list, and a base bar.
  *
  * Footer columns filter unresolved links and cannot render a dead href.
  *
@@ -26,17 +26,10 @@ export default function Footer({ layout }: { layout: Layout }) {
 
   if (!identity) return null;
 
-  const columns = (footer?.columns ?? [])
-    .map((column) => ({
-      ...column,
-      links: ((column.links ?? []) as SanityLink[]).flatMap((link) => {
-        const href = resolveLink(link);
-        return href
-          ? [{ ...link, href, external: isExternalHref(href) }]
-          : [];
-      }),
-    }))
-    .filter((column) => column.links.length > 0);
+  const links = ((footer?.columns ?? []) as SanityLink[]).flatMap((link) => {
+    const href = resolveLink(link);
+    return href ? [{ ...link, href, external: isExternalHref(href) }] : [];
+  });
 
   const hasBrand =
     hasSanityImage(identity.logo) ||
@@ -45,7 +38,7 @@ export default function Footer({ layout }: { layout: Layout }) {
     Boolean(footer?.phone) ||
     Boolean(identity.socialLinks?.length);
 
-  if (!hasBrand && columns.length === 0 && !footer?.base) return null;
+  if (!hasBrand && links.length === 0 && !footer?.base) return null;
 
   return (
     <footer className="border-t border-white/10 bg-black">
@@ -107,30 +100,25 @@ export default function Footer({ layout }: { layout: Layout }) {
             </div>
           )}
 
-          {columns.length > 0 && (
-            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-              {columns.map((column) => (
-                <nav
-                  key={column._key}
-                  aria-label={column.title ?? undefined}
-                  className="flex flex-col items-start gap-4"
-                >
-                  <h3 className="text-sm uppercase tracking-[0.14em] text-white/50">
-                    {column.title}
-                  </h3>
-                  <ul className="flex flex-col gap-3">
-                    {column.links.map((link) => (
-                      <li key={link._key ?? link.label}>
-                        <NavLinkItem
-                          link={link}
-                          className="text-white/80 transition-colors duration-300 hover:text-primary"
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              ))}
-            </div>
+          {links.length > 0 && (
+            <nav
+              aria-label="Footer links"
+              className="flex flex-col items-start gap-4"
+            >
+              <h3 className="text-sm uppercase tracking-[0.14em] text-white/50">
+                Links
+              </h3>
+              <ul className="flex flex-col gap-3">
+                {links.map((link) => (
+                  <li key={link._key ?? link.label}>
+                    <NavLinkItem
+                      link={link}
+                      className="text-white/80 transition-colors duration-300 hover:text-primary"
+                    />
+                  </li>
+                ))}
+              </ul>
+            </nav>
           )}
         </div>
 

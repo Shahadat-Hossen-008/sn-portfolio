@@ -11,7 +11,7 @@ import {
   SITE_SETTINGS_QUERY,
   SINGLE_BLOG_POST_QUERY,
 } from "@/sanity/lib/queries";
-import { format, parseISO } from "date-fns";
+import { formatDate } from "@/sanity/lib/formatDate";
 import { PortableText } from "next-sanity";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -69,9 +69,9 @@ export default async function page({ params }: BlogPostPageProps) {
         Back to Blogs
       </Link>
       <h2 className="text-2xl lg:text-5xl font-bold py-5">{blog.blogTitle}</h2>
-      {blog.publishedAt && (
+      {formatDate(blog.publishedAt) && (
         <p className="text-gray-300 text-sm pb-6">
-          {format(parseISO(blog.publishedAt), "LLL d, yyyy")}
+          {formatDate(blog.publishedAt)}
         </p>
       )}
       {blog.mainImage?.imageFile && (

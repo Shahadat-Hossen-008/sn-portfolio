@@ -24,10 +24,10 @@ import carouselTech from "../buildableSection/carouselTech";
 // pages
 import { profile } from "../pages/profilePage";
 import { about } from "../pages/aboutPage";
-import { blogTag } from "../miscellaneous/blog-tag";
+import { blogTag } from "../miscellaneous/blogTag";
 import { project } from "../pages/projectPage";
 // miscellaneous
-import { techTag } from "../miscellaneous/tech-tag";
+import { techTag } from "../miscellaneous/techTag";
 
 /**
  * Singletons. Rendered at the very top of the Studio sidebar, pinned by

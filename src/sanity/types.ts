@@ -161,7 +161,24 @@ export type TechnologyItem = {
   _type: "technologyItem";
   title: string;
   icon?: CustomImage;
-  link?: Link;
+  link?: {
+    label: string;
+    type: "internal" | "external";
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "myProfilePage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    };
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+  };
 };
 
 export type PortableText = Array<{
@@ -174,8 +191,25 @@ export type PortableText = Array<{
   style?: "normal" | "h1" | "h2" | "h3" | "blockquote";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
+    label: string;
+    type: "internal" | "external";
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "myProfilePage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    };
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+    _type: "linkUrl";
     _key: string;
-  } & Link>;
+  }>;
   level?: number;
   _type: "block";
   _key: string;
@@ -200,7 +234,24 @@ export type Project = {
   projectDescription?: PortableText;
   start?: string;
   end: string;
-  projectLink: Link;
+  projectLink: {
+    label: string;
+    type: "internal" | "external";
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "myProfilePage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    };
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+  };
   githubUrl: string;
   stack?: Array<{
     _ref: string;
@@ -210,26 +261,6 @@ export type Project = {
     [internalGroqTypeReferenceTo]?: "techTag";
   }>;
   date?: string;
-};
-
-export type Link = {
-  _type: "link";
-  label: string;
-  type: "internal" | "external";
-  reference?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "myProfilePage";
-  } | {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "blogPost";
-  };
-  url?: string;
-  openInNewTab?: boolean;
-  isDisabled?: boolean;
 };
 
 export type Layout = {
@@ -264,9 +295,43 @@ export type Layout = {
   };
   header?: {
     links?: Array<{
+      label: string;
+      type: "internal" | "external";
+      reference?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "myProfilePage";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "blogPost";
+      };
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "link";
       _key: string;
-    } & Link>;
-    cta?: Link;
+    }>;
+    ctaLink?: {
+      label: string;
+      type: "internal" | "external";
+      reference?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "myProfilePage";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "blogPost";
+      };
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+    };
     showSocialLinks?: boolean;
   };
   footer?: {
@@ -274,86 +339,27 @@ export type Layout = {
     email?: string;
     phone?: string;
     columns?: Array<{
+      label: string;
+      type: "internal" | "external";
+      reference?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "myProfilePage";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "blogPost";
+      };
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "link";
       _key: string;
-    } & Link>;
+    }>;
     base?: string;
   };
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type SiteSettings = {
-  _id: string;
-  _type: "siteSettings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  seo?: {
-    titleTemplate: string;
-    defaultOgImage?: CustomImage;
-    robots?: {
-      disableIndex?: boolean;
-      disableFollow?: boolean;
-      disableImageIndex?: boolean;
-      disableSnippet?: boolean;
-    };
-  };
-  analytics?: {
-    googleTagManagerID?: string;
-  };
-};
-
-export type BlogPost = {
-  _id: string;
-  _type: "blogPost";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  seo?: {
-    title?: string;
-    description?: string;
-    openGraph?: {
-      title?: string;
-      description?: string;
-      image?: CustomImage;
-    };
-    robots?: {
-      disableIndex?: boolean;
-      disableFollow?: boolean;
-      disableImageIndex?: boolean;
-      disableSnippet?: boolean;
-    };
-    canonicalUrl?: string;
-    redirect?: string;
-    keywords?: Array<string>;
-  };
-  blogTitle: string;
-  slug: Slug;
-  author?: string;
-  publishedAt?: string;
-  mainImage?: CustomImage;
-  blogContent?: PortableText;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "blogTag";
-  }>;
 };
 
 export type MyProfilePage = {
@@ -400,6 +406,45 @@ export type MyProfilePage = {
   };
 };
 
+export type BlogPost = {
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    title?: string;
+    description?: string;
+    openGraph?: {
+      title?: string;
+      description?: string;
+      image?: CustomImage;
+    };
+    robots?: {
+      disableIndex?: boolean;
+      disableFollow?: boolean;
+      disableImageIndex?: boolean;
+      disableSnippet?: boolean;
+    };
+    canonicalUrl?: string;
+    redirect?: string;
+    keywords?: Array<string>;
+  };
+  blogTitle: string;
+  slug: Slug;
+  author?: string;
+  publishedAt?: string;
+  mainImage?: CustomImage;
+  blogContent?: PortableText;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "blogTag";
+  }>;
+};
+
 export type Author = {
   _id: string;
   _type: "author";
@@ -408,6 +453,43 @@ export type Author = {
   _rev: string;
   fullName: string;
   description: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    titleTemplate: string;
+    defaultOgImage?: CustomImage;
+    robots?: {
+      disableIndex?: boolean;
+      disableFollow?: boolean;
+      disableImageIndex?: boolean;
+      disableSnippet?: boolean;
+    };
+  };
+  analytics?: {
+    googleTagManagerID?: string;
+  };
 };
 
 export type Code = {
@@ -514,7 +596,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | ProjectPage | Slug | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | TechnologyItem | PortableText | Project | Link | Layout | SanityImageCrop | SanityImageHotspot | SiteSettings | BlogPost | MyProfilePage | Author | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | ProjectPage | Slug | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | TechnologyItem | PortableText | Project | Layout | MyProfilePage | BlogPost | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
@@ -525,9 +607,69 @@ export type PROFILE_QUERYResult = {
   cvUrl: string | null;
 } | null;
 // Variable: ABOUT_QUERY
-// Query: *[_type == "aboutPage"][0]{  "description": pageSections[_type == "richTextSection"][0].content,  "technologies": pageSections[_type == "technologySection" || _type == "technologyCarousel"].technology[]{"label": title}}
+// Query: *[_type == "aboutPage"][0]{  "description": pageSections[_type == "richTextSection"][0].content[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  "technologies": pageSections[_type == "technologySection" || _type == "technologyCarousel"].technology[]{"label": title}}
 export type ABOUT_QUERYResult = {
-  description: PortableText | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      label: string;
+      type: "external" | "internal";
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "linkUrl";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "customImage";
+    imageFile?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    altText: string;
+    isClickable?: boolean;
+    linkUrl?: string;
+    markDefs: null;
+  } | {
+    url: string;
+    _type: "youtube";
+    _key: string;
+    markDefs: null;
+  }> | null;
   technologies: Array<{
     label: string;
   }> | null;
@@ -540,19 +682,92 @@ export type TECH_QUERYResult = Array<{
   iconImage: CustomImage | null;
 }>;
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project"][]{  _id,  projectDescription,  start,  end,  githubUrl,  projectImage,  projectLink,  projectTitle}
+// Query: *[_type == "project"][]{  _id,  start,  end,  githubUrl,  projectImage,  projectLink{    ...,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  },  projectDescription[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  projectTitle}
 export type PROJECT_QUERYResult = Array<{
   _id: string;
-  projectDescription: PortableText | null;
   start: string | null;
   end: string;
   githubUrl: string;
   projectImage: CustomImage | null;
-  projectLink: Link;
+  projectLink: {
+    label: string;
+    type: "external" | "internal";
+    reference: {
+      _type: "blogPost";
+      slug: string;
+    } | {
+      _type: "myProfilePage";
+      slug: string | null;
+    } | null;
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+  };
+  projectDescription: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      label: string;
+      type: "external" | "internal";
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "linkUrl";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "customImage";
+    imageFile?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    altText: string;
+    isClickable?: boolean;
+    linkUrl?: string;
+    markDefs: null;
+  } | {
+    url: string;
+    _type: "youtube";
+    _key: string;
+    markDefs: null;
+  }> | null;
   projectTitle: string;
 }>;
 // Variable: BLOG_POSTS_QUERY
-// Query: *[_type == "blogPost"]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent}
+// Query: *[_type == "blogPost"]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}}}
 export type BLOG_POSTS_QUERYResult = Array<{
   _id: string;
   _createdAt: string;
@@ -565,10 +780,70 @@ export type BLOG_POSTS_QUERYResult = Array<{
   }> | null;
   author: string | null;
   publishedAt: string | null;
-  blogContent: PortableText | null;
+  blogContent: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      label: string;
+      type: "external" | "internal";
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "linkUrl";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "customImage";
+    imageFile?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    altText: string;
+    isClickable?: boolean;
+    linkUrl?: string;
+    markDefs: null;
+  } | {
+    url: string;
+    _type: "youtube";
+    _key: string;
+    markDefs: null;
+  }> | null;
 }>;
 // Variable: SINGLE_BLOG_POST_QUERY
-// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent,    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  }}
+// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  }}
 export type SINGLE_BLOG_POST_QUERYResult = {
   _id: string;
   _createdAt: string;
@@ -581,7 +856,67 @@ export type SINGLE_BLOG_POST_QUERYResult = {
   }> | null;
   author: string | null;
   publishedAt: string | null;
-  blogContent: PortableText | null;
+  blogContent: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      label: string;
+      type: "external" | "internal";
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "linkUrl";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "customImage";
+    imageFile?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    altText: string;
+    isClickable?: boolean;
+    linkUrl?: string;
+    markDefs: null;
+  } | {
+    url: string;
+    _type: "youtube";
+    _key: string;
+    markDefs: null;
+  }> | null;
   seo: {
     title: string | null;
     description: string | null;
@@ -616,7 +951,7 @@ export type SINGLE_BLOG_POST_QUERYResult = {
   } | null;
 } | null;
 // Variable: LAYOUT_QUERY
-// Query: *[_type == "layout"][0]{  identity {    siteTitle,    siteDescription,    logo {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    favicon {      asset->{_id, url, metadata{dimensions{width, height}}}    },    socialLinks[]{      network,      label,      url    }  },  header {    links[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    cta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    showSocialLinks  },  footer {    mainContent,    email,    phone,    base,    columns[]{      _key,      title,      links[]{        _key,        label,        type,        url,        openInNewTab,        isDisabled,          "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }      }    }  }}
+// Query: *[_type == "layout"][0]{  identity {    siteTitle,    siteDescription,    logo {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    favicon {      asset->{_id, url, metadata{dimensions{width, height}}}    },    socialLinks[]{      network,      label,      url    }  },  header {    links[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    showSocialLinks  },  footer {    mainContent,    email,    phone,    base,    columns[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    }  }}
 export type LAYOUT_QUERYResult = {
   identity: {
     siteTitle: string;
@@ -670,7 +1005,15 @@ export type LAYOUT_QUERYResult = {
         slug: string | null;
       } | null;
     }> | null;
-    cta: {
+    showSocialLinks: boolean | null;
+  } | null;
+  footer: {
+    mainContent: string | null;
+    email: string | null;
+    phone: string | null;
+    base: string | null;
+    columns: Array<{
+      _key: string;
       label: string;
       type: "external" | "internal";
       url: string | null;
@@ -683,18 +1026,6 @@ export type LAYOUT_QUERYResult = {
         _type: "myProfilePage";
         slug: string | null;
       } | null;
-    } | null;
-    showSocialLinks: boolean | null;
-  } | null;
-  footer: {
-    mainContent: string | null;
-    email: string | null;
-    phone: string | null;
-    base: string | null;
-    columns: Array<{
-      _key: string;
-      title: null;
-      links: null;
     }> | null;
   } | null;
 } | null;
@@ -735,12 +1066,12 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"myProfilePage\"][0]{\n  \"fullName\": autherInfo->fullName,\n  \"headline\": autherInfo->description,\n  \"cvUrl\": uploadCV.asset->url\n}": PROFILE_QUERYResult;
-    "*[_type == \"aboutPage\"][0]{\n  \"description\": pageSections[_type == \"richTextSection\"][0].content,\n  \"technologies\": pageSections[_type == \"technologySection\" || _type == \"technologyCarousel\"].technology[]{\"label\": title}\n}": ABOUT_QUERYResult;
+    "*[_type == \"aboutPage\"][0]{\n  \"description\": pageSections[_type == \"richTextSection\"][0].content[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \"technologies\": pageSections[_type == \"technologySection\" || _type == \"technologyCarousel\"].technology[]{\"label\": title}\n}": ABOUT_QUERYResult;
     "*[_type == \"techTag\"][]{\n  _id,\n  label,\n  iconImage\n}": TECH_QUERYResult;
-    "*[_type == \"project\"][]{\n  _id,\n  projectDescription,\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink,\n  projectTitle\n}": PROJECT_QUERYResult;
-    "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent\n}": BLOG_POSTS_QUERYResult;
-    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent,\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
-    "*[_type == \"layout\"][0]{\n  identity {\n    siteTitle,\n    siteDescription,\n    logo {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    favicon {\n      asset->{_id, url, metadata{dimensions{width, height}}}\n    },\n    socialLinks[]{\n      network,\n      label,\n      url\n    }\n  },\n  header {\n    links[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    cta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    showSocialLinks\n  },\n  footer {\n    mainContent,\n    email,\n    phone,\n    base,\n    columns[]{\n      _key,\n      title,\n      links[]{\n        _key,\n        label,\n        type,\n        url,\n        openInNewTab,\n        isDisabled,\n        \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n      }\n    }\n  }\n}": LAYOUT_QUERYResult;
+    "*[_type == \"project\"][]{\n  _id,\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink{\n    ...,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  },\n  projectDescription[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  projectTitle\n}": PROJECT_QUERYResult;
+    "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n}": BLOG_POSTS_QUERYResult;
+    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
+    "*[_type == \"layout\"][0]{\n  identity {\n    siteTitle,\n    siteDescription,\n    logo {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    favicon {\n      asset->{_id, url, metadata{dimensions{width, height}}}\n    },\n    socialLinks[]{\n      network,\n      label,\n      url\n    }\n  },\n  header {\n    links[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    showSocialLinks\n  },\n  footer {\n    mainContent,\n    email,\n    phone,\n    base,\n    columns[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    }\n  }\n}": LAYOUT_QUERYResult;
     "*[_type == \"siteSettings\"][0]{\n  seo {\n    titleTemplate,\n    defaultOgImage {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    }\n  },\n  analytics {\n    googleTagManagerID\n  }\n}": SITE_SETTINGS_QUERYResult;
   }
 }

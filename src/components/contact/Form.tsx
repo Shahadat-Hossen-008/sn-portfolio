@@ -22,13 +22,12 @@ export default function Form() {
       toast.success("Email sent successfully", {
         position: "bottom-right",
       });
+      reset();
     } else {
       toast.error(result.error, {
         position: "bottom-right",
       });
     }
-
-    reset();
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -39,9 +38,13 @@ export default function Form() {
           id="name"
           placeholder="Enter your name"
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          {...register("name", { required: true })}
+          maxLength={100}
+          {...register("name", {
+            required: "Please enter your name.",
+            maxLength: { value: 100, message: "Name must be 100 characters or fewer." },
+          })}
         />
-        {errors.name?.type === "required" && <span className="text-red-500 py-1">{errors.name.message}</span>}
+        {errors.name && <span className="text-red-500 py-1">{errors.name.message}</span>}
       </div>
       <div className="flex flex-col gap-3 pb-5">
         <label htmlFor="email">Email</label>
@@ -49,13 +52,19 @@ export default function Form() {
           type="email"
           id="email"
           placeholder="Enter your email"
+          maxLength={254}
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          {...register("email", { required: true,
-             pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, // Regex for email format
-            message: "Invalid email address",
-          }
-           }, )}
+          {...register("email", {
+            required: "Please enter your email address.",
+            pattern: {
+              value: /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i,
+              message: "Invalid email address.",
+            },
+            maxLength: {
+              value: 254,
+              message: "Email must be 254 characters or fewer.",
+            },
+          })}
         />
         {errors.email && <span className="text-red-500 py-1">{errors.email.message}</span>}
       </div>
@@ -66,7 +75,11 @@ export default function Form() {
           id="subject"
           placeholder="Enter your subject"
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          {...register("subject",  { required: true })}
+          maxLength={150}
+          {...register("subject", {
+            required: "Please enter a subject.",
+            maxLength: { value: 150, message: "Subject must be 150 characters or fewer." },
+          })}
         />
         {errors.subject && <span className="text-red-500 py-1">{errors.subject.message}</span>}
       </div>
@@ -77,8 +90,12 @@ export default function Form() {
           placeholder="Enter your message"
           cols={30}
           rows={10}
+          maxLength={5000}
           className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-          {...register("message",  { required: true })}
+          {...register("message", {
+            required: "Please enter a message.",
+            maxLength: { value: 5000, message: "Message must be 5,000 characters or fewer." },
+          })}
         />
         {errors.message && <span className="text-red-500 py-1">{errors.message.message}</span>}
       </div>

@@ -1,9 +1,9 @@
 import { BlogsProps } from "@/app/types/blogTypes";
 import { urlFor } from "@/sanity/lib/image";
-import { format, parseISO } from "date-fns";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";
+import { formatDate } from "@/sanity/lib/formatDate";
 import { previewPortableTextComponents } from "../previewPortableText/PreviewPortableText";
 
 export default function Blogs({ blogPost }: BlogsProps) {
@@ -35,9 +35,9 @@ export default function Blogs({ blogPost }: BlogsProps) {
 
         <div className="flex-1 flex flex-col gap-4">
           <h2 className="text-2xl font-bold mb-2">{blogTitle || "Untitled"}</h2>
-          {publishedAt && (
+          {formatDate(publishedAt) && (
             <p className="text-gray-300 text-sm">
-              Published on {format(parseISO(publishedAt), "LLL d, yyyy")}
+              Published on {formatDate(publishedAt)}
             </p>
           )}
 
