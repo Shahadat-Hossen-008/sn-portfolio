@@ -181,19 +181,6 @@ export const seo = (args: SeoArgs) => {
         options: { layout: "tags" },
         group: seoGroups.others.name,
       }),
-      defineField({
-        name: "jsonld",
-        title: "JSON-LD",
-        description:
-          "Structured data injected as a `application/ld+json` script. Validate at https://validator.schema.org/",
-        type: "code",
-        group: seoGroups.others.name,
-        options: {
-          language: "json",
-          languageAlternatives: [{ title: "JSON", value: "json" }],
-          withFilename: false,
-        },
-      }),
     ],
     validation: (rule: ObjectRule) =>
       optional ? rule.custom(() => true) : rule.required(),

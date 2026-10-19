@@ -28,8 +28,7 @@ export const SEO_FIELDS_FRAGMENT = /* groq */ `
     },
     canonicalUrl,
     redirect,
-    keywords,
-    jsonld
+    keywords
   }
 `;
 

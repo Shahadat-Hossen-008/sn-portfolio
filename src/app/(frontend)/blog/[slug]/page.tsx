@@ -4,7 +4,6 @@ import { sanityFetch } from "@/sanity/lib/live";
 import {
   buildMetadata,
   getRedirectTarget,
-  parseJsonLd,
   type PageSeo,
 } from "@/sanity/lib/metadata";
 import {
@@ -61,16 +60,8 @@ export default async function page({ params }: BlogPostPageProps) {
 
   if (!blog) notFound();
 
-  const jsonLd = parseJsonLd(blog.seo?.jsonld);
-
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-40 pt-20 pb-4 lg:pb-20 bg-black text-white">
-      {jsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLd }}
-        />
-      )}
       <Link
         href="/blog"
         className="text-black bg-white px-4 py-3 rounded-lg mb-6 inline-block transition duration-300 hover:bg-gray-200"

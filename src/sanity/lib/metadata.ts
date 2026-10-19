@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { urlFor } from "./image";
 import { absoluteUrl, getSiteOrigin } from "./routes";
-import type { SanityImageRef } from "./links";
+import type { SanityImageRef } from "./images";
 
 /** The four switches produced by `seo().robots` and `siteSettings.seo.robots`. */
 export type RobotsFlags = {
@@ -24,7 +24,6 @@ export type PageSeo = {
   canonicalUrl?: string | null;
   redirect?: string | null;
   keywords?: string[] | null;
-  jsonld?: JsonLdInput;
 } | null;
 
 export type BuildMetadataArgs = {
@@ -210,41 +209,6 @@ export function getRedirectTarget(
 
   try {
     return new URL(target).protocol === "https:" ? target : null;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Sanity's `code` field arrives as an object (`{ _type: "code", code }`), not a
- * string. Normalise both shapes so the helper works against the raw document
- * and against a plain string.
- */
-export type JsonLdInput = string | { code?: string | null } | null | undefined;
-
-export function toJsonLdString(raw: JsonLdInput): string | null {
-  if (!raw) return null;
-
-  return typeof raw === "string" ? raw : (raw.code ?? null);
-}
-
-/**
- * Sanitises the JSON-LD authored in the Studio.
- *
- * Returns `null` for anything that is not a parseable object/array so a typo in
- * the editor cannot break hydration or inject markup.
- */
-export function parseJsonLd(raw: JsonLdInput): string | null {
-  const trimmed = toJsonLdString(raw)?.trim();
-
-  if (!trimmed) return null;
-
-  try {
-    const parsed: unknown = JSON.parse(trimmed);
-
-    if (parsed === null || typeof parsed !== "object") return null;
-
-    return JSON.stringify(parsed);
   } catch {
     return null;
   }
