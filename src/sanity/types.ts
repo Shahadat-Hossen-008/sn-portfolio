@@ -51,6 +51,46 @@ export type BlogTag = {
   title: string;
 };
 
+export type BlogPage = {
+  _id: string;
+  _type: "blogPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo: {
+    title: string;
+    slug?: Slug;
+    description: string;
+    openGraph?: {
+      title?: string;
+      description?: string;
+      image?: CustomImage;
+    };
+    robots?: {
+      disableIndex?: boolean;
+      disableFollow?: boolean;
+      disableImageIndex?: boolean;
+      disableSnippet?: boolean;
+    };
+    canonicalUrl?: string;
+    redirect?: string;
+    keywords?: Array<string>;
+  };
+  blogPosts?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "blogPost";
+  }>;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
 export type ProjectPage = {
   _id: string;
   _type: "projectPage";
@@ -83,12 +123,6 @@ export type ProjectPage = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "project";
   }>;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type AboutPage = {
@@ -596,7 +630,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | ProjectPage | Slug | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | TechnologyItem | PortableText | Project | Layout | MyProfilePage | BlogPost | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | BlogPage | Slug | ProjectPage | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | TechnologyItem | PortableText | Project | Layout | MyProfilePage | BlogPost | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY

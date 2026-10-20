@@ -79,4 +79,26 @@ describe("structure()", () => {
     expect(items.filter((item) => item.kind === "divider")).toHaveLength(3);
     expect(items.filter((item) => item.kind === "listItem")).toHaveLength(3);
   });
+
+  it("opens the Blog Page singleton in Pages for assigning blog posts", () => {
+    const pages = items.find((item) => item.v.title === "Pages");
+    const pageItems = pages?.v.child?.v.items ?? [];
+    const blogPage = pageItems.find(
+      (item) => item.v.schemaType === "blogPage",
+    );
+
+    expect(blogPage?.v.id).toBe("blogPage");
+    expect(blogPage?.v.child?.v.documentId).toBe("blogPage");
+  });
+
+  it("keeps blog posts creatable in Entities", () => {
+    const entities = items.find((item) => item.v.title === "Entities");
+    const entityItems = entities?.v.child?.v.items ?? [];
+    const blogPost = entityItems.find(
+      (item) => item.v.schemaType === "blogPost",
+    );
+
+    expect(blogPost).toBeDefined();
+    expect(blogPost?.v.id).toBeUndefined();
+  });
 });

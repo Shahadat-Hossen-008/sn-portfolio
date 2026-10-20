@@ -13,7 +13,14 @@ import { schema, singletonDocumentActions } from "@/sanity/schemaTypes";
  * are stripped.
  */
 describe("singleton registration", () => {
-  const singletonNames = ["siteSettings", "layout", "myProfilePage", "aboutPage", "projectPage"];
+  const singletonNames = [
+    "siteSettings",
+    "layout",
+    "myProfilePage",
+    "aboutPage",
+    "projectPage",
+    "blogPage",
+  ];
 
   it("registers siteSettings and layout exactly once in schema.types", () => {
     for (const name of singletonNames) {
@@ -27,6 +34,7 @@ describe("singleton registration", () => {
       { id: "siteSettings", schemaType: "siteSettings" },
       { id: "layout", schemaType: "layout" },
       { id: "myProfilePage", schemaType: "myProfilePage" },
+      { id: "blogPage", schemaType: "blogPage" },
       { id: "blogPost", schemaType: "blogPost" },
     ] as unknown as Template[];
 
@@ -38,7 +46,14 @@ describe("singletonDocumentActions", () => {
   const actions = (...names: string[]) =>
     names.map((action) => ({ action }) as DocumentActionComponent);
 
-  const singletonNames = ["siteSettings", "layout", "myProfilePage", "aboutPage", "projectPage"];
+  const singletonNames = [
+    "siteSettings",
+    "layout",
+    "myProfilePage",
+    "aboutPage",
+    "projectPage",
+    "blogPage",
+  ];
 
   it.each(singletonNames)("strips delete and duplicate for %s", (schemaType) => {
     const result = singletonDocumentActions(

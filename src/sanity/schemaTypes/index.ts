@@ -26,6 +26,7 @@ import { profile } from "../pages/profilePage";
 import { about } from "../pages/aboutPage";
 import { blogTag } from "../miscellaneous/blogTag";
 import { project } from "../pages/projectPage";
+import { blog } from "../pages/blogPage";
 // miscellaneous
 import { techTag } from "../miscellaneous/techTag";
 
@@ -54,7 +55,7 @@ export const hoistedObjects: SchemaTypeDefinition[] =[
   richText,
   carouselTech,
 ];
-export const fixedPages: DocumentDefinition[] = [profile, about, project];
+export const fixedPages: DocumentDefinition[] = [profile, about, project, blog];
 
 export const miscellaneous = [blogTag, techTag];
 
