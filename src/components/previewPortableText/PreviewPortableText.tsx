@@ -10,7 +10,7 @@ export const previewPortableTextComponents = {
   },
   marks: {
     linkUrl: ({ children }: { children: React.ReactNode }) => {
-      return <span className="text-gray-200">{children}</span>;
+      return <span className="text-muted-foreground">{children}</span>;
     },
   },
 };

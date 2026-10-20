@@ -1,11 +1,115 @@
-@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-display: "Urbanist", sans-serif;
   --breakpoint-3xl: 1920px;
-  --color-primary: #8dff69;
+
+  /* Core palette */
+  --color-limestone: #e2dbc9;
+  --color-forest: #052f21;
+  --color-soft-limestone: #ebe6d8;
+  --color-soft-forest: #0b3d2e;
+  --color-muted-forest: #315143;
+  --color-muted-sage: #b6b9a7;
+  --color-limestone-border: #5d7464;
+  --color-forest-border: #748575;
+  --color-mint: #5eeaa8;
+  --color-lime: #b6f09c;
+
+  /* Default semantic values describe light limestone surfaces. */
+  --color-background: var(--color-limestone);
+  --color-foreground: var(--color-forest);
+  --color-surface: var(--color-soft-limestone);
+  --color-surface-foreground: var(--color-forest);
+  --color-muted: var(--color-soft-limestone);
+  --color-muted-foreground: var(--color-muted-forest);
+  --color-border: var(--color-limestone-border);
+  --color-primary: var(--color-forest);
+  --color-primary-foreground: var(--color-limestone);
+  --color-accent: var(--color-soft-forest);
+  --color-accent-foreground: var(--color-limestone);
+  --color-focus-ring: var(--color-forest);
+
+    /* Type scale (name → text-display, text-title, ...) */
+  --text-display: clamp(2.75rem, 1.6rem + 4.8vw, 4.75rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.02em;
+  --text-heading: clamp(2rem, 1.4rem + 2.2vw, 3rem);
+  --text-heading--line-height: 1.1;
+  --text-heading--letter-spacing: -0.015em;
+  --text-title: 1.875rem;
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.01em;
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.6;
+  --text-button: 1.0625rem;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.08em;
+
+  /* Shape, depth, layout */
+  --radius-panel: 1.75rem;
+  --shadow-button: 0 10px 24px -10px color-mix(in srgb, var(--color-forest) 55%, transparent);
+  --shadow-panel: 0 40px 80px -30px color-mix(in srgb, var(--color-forest) 60%, transparent);
+  --container-page: 75rem;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Fonts reference next/font variables, so they must be inline */
+@theme inline {
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-urbanist), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/* Plain variables: gradients and timing, no utilities needed */
+:root {
+  --glow-strong: color-mix(in srgb, var(--color-mint) 12%, transparent);
+  --glow-soft: color-mix(in srgb, var(--color-mint) 8%, transparent);
+  --duration-reveal: 700ms;
+  --stagger: 80ms;
+
+  --gradient-page:
+    radial-gradient(900px 600px at 0% 0%, color-mix(in srgb, var(--color-forest) 7%, transparent), transparent 60%),
+    linear-gradient(165deg, var(--color-soft-limestone) 0%, var(--color-limestone) 60%);
+  --gradient-button: linear-gradient(135deg, var(--color-soft-forest) 0%, var(--color-forest) 70%);
+  --gradient-panel:
+    radial-gradient(420px 320px at 100% 0%, var(--glow-strong), transparent 70%),
+    radial-gradient(360px 280px at 0% 100%, var(--glow-soft), transparent 70%),
+    linear-gradient(155deg, var(--color-soft-forest) 0%, var(--color-forest) 62%);
+  --gradient-highlight: linear-gradient(90deg, var(--color-mint), var(--color-lime));
+  --gradient-progress: linear-gradient(90deg, var(--color-mint), var(--color-lime));
+  --gradient-fade-line: linear-gradient(180deg, var(--color-forest), transparent);
+}
+
+@utility bg-page-gradient   { background-image: var(--gradient-page); }
+@utility bg-button-gradient { background-image: var(--gradient-button); }
+@utility bg-panel-gradient  { background-image: var(--gradient-panel); }
+@utility bg-progress-gradient { background-image: var(--gradient-progress); }
+@utility bg-fade-line       { background-image: var(--gradient-fade-line); }
+@utility highlight-swipe {
+  background: var(--gradient-highlight) 0 88% / 100% 34% no-repeat;
+}
+
+
+[data-surface="forest"] {
+  color-scheme: dark;
+  --color-background: var(--color-forest);
+  --color-foreground: var(--color-limestone);
+  --color-surface: var(--color-soft-forest);
+  --color-surface-foreground: var(--color-limestone);
+  --color-muted: var(--color-soft-forest);
+  --color-muted-foreground: var(--color-muted-sage);
+  --color-border: var(--color-forest-border);
+  --color-primary: var(--color-mint);
+  --color-primary-foreground: var(--color-forest);
+  --color-accent: var(--color-lime);
+  --color-accent-foreground: var(--color-forest);
+  --color-focus-ring: var(--color-mint);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
 *,
@@ -16,44 +120,69 @@
 
 @layer base {
   html {
-    font-family: var(--font-display);
     scroll-behavior: smooth;
   }
 
-  body {
+  html:has([data-frontend-root]) {
+    background-color: var(--color-background);
+    color-scheme: light;
+  }
+
+  body:has([data-frontend-root]) {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #000000;
-    color: #fff;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    min-height: 100svh;
     overflow-x: hidden;
   }
 
-  a {
-    text-decoration: none;
+  [data-frontend-root] a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  [data-frontend-root] ::selection {
+    background: var(--color-forest);
+    color: var(--color-limestone);
+  }
+
+  [data-frontend-root] [data-surface="forest"] ::selection {
+    background: var(--color-mint);
+    color: var(--color-forest);
+  }
+
+  [data-frontend-root] :focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  [data-frontend-root] ::placeholder {
+    color: var(--color-muted-foreground);
   }
 
   /* Custom Scrollbar */
-  ::-webkit-scrollbar {
+  [data-frontend-root] ::-webkit-scrollbar {
     width: 10px;
   }
 
-  ::-webkit-scrollbar-track {
-    background: #000000;
+  [data-frontend-root] ::-webkit-scrollbar-track {
+    background: var(--color-background);
   }
 
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #8dff69, #6fe047);
+  [data-frontend-root] ::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
     border-radius: 5px;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #a8ff8d, #5bc92e);
+  [data-frontend-root] ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
   }
 
   /* Firefox Scrollbar */
-  * {
+  [data-frontend-root] * {
     scrollbar-width: thin;
-    scrollbar-color: #6fe047 #0a0a0a;
+    scrollbar-color: var(--color-primary) var(--color-background);
   }
 
   /* line clamp */

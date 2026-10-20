@@ -102,9 +102,9 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
         typeof value.language === "string" ? value.language : undefined;
 
       return (
-        <figure className="my-6 overflow-hidden rounded-lg bg-white/5">
+        <figure className="my-6 overflow-hidden rounded-lg bg-foreground/5">
           {filename && (
-            <figcaption className="border-b border-white/10 px-4 py-2 text-sm text-white/60">
+            <figcaption className="border-b border-foreground/10 px-4 py-2 text-sm text-foreground/60">
               {filename}
             </figcaption>
           )}
@@ -129,10 +129,10 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
       <h3 className="text-2xl font-semibold mt-5 mb-2">{children}</h3>
     ),
     normal: ({ children }) => (
-      <p className="text-base leading-7 mb-4 text-gray-300">{children}</p>
+      <p className="text-base leading-7 mb-4 text-muted-foreground">{children}</p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-4 border-primary/40 pl-4 italic text-white/70">
+      <blockquote className="my-6 border-l-4 border-primary/40 pl-4 italic text-foreground/70">
         {children}
       </blockquote>
     ),
@@ -162,10 +162,10 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
 
   list: {
     bullet: ({ children }) => (
-      <ul className="list-disc ml-6 mb-4 text-gray-300">{children}</ul>
+      <ul className="list-disc ml-6 mb-4 text-muted-foreground">{children}</ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal ml-6 mb-4 text-gray-300">{children}</ol>
+      <ol className="list-decimal ml-6 mb-4 text-muted-foreground">{children}</ol>
     ),
   },
 };

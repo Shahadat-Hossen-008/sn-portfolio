@@ -1,11 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import GoogleTagManager from "@/components/analytics/GoogleTagManager";
 import Footer from "@/components/footer/Footer";
 import Navbar from "@/components/navbar/Navbar";
+import Section from "@/components/section/Section";
 import { SanityLive, sanityFetch } from "@/sanity/lib/live";
 import { buildMetadata } from "@/sanity/lib/metadata";
 import { LAYOUT_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+
+export const viewport: Viewport = { themeColor: "#e2dbc9" };
 
 /**
  * Layout for every public route.
@@ -36,12 +39,12 @@ export default async function FrontendLayout({
   ]);
 
   return (
-    <>
+    <Section as="div" data-frontend-root className="font-sans">
       <Navbar layout={layout} />
       <main>{children}</main>
       <Footer layout={layout} />
       <GoogleTagManager id={siteSettings?.analytics?.googleTagManagerID} />
       <SanityLive />
-    </>
+    </Section>
   );
 }

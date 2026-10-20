@@ -10,7 +10,7 @@ export default function RightIcon() {
       <path
         d="m19.75 27-11-11 11-11"
         fill="none"
-        stroke="#fff"
+        stroke="currentColor"
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
