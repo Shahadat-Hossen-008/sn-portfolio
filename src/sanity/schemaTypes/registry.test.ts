@@ -40,6 +40,16 @@ describe("singleton registration", () => {
 
     expect(schema.templates(templates).map((t) => t.id)).toEqual(["blogPost"]);
   });
+
+  it("registers heroSection and mounts it on the profile page", () => {
+    const heroSection = schema.types.find((type) => type.name === "heroSection");
+    const profile = schema.types.find((type) => type.name === "myProfilePage");
+    const fields = profile && "fields" in profile ? profile.fields : undefined;
+    const heroField = fields?.find((field) => field.name === "hero");
+
+    expect(heroSection?.type).toBe("object");
+    expect(heroField?.type).toBe("heroSection");
+  });
 });
 
 describe("singletonDocumentActions", () => {

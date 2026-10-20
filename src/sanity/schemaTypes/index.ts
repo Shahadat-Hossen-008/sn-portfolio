@@ -18,6 +18,7 @@ import { customImage } from "../_root/media";
 import { technologyItem } from "../_root/technology-item";
 import technologies from "../buildableSection/technologies";
 import profileContent from "../buildableSection/profileContent";
+import { heroSection } from "../buildableSection/heroSection";
 import { pageSection } from "../_root/sections";
 import richText from "../buildableSection/richText";
 import carouselTech from "../buildableSection/carouselTech";
@@ -51,6 +52,7 @@ export const hoistedObjects: SchemaTypeDefinition[] =[
 
   // buildable section
   profileContent,
+  heroSection,
   technologies,
   richText,
   carouselTech,

@@ -184,6 +184,62 @@ export type TechnologySection = {
   } & TechnologyItem>;
 };
 
+export type HeroSection = {
+  _type: "heroSection";
+  statusLabel?: string;
+  location?: string;
+  headline: string;
+  headlineAccent?: string;
+  subline?: string;
+  primaryCta?: {
+    label: string;
+    type: "internal" | "external";
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "myProfilePage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    };
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+  };
+  secondaryCta?: {
+    label: string;
+    type: "internal" | "external";
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "myProfilePage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    };
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+  };
+  portrait?: CustomImage;
+  nowBuilding?: {
+    title?: string;
+    progress?: number;
+  };
+  facts?: Array<{
+    label?: string;
+    value?: string;
+    _type: "heroFact";
+    _key: string;
+  }>;
+};
+
 export type ProfileContent = {
   _type: "profileContent";
   content: PortableText;
@@ -427,6 +483,7 @@ export type MyProfilePage = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "author";
   };
+  hero?: HeroSection;
   pageSections?: PageSections;
   uploadCV: {
     asset?: {
@@ -630,15 +687,73 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | BlogPage | Slug | ProjectPage | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | ProfileContent | TechnologyItem | PortableText | Project | Layout | MyProfilePage | BlogPost | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = TechTag | CustomImage | BlogTag | BlogPage | Slug | ProjectPage | AboutPage | PageSections | TechnologyCarousel | RichTextSection | TechnologySection | HeroSection | ProfileContent | TechnologyItem | PortableText | Project | Layout | MyProfilePage | BlogPost | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: PROFILE_QUERY
-// Query: *[_type == "myProfilePage"][0]{  "fullName": autherInfo->fullName,  "headline": autherInfo->description,  "cvUrl": uploadCV.asset->url}
+// Query: *[_type == "myProfilePage"][0]{  "fullName": autherInfo->fullName,  "headline": autherInfo->description,  "cvUrl": uploadCV.asset->url,  hero {    statusLabel,    location,    headline,    headlineAccent,    subline,    primaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    secondaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    portrait {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    nowBuilding { title, progress },    facts[]{ label, value }  }}
 export type PROFILE_QUERYResult = {
   fullName: string | null;
   headline: string | null;
   cvUrl: string | null;
+  hero: {
+    statusLabel: string | null;
+    location: string | null;
+    headline: string;
+    headlineAccent: string | null;
+    subline: string | null;
+    primaryCta: {
+      label: string;
+      type: "external" | "internal";
+      url: string | null;
+      openInNewTab: boolean | null;
+      isDisabled: boolean | null;
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+    } | null;
+    secondaryCta: {
+      label: string;
+      type: "external" | "internal";
+      url: string | null;
+      openInNewTab: boolean | null;
+      isDisabled: boolean | null;
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+    } | null;
+    portrait: {
+      imageFile: {
+        asset: {
+          _id: string;
+          url: string | null;
+          metadata: {
+            dimensions: {
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+      altText: string;
+    } | null;
+    nowBuilding: {
+      title: string | null;
+      progress: number | null;
+    } | null;
+    facts: Array<{
+      label: string | null;
+      value: string | null;
+    }> | null;
+  } | null;
 } | null;
 // Variable: ABOUT_QUERY
 // Query: *[_type == "aboutPage"][0]{  "description": pageSections[_type == "richTextSection"][0].content[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  "technologies": pageSections[_type == "technologySection" || _type == "technologyCarousel"].technology[]{"label": title}}
@@ -1117,7 +1232,7 @@ export type SITE_SETTINGS_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"myProfilePage\"][0]{\n  \"fullName\": autherInfo->fullName,\n  \"headline\": autherInfo->description,\n  \"cvUrl\": uploadCV.asset->url\n}": PROFILE_QUERYResult;
+    "*[_type == \"myProfilePage\"][0]{\n  \"fullName\": autherInfo->fullName,\n  \"headline\": autherInfo->description,\n  \"cvUrl\": uploadCV.asset->url,\n  hero {\n    statusLabel,\n    location,\n    headline,\n    headlineAccent,\n    subline,\n    primaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    secondaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    portrait {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    nowBuilding { title, progress },\n    facts[]{ label, value }\n  }\n}": PROFILE_QUERYResult;
     "*[_type == \"aboutPage\"][0]{\n  \"description\": pageSections[_type == \"richTextSection\"][0].content[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \"technologies\": pageSections[_type == \"technologySection\" || _type == \"technologyCarousel\"].technology[]{\"label\": title}\n}": ABOUT_QUERYResult;
     "*[_type == \"techTag\"][]{\n  _id,\n  label,\n  iconImage\n}": TECH_QUERYResult;
     "*[_type == \"project\"][]{\n  _id,\n  \"projectDescription\": projectDescription[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink,\n  projectTitle\n}": PROJECT_QUERYResult;

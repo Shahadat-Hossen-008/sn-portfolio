@@ -26,6 +26,12 @@ export const profile = defineType({
       group: "content",
     }),
     defineField({
+      name: "hero",
+      title: "Hero",
+      type: "heroSection",
+      group: "content",
+    }),
+    defineField({
       name: "pageSections",
       title: "Page Sections",
       type: "pageSections",
@@ -46,7 +52,6 @@ export const profile = defineType({
   preview: {
     select: {
       title: "autherInfo.fullName",
-      media: "image.imageFile",
     },
   },
 });

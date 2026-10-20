@@ -57,14 +57,45 @@ const PORTABLE_TEXT_PROJECTION = /* groq */ `[]{
  * described in the schema as the "author role" line, which is what the hero
  * renders as its headline.
  *
- * The bio and the portrait are NOT projected: `myProfilePage` has no flat
- * field for them, they live inside `pageSections[_type == "profileContent"]`
- * blocks which have no frontend renderer yet.
+ * Hero content is optional to support the already-published singleton. The
+ * author reference supplies the existing full-name fallback; the author schema
+ * has no image field.
  */
 export const PROFILE_QUERY = defineQuery(`*[_type == "myProfilePage"][0]{
   "fullName": autherInfo->fullName,
   "headline": autherInfo->description,
-  "cvUrl": uploadCV.asset->url
+  "cvUrl": uploadCV.asset->url,
+  hero {
+    statusLabel,
+    location,
+    headline,
+    headlineAccent,
+    subline,
+    primaryCta {
+      label,
+      type,
+      url,
+      openInNewTab,
+      isDisabled,
+      ${LINK_REFERENCE_FRAGMENT}
+    },
+    secondaryCta {
+      label,
+      type,
+      url,
+      openInNewTab,
+      isDisabled,
+      ${LINK_REFERENCE_FRAGMENT}
+    },
+    portrait {
+      imageFile {
+        asset->{_id, url, metadata{dimensions{width, height}}}
+      },
+      altText
+    },
+    nowBuilding { title, progress },
+    facts[]{ label, value }
+  }
 }`);
 
 /**
