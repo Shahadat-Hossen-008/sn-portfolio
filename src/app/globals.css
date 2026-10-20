@@ -93,6 +93,196 @@
   background: var(--gradient-highlight) 0 88% / 100% 34% no-repeat;
 }
 
+/* Hero: the base state is the final, fully visible state. Only the
+   no-preference block below adds motion, so reduced-motion visitors never see
+   hidden content. */
+@property --n {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+
+.status-dot {
+  position: relative;
+}
+
+.hero-fill {
+  width: var(--progress, 0%);
+}
+
+.hero-count::after {
+  content: counter(hero-count) "%";
+  counter-reset: hero-count var(--n, 0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rise {
+    animation: hero-rise 0.8s var(--ease-soft) var(--rise-delay, 0s) both;
+  }
+
+  .hero-rise-eyebrow {
+    --rise-delay: 0.15s;
+  }
+
+  .hero-rise-headline {
+    --rise-delay: 0.28s;
+  }
+
+  .hero-rise-subline {
+    --rise-delay: 0.46s;
+  }
+
+  .hero-rise-actions {
+    --rise-delay: 0.58s;
+  }
+
+  .hero-rise-scroll {
+    --rise-delay: 0.7s;
+  }
+
+  .hero-rise-panel-title {
+    --rise-delay: 0.95s;
+  }
+
+  .hero-rise-facts {
+    --rise-delay: 1.15s;
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .hero-swipe {
+    animation: hero-swipe 0.9s var(--ease-soft) 1s both;
+  }
+
+  @keyframes hero-swipe {
+    from {
+      background-size: 0% 34%;
+    }
+    to {
+      background-size: 100% 34%;
+    }
+  }
+
+  .hero-panel {
+    animation:
+      hero-panel-in 1s var(--ease-soft) 0.3s both,
+      hero-float 9s ease-in-out 1.5s infinite;
+  }
+
+  @keyframes hero-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(44px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes hero-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .hero-fill {
+    animation: hero-fill 1.4s var(--ease-soft) 1.1s both;
+  }
+
+  @keyframes hero-fill {
+    from {
+      width: 0;
+    }
+    to {
+      width: var(--progress, 0%);
+    }
+  }
+
+  .hero-count {
+    animation: hero-count-up 1.4s var(--ease-soft) 1.1s both;
+  }
+
+  @keyframes hero-count-up {
+    from {
+      --n: 0;
+    }
+  }
+
+  .status-dot::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    border-radius: 9999px;
+    background-color: var(--color-primary);
+    animation: status-pulse 2.4s var(--ease-soft) infinite;
+  }
+
+  @keyframes status-pulse {
+    0% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    70%,
+    100% {
+      opacity: 0;
+      transform: scale(2.4);
+    }
+  }
+
+  .hero-drip {
+    animation: hero-drip 2.4s var(--ease-soft) infinite;
+  }
+
+  @keyframes hero-drip {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    15% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(400%);
+    }
+  }
+
+  .hero-button {
+    transition:
+      transform 0.25s var(--ease-soft),
+      box-shadow 0.25s var(--ease-soft);
+  }
+
+  .hero-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .hero-link {
+    transition: text-decoration-thickness 0.25s var(--ease-soft);
+  }
+
+  .hero-link:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
 
 [data-surface="forest"] {
   color-scheme: dark;

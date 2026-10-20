@@ -1,5 +1,6 @@
 import Contact from "@/components/contact/Contact";
 import About from "@/components/about/About";
+import Hero from "@/components/hero/Hero";
 import Profile from "@/components/profile/Profile";
 import Project from "@/components/projects/Project";
 import Technology from "@/components/technology/Technology";
@@ -13,14 +14,25 @@ import {
 } from "@/sanity/lib/queries";
 
 export default async function page() {
-  const { data: profile } = await sanityFetch({ query: PROFILE_QUERY });
-  const { data: projects } = await sanityFetch({ query: PROJECT_QUERY });
-  const { data: about } = await sanityFetch({ query: ABOUT_QUERY });
-  const { data: tech } = await sanityFetch({ query: TECH_QUERY });
+  const [{ data: profile }, { data: projects }, { data: about }, { data: tech }] =
+    await Promise.all([
+      sanityFetch({ query: PROFILE_QUERY }),
+      sanityFetch({ query: PROJECT_QUERY }),
+      sanityFetch({ query: ABOUT_QUERY }),
+      sanityFetch({ query: TECH_QUERY }),
+    ]);
+
+  const hero = profile?.hero;
+  // An unpublished or blank hero keeps the original profile block as fallback.
+  const showHero = Boolean(hero?.headline?.trim());
 
   return (
-    <div className="bg-black ">
-      <Profile profile={profile} />
+    <div className="bg-background ">
+      {showHero && hero ? (
+        <Hero hero={hero} fullName={profile?.fullName} />
+      ) : (
+        <Profile profile={profile} />
+      )}
       <About about={about} />
       <Technology technology={tech} />
       <Project projects={projects} />

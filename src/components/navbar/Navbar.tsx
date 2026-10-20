@@ -17,9 +17,9 @@ import HamburgerMenu from "../../../public/icons/HamburgerMenu";
 import CrossIcon from "../../../public/icons/CrossIcon";
 
 const LINK_CLASS =
-  "text-white hover:text-gray-300 transition-colors duration-300";
+  "text-foreground hover:text-muted-foreground transition-colors duration-300";
 const CTA_CLASS =
-  "bg-white text-[#212121] rounded-full px-6.5 py-3 text-base transition-colors duration-300 hover:bg-gray-200";
+  "bg-limestone text-forest rounded-full px-6.5 py-3 text-base transition-colors duration-300 hover:bg-soft-limestone";
 
 /**
  * Site-wide header.
@@ -73,7 +73,7 @@ export default function Navbar({ layout }: { layout: Layout }) {
     <section className="container mx-auto px-4 sm:px-6 lg:px-20 py-4 lg:py-8 fixed left-0 right-0 top-0 z-100">
       <div
         className="grid grid-cols-2 lg:grid-cols-3
-          items-center border border-white/15 rounded-full p-2 bg-black/30"
+          items-center border border-foreground/15 rounded-full p-2 bg-background/80"
       >
         <div className="grid-cols-1 flex items-center gap-2">
           {hasSanityImage(logo) ? (
@@ -88,7 +88,7 @@ export default function Navbar({ layout }: { layout: Layout }) {
             </Link>
           ) : (
             identity.siteTitle && (
-              <Link href="/" className="text-white font-semibold px-2">
+              <Link href="/" className="text-foreground font-semibold px-2">
                 {identity.siteTitle}
               </Link>
             )
@@ -142,7 +142,7 @@ export default function Navbar({ layout }: { layout: Layout }) {
           </div>
 
           {isMenuOpen && (
-            <div className="absolute top-full right-4 mt-2 w-56 bg-black border border-white/15 rounded-lg shadow-lg py-2 z-50">
+            <div className="absolute top-full right-4 mt-2 w-56 bg-background border border-foreground/15 rounded-lg shadow-lg py-2 z-50">
               <nav
                 className="flex flex-col gap-2"
                 aria-label="Mobile"
@@ -167,7 +167,7 @@ export default function Navbar({ layout }: { layout: Layout }) {
                 {header?.showSocialLinks && (
                   <SocialLinks
                     links={identity.socialLinks}
-                    className="flex items-center gap-5 px-4 pt-3 mt-1 border-t border-white/10"
+                    className="flex items-center gap-5 px-4 pt-3 mt-1 border-t border-foreground/10"
                   />
                 )}
               </nav>

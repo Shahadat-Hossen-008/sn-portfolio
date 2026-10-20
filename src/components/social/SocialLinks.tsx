@@ -84,7 +84,7 @@ export default function SocialLinks({
               rel="noopener noreferrer"
               aria-label={label}
               title={label}
-              className="inline-flex items-center gap-2 text-white/70 transition-colors duration-300 hover:text-primary"
+              className="inline-flex items-center gap-2 text-foreground/70 transition-colors duration-300 hover:text-primary"
             >
               <Icon className="text-lg" />
               {variant === "label" ? (

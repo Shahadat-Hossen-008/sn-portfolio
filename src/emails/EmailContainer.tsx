@@ -18,18 +18,37 @@ export default function EmailContainer({
   return (
     <Html>
       <Tailwind>
-        <Body>
-          <Section className="pb-5 bg-white">
+        <Body style={{ backgroundColor: "#e2dbc9" }}>
+          <Section style={{ backgroundColor: "#e2dbc9", paddingBottom: "20px" }}>
             <Row>
-              <Text className="text-2xl leading-[1.3] font-semibold text-black pb-8">
+              <Text
+                style={{
+                  color: "#052f21",
+                  fontSize: "24px",
+                  lineHeight: 1.3,
+                  fontWeight: 600,
+                  paddingBottom: "32px",
+                }}
+              >
                 <span className="font-bold">Subject:</span> {subject}
               </Text>
-              <Text className="text-base leading-[1.4] text-black p-6 bg-[#ebf2f2] rounded">
+              <Text
+                style={{
+                  color: "#052f21",
+                  fontSize: "16px",
+                  lineHeight: 1.4,
+                  padding: "24px",
+                  backgroundColor: "#ebe6d8",
+                  borderRadius: "4px",
+                }}
+              >
                 {message}
               </Text>
               <br />
               <Hr />
-              <Text className="text-base leading-[1.4] text-black">
+              <Text
+                style={{ color: "#052f21", fontSize: "16px", lineHeight: 1.4 }}
+              >
                 Best,
                 <br />
                 Name :{name}

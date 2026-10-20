@@ -37,7 +37,7 @@ export default function Form() {
           type="text"
           id="name"
           placeholder="Enter your name"
-          className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
+          className="w-full px-3 py-4 bg-foreground/5 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-focus-ring transition-all duration-300"
           maxLength={100}
           {...register("name", {
             required: "Please enter your name.",
@@ -53,7 +53,7 @@ export default function Form() {
           id="email"
           placeholder="Enter your email"
           maxLength={254}
-          className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
+          className="w-full px-3 py-4 bg-foreground/5 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-focus-ring transition-all duration-300"
           {...register("email", {
             required: "Please enter your email address.",
             pattern: {
@@ -74,7 +74,7 @@ export default function Form() {
           type="text"
           id="subject"
           placeholder="Enter your subject"
-          className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
+          className="w-full px-3 py-4 bg-foreground/5 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-focus-ring transition-all duration-300"
           maxLength={150}
           {...register("subject", {
             required: "Please enter a subject.",
@@ -91,7 +91,7 @@ export default function Form() {
           cols={30}
           rows={10}
           maxLength={5000}
-          className="w-full px-3 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
+          className="w-full px-3 py-4 bg-foreground/5 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-focus-ring transition-all duration-300"
           {...register("message", {
             required: "Please enter a message.",
             maxLength: { value: 5000, message: "Message must be 5,000 characters or fewer." },

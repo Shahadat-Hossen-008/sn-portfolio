@@ -9,7 +9,7 @@ export default function Technology({ technology }: Tech) {
     AutoScroll({ stopOnInteraction: false }),
   ]);
   return (
-    <section className="relative py-20 bg-black overflow-hidden">
+    <section className="relative py-20 bg-background overflow-hidden">
       {/* Background gradients */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/3 right-2/5 w-full h-98 bg-primary/20 opacity-20 rounded-full blur-3xl" />

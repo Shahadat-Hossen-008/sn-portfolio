@@ -61,16 +61,16 @@ export default async function page({ params }: BlogPostPageProps) {
   if (!blog) notFound();
 
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-40 pt-20 pb-4 lg:pb-20 bg-black text-white">
+    <section className="container mx-auto px-4 sm:px-6 lg:px-40 pt-20 pb-4 lg:pb-20 bg-background text-foreground">
       <Link
         href="/blog"
-        className="text-black bg-white px-4 py-3 rounded-lg mb-6 inline-block transition duration-300 hover:bg-gray-200"
+        className="text-forest bg-limestone px-4 py-3 rounded-lg mb-6 inline-block transition duration-300 hover:bg-soft-limestone"
       >
         Back to Blogs
       </Link>
       <h2 className="text-2xl lg:text-5xl font-bold py-5">{blog.blogTitle}</h2>
       {formatDate(blog.publishedAt) && (
-        <p className="text-gray-300 text-sm pb-6">
+        <p className="text-muted-foreground text-sm pb-6">
           {formatDate(blog.publishedAt)}
         </p>
       )}

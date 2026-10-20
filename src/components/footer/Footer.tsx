@@ -7,6 +7,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { isExternalHref, resolveLink } from "@/sanity/lib/links";
 import { hasSanityImage } from "@/sanity/lib/images";
 import type { Layout } from "@/app/types/siteSettingsTypes";
+import Section from "@/components/section/Section";
 
 /**
  * Site-wide footer.
@@ -40,7 +41,7 @@ export default function Footer({ layout }: { layout: Layout }) {
   if (!hasBrand && links.length === 0 && !footer?.base) return null;
 
   return (
-    <footer className="border-t border-white/10 bg-black">
+    <Section as="footer" tone="forest" className="border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-20 py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
           {hasBrand && (
@@ -66,13 +67,13 @@ export default function Footer({ layout }: { layout: Layout }) {
               )}
 
               {footer?.mainContent && (
-                <p className="text-white/70 leading-relaxed">
+                <p className="text-foreground/70 leading-relaxed">
                   {footer.mainContent}
                 </p>
               )}
 
               {(footer?.email || footer?.phone) && (
-                <address className="not-italic flex flex-col gap-1 text-white/70">
+                <address className="not-italic flex flex-col gap-1 text-foreground/70">
                   {footer.email && (
                     <a
                       href={`mailto:${footer.email}`}
@@ -104,7 +105,7 @@ export default function Footer({ layout }: { layout: Layout }) {
               aria-label="Footer links"
               className="flex flex-col items-start gap-4"
             >
-              <h3 className="text-sm uppercase tracking-[0.14em] text-white/50">
+              <h3 className="text-sm uppercase tracking-[0.14em] text-foreground/50">
                 Links
               </h3>
               <ul className="flex flex-col gap-3">
@@ -112,7 +113,7 @@ export default function Footer({ layout }: { layout: Layout }) {
                   <li key={link._key ?? link.label}>
                     <NavLinkItem
                       link={link}
-                      className="text-white/80 transition-colors duration-300 hover:text-primary"
+                      className="text-foreground/80 transition-colors duration-300 hover:text-primary"
                     />
                   </li>
                 ))}
@@ -122,11 +123,11 @@ export default function Footer({ layout }: { layout: Layout }) {
         </div>
 
         {footer?.base && (
-          <div className="mt-12 border-t border-white/10 pt-6 text-sm text-white/50">
+          <div className="mt-12 border-t border-foreground/10 pt-6 text-sm text-foreground/50">
             {footer.base}
           </div>
         )}
       </div>
-    </footer>
+    </Section>
   );
 }
