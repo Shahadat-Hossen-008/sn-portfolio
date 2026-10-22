@@ -46,12 +46,17 @@
   --text-label: 0.75rem;
   --text-label--line-height: 1.4;
   --text-label--letter-spacing: 0.08em;
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.4;
 
   /* Shape, depth, layout */
   --radius-panel: 1.75rem;
+  --radius-nested: 1rem;
+  --radius-row: 0.75rem;
   --shadow-button: 0 10px 24px -10px color-mix(in srgb, var(--color-forest) 55%, transparent);
   --shadow-panel: 0 40px 80px -30px color-mix(in srgb, var(--color-forest) 60%, transparent);
   --container-page: 75rem;
+  --breakpoint-bento: 53.75rem;
 
   /* Motion */
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -93,6 +98,77 @@
   background: var(--gradient-highlight) 0 88% / 100% 34% no-repeat;
 }
 
+@layer components {
+  /* Curiosity grid */
+  .bento-tile {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    border-radius: var(--radius-panel);
+    color: var(--color-limestone);
+    --tile-ring: inset 0 0 0 1px color-mix(in srgb, var(--color-limestone) 16%, transparent);
+    --tile-ring-hover: inset 0 0 0 1px color-mix(in srgb, var(--color-mint) 55%, transparent);
+    box-shadow: var(--tile-ring), var(--shadow-panel);
+  }
+
+  [data-tone="flat"] {
+    background: var(--color-forest);
+  }
+
+  [data-tone="forest"] {
+    background: linear-gradient(155deg, var(--color-soft-forest) 0%, var(--color-forest) 72%);
+  }
+
+  [data-tone="glow"] {
+    background: radial-gradient(380px 300px at 100% 100%, var(--glow-strong), transparent 70%), var(--color-soft-forest);
+  }
+
+  [data-tone="cta"] {
+    flex-direction: row;
+    gap: 2rem;
+    background: radial-gradient(420px 320px at 100% 0%, var(--glow-strong), transparent 70%), var(--color-forest);
+  }
+
+  [data-tone="light"] {
+    --tile-ring: inset 0 0 0 1px var(--color-limestone-border);
+    --tile-ring-hover: inset 0 0 0 1px var(--color-forest);
+    color: var(--color-forest);
+    background: var(--color-soft-limestone);
+  }
+
+  .bento-type-item {
+    width: calc(var(--n) * 1ch);
+    opacity: 1;
+  }
+
+  .bento-type-item:nth-child(n + 2) {
+    display: none;
+  }
+
+  .bento-rise--0 { --i: 0; }
+  .bento-rise--1 { --i: 1; }
+  .bento-rise--2 { --i: 2; }
+  .bento-rise--3 { --i: 3; }
+  .bento-rise--4 { --i: 4; }
+  .bento-rise--5 { --i: 5; }
+
+  .lab {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  @media (max-width: 53.749rem) {
+    [data-tone="cta"] {
+      flex-direction: column;
+    }
+  }
+  /* End Curiosity grid */
+}
+
 /* Hero: the base state is the final, fully visible state. Only the
    no-preference block below adds motion, so reduced-motion visitors never see
    hidden content. */
@@ -116,6 +192,80 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .bento-tile {
+    transition: transform 0.4s var(--ease-soft), box-shadow 0.4s;
+  }
+
+  .bento-cta-button {
+    transition: transform 0.25s var(--ease-soft), background-color 0.25s var(--ease-soft);
+  }
+
+  .bento-tile:hover {
+    transform: translateY(-0.25rem);
+  }
+
+  .bento-cta-button:hover {
+    transform: translateY(-0.125rem);
+  }
+
+  .bento-cta-button:hover {
+    background-color: var(--color-lime);
+  }
+
+  .bento-tile:hover {
+    box-shadow: var(--tile-ring-hover), 0 36px 64px -32px color-mix(in srgb, var(--color-forest) 70%, transparent);
+  }
+
+  [data-tone="light"]:hover {
+    box-shadow: var(--tile-ring-hover), 0 30px 56px -32px color-mix(in srgb, var(--color-forest) 45%, transparent);
+  }
+
+  .bento-type-item[data-animated] {
+    display: block;
+    width: 0;
+    opacity: 0;
+    animation: bento-type 12s steps(24, end) infinite both;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes bento-type {
+    0% { width: 0; opacity: 1; }
+    12% { width: calc(var(--n) * 1ch); }
+    28% { width: calc(var(--n) * 1ch); }
+    36% { width: 0; }
+    36.01%, 100% { width: 0; opacity: 0; }
+  }
+
+  .bento-pulse {
+    animation: bento-pulse 2.4s ease-out infinite;
+  }
+
+  @keyframes bento-pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-mint) 40%, transparent); }
+    70%, 100% { box-shadow: 0 0 0 12px transparent; }
+  }
+
+  .bento-swipe {
+    animation: hero-swipe 0.9s var(--ease-soft) both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .bento-rise {
+      animation: bento-rise linear backwards;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i) * 4%) entry calc(40% + var(--i) * 4%);
+    }
+  }
+
+  @keyframes bento-rise {
+    from { opacity: 0; transform: translateY(1.5rem); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .bento-swipe {
+    animation-delay: 0s;
+  }
+
   .hero-rise {
     animation: hero-rise 0.8s var(--ease-soft) var(--rise-delay, 0s) both;
   }

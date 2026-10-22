@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import { isExternalHref } from "@/sanity/lib/links";
 
-export type ButtonVariant = "primary" | "link";
+export type ButtonVariant = "primary" | "link" | "mint";
 
 type ButtonProps = {
   href: string;
@@ -20,6 +20,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
     "inline-flex min-h-11 items-center justify-center rounded-full bg-button-gradient px-6 text-button text-primary-foreground shadow-button hero-button",
   link: "inline-flex min-h-11 items-center text-button text-foreground underline decoration-1 underline-offset-4 hero-link",
+  mint: "bento-cta-button group inline-flex min-h-12 items-center gap-2.5 rounded-full bg-mint px-6.5 py-3.5 font-sans text-button font-semibold leading-[1.2] text-forest no-underline focus-visible:outline-2 focus-visible:outline-mint focus-visible:outline-offset-3",
 };
 
 /**
