@@ -1,4 +1,8 @@
 import { defineQuery } from "next-sanity";
+import { curiositySectionFragment } from "@/sanity/lib/queries/curiosity";
+import { LINK_REFERENCE_FRAGMENT } from "@/sanity/lib/queries/fragments";
+
+export { LINK_REFERENCE_FRAGMENT } from "@/sanity/lib/queries/fragments";
 
 /**
  * Shared projection of the per-document `seo` object.
@@ -40,10 +44,6 @@ export const SEO_FIELDS_FRAGMENT = /* groq */ `
  * then maps `_type` to a route through `ROUTES_BY_TYPE` in
  * `@/sanity/lib/routes` — it does not trust the slug on its own.
  */
-export const LINK_REFERENCE_FRAGMENT = /* groq */ `
-  "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }
-`;
-
 const PORTABLE_TEXT_PROJECTION = /* groq */ `[]{
   ...,
   markDefs[]{..., ${LINK_REFERENCE_FRAGMENT}}
@@ -95,7 +95,16 @@ export const PROFILE_QUERY = defineQuery(`*[_type == "myProfilePage"][0]{
     },
     nowBuilding { title, progress },
     facts[]{ label, value }
-  }
+  },
+  "curiosity": pageSections[_type == "curiositySection"][0]${curiositySectionFragment}
+}`);
+
+/** Three newest projects, used when the curiosity tile has no explicit picks. */
+export const LATEST_PROJECTS_QUERY = defineQuery(`*[_type == "project"] | order(date desc, _createdAt desc)[0...3]{
+  _id,
+  "title": projectTitle,
+  date,
+  "technologies": stack[]->{_id, "name": label}
 }`);
 
 /**

@@ -22,6 +22,7 @@ import { heroSection } from "../buildableSection/heroSection";
 import { pageSection } from "../_root/sections";
 import richText from "../buildableSection/richText";
 import carouselTech from "../buildableSection/carouselTech";
+import { curiositySection } from "../buildableSection/curiosity";
 // pages
 import { profile } from "../pages/profilePage";
 import { about } from "../pages/aboutPage";
@@ -56,6 +57,7 @@ export const hoistedObjects: SchemaTypeDefinition[] =[
   technologies,
   richText,
   carouselTech,
+  curiositySection,
 ];
 export const fixedPages: DocumentDefinition[] = [profile, about, project, blog];
 
