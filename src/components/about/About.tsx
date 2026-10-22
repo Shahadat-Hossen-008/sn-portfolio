@@ -1,6 +1,7 @@
 import { RadialGradientBackground } from "../background/RadialGradientBackground";
 import { aboutProps } from "@/app/types/aboutType";
 import { PortableText } from "next-sanity";
+import { portableTextComponents } from "@/components/portableText/PortableTextComponent";
 
 export default function About({ about }: aboutProps) {
   if (!about) return null;
@@ -17,7 +18,10 @@ export default function About({ about }: aboutProps) {
             <div className="flex flex-col gap-3 pt-5">
               {description && (
                 <div className="text-base text-white/70">
-                  <PortableText value={description} />
+                  <PortableText
+                    value={description}
+                    components={portableTextComponents}
+                  />
                 </div>
               )}
             </div>

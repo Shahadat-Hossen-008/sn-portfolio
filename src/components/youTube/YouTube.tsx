@@ -1,6 +1,7 @@
 "use client";
 
 import { YouTubeProps } from "@/app/types/youTubeTypes";
+import { isSupportedReactPlayerUrl } from "@/sanity/_root/portableText/iframe/videoUrl";
 import ReactPlayer from "react-player";
 
 /**
@@ -12,7 +13,7 @@ function isYouTubeShort(url: string): boolean {
 }
 
 export function YouTube({ url }: YouTubeProps) {
-  if (!url) {
+  if (!isSupportedReactPlayerUrl(url)) {
     return null;
   }
 

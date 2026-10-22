@@ -3,41 +3,78 @@
 import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
 import EmailContainer from "@/emails/EmailContainer";
-import { FormSubmitData } from "@/app/types/formType";
+import { validateContactSubmission } from "./contactValidation";
 
-export async function sendMail(formData: FormSubmitData) {
-  try {
-    const transporter = nodemailer.createTransport({
+let transporter: nodemailer.Transporter | undefined;
+
+function requiredEnvironmentValue(name: string): string {
+  const value = process.env[name]?.trim();
+  if (!value || /[\r\n\0]/.test(value)) {
+    throw new Error(`Missing or invalid environment variable: ${name}`);
+  }
+  return value;
+}
+
+function getTransporter(user: string, password: string): nodemailer.Transporter {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
       service: "gmail",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
-      },
+      auth: { user, pass: password },
       pool: true,
       maxConnections: 1,
       maxMessages: 20,
     });
+  }
+
+  return transporter;
+}
+
+function getSafeErrorCode(error: unknown): string {
+  if (
+    error instanceof Error &&
+    "code" in error &&
+    typeof error.code === "string"
+  ) {
+    return error.code;
+  }
+  return error instanceof Error ? error.name : "UnknownError";
+}
+
+export async function sendMail(formData: unknown) {
+  const validated = validateContactSubmission(formData);
+  if (!validated) {
+    return { success: false, error: "Please enter valid contact details." };
+  }
+
+  try {
+    const user = requiredEnvironmentValue("SMTP_USER");
+    const password = requiredEnvironmentValue("SMTP_PASSWORD");
+    const recipient = requiredEnvironmentValue("MAIL_RECIEVER_ADDRESS");
+    const mailer = getTransporter(user, password);
 
     const emailHtml = await render(
       EmailContainer({
-        name: formData.name,
-        email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
+        name: validated.name,
+        email: validated.email,
+        subject: validated.subject,
+        message: validated.message,
       }),
     );
 
-    await transporter.sendMail({
-      from: `"Website Contact" <${process.env.SMTP_USER}>`,
-      to: process.env.MAIL_RECIEVER_ADDRESS,
-      subject: formData.subject,
-      text: formData.message,
+    await mailer.sendMail({
+      from: `"Website Contact" <${user}>`,
+      to: recipient,
+      subject: `Contact form: ${validated.subject}`,
+      text: validated.message,
       html: emailHtml,
-      replyTo: formData.email,
+      replyTo: validated.email,
     });
 
     return { success: true, error: null };
   } catch (error) {
+    console.error("Contact form email delivery failed", {
+      code: getSafeErrorCode(error),
+    });
     return { success: false, error: "Failed to send email" };
   }
 }

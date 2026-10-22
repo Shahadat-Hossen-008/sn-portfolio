@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "predev": "pnpm run typegen",
     "prebuild": "pnpm run typegen",
     "typegen": "sanity schema extract --enforce-required-fields --path=./src/sanity/extract.json && sanity typegen generate"
@@ -36,7 +38,6 @@
     "react-player": "^3.4.0",
     "react-toastify": "^11.0.5",
     "sanity": "^4.22.0",
-    "sanity-plugin-link-field": "^1.5.1",
     "styled-components": "^6.3.11"
   },
   "devDependencies": {
@@ -51,6 +52,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.5"
   }
 }

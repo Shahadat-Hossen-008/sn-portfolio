@@ -1,6 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { LinkIcon, ProjectsIcon } from "@sanity/icons";
-import { format, parseISO } from "date-fns";
+import { link } from "@/sanity/_root/link";
+import { formatDate } from "@/sanity/lib/formatDate";
 
 export const projectTemplate = defineType({
   name: "project",
@@ -49,16 +50,12 @@ export const projectTemplate = defineType({
             .min(rule.valueOfField("start"))
             .error("End date must be after start date"),
       }),
-      defineField({
-      name: "projectLink",
-      title: "Project Link",
-      icon: LinkIcon,
-      type: "link",
-      validation: (rule) => rule.required(),
-      options:{
-        enableText: true
-      }
-    }),
+      {
+        ...link("projectLink"),
+        title: "Project Link",
+        icon: LinkIcon,
+        validation: (rule) => rule.required(),
+      },
       defineField({
         name: "githubUrl",
         title: "GITHUB URL",
@@ -93,11 +90,10 @@ export const projectTemplate = defineType({
         media: "projectImage.imageFile",
       },
       prepare({ title, date, media }) {
+        const formattedDate = formatDate(date);
         return {
           title,
-          subtitle: date
-            ? `Posted on ${format(parseISO(date), "LLL d, yyyy")}`
-            : "",
+          subtitle: formattedDate ? `Posted on ${formattedDate}` : "",
           media,
         };
       },
