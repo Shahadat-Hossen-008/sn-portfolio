@@ -2,7 +2,7 @@
 
 import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
-import EmailContainer from "@/emails/EmailContainer";
+import { EmailContainer } from "@/emails";
 import { validateContactSubmission } from "./contactValidation";
 
 let transporter: nodemailer.Transporter | undefined;

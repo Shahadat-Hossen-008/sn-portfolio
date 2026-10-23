@@ -1,26 +1,16 @@
-import { portableTextComponents } from "@/components/portableText/PortableTextComponent";
-import { urlFor } from "@/sanity/lib/image";
+import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
+
+import { LAYOUT_QUERY, SITE_SETTINGS_QUERY } from "@/layout/query";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   buildMetadata,
   getRedirectTarget,
   type PageSeo,
 } from "@/sanity/lib/metadata";
-import {
-  LAYOUT_QUERY,
-  SITE_SETTINGS_QUERY,
-  SINGLE_BLOG_POST_QUERY,
-} from "@/sanity/lib/queries";
-import { formatDate } from "@/sanity/lib/formatDate";
-import { PortableText } from "next-sanity";
-import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-
-type BlogPostPageProps = {
-  params: Promise<{ slug: string }>;
-};
+import { BlogDetailsBuilder } from "@/sections/blogs/blog-details/builder";
+import type { IBlogPostPageProps } from "./interface";
+import { SINGLE_BLOG_POST_QUERY } from "./query";
 
 /**
  * Redirect is handled here rather than inside `buildMetadata`, so the
@@ -29,7 +19,7 @@ type BlogPostPageProps = {
  */
 export async function generateMetadata({
   params,
-}: BlogPostPageProps): Promise<Metadata> {
+}: IBlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
 
   const [{ data: blog }, { data: layout }, { data: siteSettings }] =
@@ -51,7 +41,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function page({ params }: BlogPostPageProps) {
+export default async function page({ params }: IBlogPostPageProps) {
   const { slug } = await params;
   const { data: blog } = await sanityFetch({
     query: SINGLE_BLOG_POST_QUERY,
@@ -60,38 +50,5 @@ export default async function page({ params }: BlogPostPageProps) {
 
   if (!blog) notFound();
 
-  return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-40 pt-20 pb-4 lg:pb-20 bg-background text-foreground">
-      <Link
-        href="/blog"
-        className="text-forest bg-limestone px-4 py-3 rounded-lg mb-6 inline-block transition duration-300 hover:bg-soft-limestone"
-      >
-        Back to Blogs
-      </Link>
-      <h2 className="text-2xl lg:text-5xl font-bold py-5">{blog.blogTitle}</h2>
-      {formatDate(blog.publishedAt) && (
-        <p className="text-muted-foreground text-sm pb-6">
-          {formatDate(blog.publishedAt)}
-        </p>
-      )}
-      {blog.mainImage?.imageFile && (
-        <div className="w-full h-full rounded-lg pb-8">
-          <Image
-            src={urlFor(blog.mainImage.imageFile).width(800).height(520).url()}
-            alt={blog.mainImage.altText || blog.blogTitle || "Blog image"}
-            width={800}
-            height={520}
-            className="rounded-lg w-full h-full"
-            unoptimized
-          />
-        </div>
-      )}
-      {blog.blogContent && (
-        <PortableText
-          value={blog.blogContent}
-          components={portableTextComponents}
-        />
-      )}
-    </section>
-  );
+  return <BlogDetailsBuilder blog={blog} />;
 }

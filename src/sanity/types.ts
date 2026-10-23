@@ -757,9 +757,197 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes = BlogTag | BlogPage | CustomImage | Slug | ProjectPage | AboutPage | PageSections | CuriositySection | TechnologyCarousel | RichTextSection | TechnologySection | HeroSection | ProfileContent | TechnologyItem | PortableText | Project | Layout | MyProfilePage | TechTag | BlogPost | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./src/sanity/lib/queries.ts
+// Source: ./src/app/(frontend)/blog/[slug]/query.ts
+// Variable: SINGLE_BLOG_POST_QUERY
+// Query: *[_type == "blogPost" && slug.current == $slug][0]{    _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  "blogContent": blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  }}
+export type SINGLE_BLOG_POST_QUERYResult = {
+  _id: string;
+  _createdAt: string;
+  blogTitle: string;
+  slug: Slug;
+  mainImage: CustomImage | null;
+  categories: Array<{
+    _id: string;
+    title: string;
+  }> | null;
+  author: string | null;
+  publishedAt: string | null;
+  blogContent: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      label: string;
+      type: "external" | "internal";
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "linkUrl";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "customImage";
+    imageFile?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    altText: string;
+    isClickable?: boolean;
+    linkUrl?: string;
+    markDefs: null;
+  } | {
+    url: string;
+    _type: "youtube";
+    _key: string;
+    markDefs: null;
+  }> | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    openGraph: {
+      title: string | null;
+      description: string | null;
+      image: {
+        imageFile: {
+          asset: {
+            _id: string;
+            url: string | null;
+            metadata: {
+              dimensions: {
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+        altText: string;
+      } | null;
+    } | null;
+    robots: {
+      disableIndex: boolean | null;
+      disableFollow: boolean | null;
+      disableImageIndex: boolean | null;
+      disableSnippet: boolean | null;
+    } | null;
+    canonicalUrl: string | null;
+    redirect: string | null;
+    keywords: Array<string> | null;
+  } | null;
+} | null;
+
+// Source: ./src/app/(frontend)/blog/query.ts
+// Variable: BLOG_POSTS_QUERY
+// Query: *[_type == "blogPost"]{    _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  "blogContent": blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}}}
+export type BLOG_POSTS_QUERYResult = Array<{
+  _id: string;
+  _createdAt: string;
+  blogTitle: string;
+  slug: Slug;
+  mainImage: CustomImage | null;
+  categories: Array<{
+    _id: string;
+    title: string;
+  }> | null;
+  author: string | null;
+  publishedAt: string | null;
+  blogContent: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      label: string;
+      type: "external" | "internal";
+      reference: {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | null;
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "linkUrl";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "customImage";
+    imageFile?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    altText: string;
+    isClickable?: boolean;
+    linkUrl?: string;
+    markDefs: null;
+  } | {
+    url: string;
+    _type: "youtube";
+    _key: string;
+    markDefs: null;
+  }> | null;
+}>;
+
+// Source: ./src/app/(frontend)/query.ts
 // Variable: PROFILE_QUERY
-// Query: *[_type == "myProfilePage"][0]{  "fullName": autherInfo->fullName,  "headline": autherInfo->description,  "cvUrl": uploadCV.asset->url,  hero {    statusLabel,    location,    headline,    headlineAccent,    subline,    primaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    secondaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    portrait {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    nowBuilding { title, progress },    facts[]{ label, value }  },  "curiosity": pageSections[_type == "curiositySection"][0]{  eyebrow,  heading,  headingAccent,  intro,  stack {    title,    groups[]{      label,      description,      items[]{ isPrimary, "tech": tech->{ label } }    }  },  learning { title, topics, upNext },  passion { statement },  interests { title, items },  work {    title,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } },    "projects": select(      count(projects) > 0 => projects[]->{        _id,        "title": projectTitle,        "year": string::split(date, "-")[0],        "tech": stack[]->label,        projectLink {          label,          type,          url,          openInNewTab,          isDisabled,            "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }        }      },      *[_type == "project"] | order(date desc, _createdAt desc)[0...3]{        _id,        "title": projectTitle,        "year": string::split(date, "-")[0],        "tech": stack[]->label,        projectLink {          label,          type,          url,          openInNewTab,          isDisabled,            "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }        }      }    )  }}}
+// Query: *[_type == "myProfilePage"][0]{      "fullName": autherInfo->fullName,  "headline": autherInfo->description,  "cvUrl": uploadCV.asset->url,    hero {    statusLabel,    location,    headline,    headlineAccent,    subline,    primaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    secondaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    portrait {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    nowBuilding { title, progress },    facts[]{ label, value }  },    "curiosity": pageSections[_type == "curiositySection"][0]{  eyebrow,  heading,  headingAccent,  intro,  stack {    title,    groups[]{      label,      description,      items[]{ isPrimary, "tech": tech->{ label } }    }  },  learning { title, topics, upNext },  passion { statement },  interests { title, items },  work {    title,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } },    "projects": select(      count(projects) > 0 => projects[]->{        _id,        "title": projectTitle,        "year": string::split(date, "-")[0],        "tech": stack[]->label,        projectLink {          label,          type,          url,          openInNewTab,          isDisabled,            "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }        }      },      *[_type == "project"] | order(date desc, _createdAt desc)[0...3]{        _id,        "title": projectTitle,        "year": string::split(date, "-")[0],        "tech": stack[]->label,        projectLink {          label,          type,          url,          openInNewTab,          isDisabled,            "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }        }      }    )  }}}
 export type PROFILE_QUERYResult = {
   fullName: string | null;
   headline: string | null;
@@ -892,7 +1080,7 @@ export type PROFILE_QUERYResult = {
   } | null;
 } | null;
 // Variable: LATEST_PROJECTS_QUERY
-// Query: *[_type == "project"] | order(date desc, _createdAt desc)[0...3]{  _id,  "title": projectTitle,  date,  "technologies": stack[]->{_id, "name": label}}
+// Query: *[_type == "project"] | order(date desc, _createdAt desc)[0...3]{    _id,  "title": projectTitle,  date,  "technologies": stack[]->{_id, "name": label}}
 export type LATEST_PROJECTS_QUERYResult = Array<{
   _id: string;
   title: string;
@@ -903,7 +1091,7 @@ export type LATEST_PROJECTS_QUERYResult = Array<{
   }> | null;
 }>;
 // Variable: ABOUT_QUERY
-// Query: *[_type == "aboutPage"][0]{  "description": pageSections[_type == "richTextSection"][0].content[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  "technologies": pageSections[_type == "technologySection" || _type == "technologyCarousel"].technology[]{"label": title}}
+// Query: *[_type == "aboutPage"][0]{    "description": pageSections[_type == "richTextSection"][0].content[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  "technologies": pageSections[_type == "technologySection" || _type == "technologyCarousel"].technology[]{"label": title}}
 export type ABOUT_QUERYResult = {
   description: Array<{
     children?: Array<{
@@ -971,14 +1159,14 @@ export type ABOUT_QUERYResult = {
   }> | null;
 } | null;
 // Variable: TECH_QUERY
-// Query: *[_type == "techTag"][]{  _id,  label,  iconImage}
+// Query: *[_type == "techTag"][]{    _id,  label,  iconImage}
 export type TECH_QUERYResult = Array<{
   _id: string;
   label: string;
   iconImage: CustomImage | null;
 }>;
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project"][]{  _id,  "projectDescription": projectDescription[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  start,  end,  githubUrl,  projectImage,  projectLink,  projectTitle}
+// Query: *[_type == "project"][]{    _id,  "projectDescription": projectDescription[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},  start,  end,  githubUrl,  projectImage,  projectLink,  projectTitle}
 export type PROJECT_QUERYResult = Array<{
   _id: string;
   projectDescription: Array<{
@@ -1066,192 +1254,10 @@ export type PROJECT_QUERYResult = Array<{
   };
   projectTitle: string;
 }>;
-// Variable: BLOG_POSTS_QUERY
-// Query: *[_type == "blogPost"]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  "blogContent": blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}}}
-export type BLOG_POSTS_QUERYResult = Array<{
-  _id: string;
-  _createdAt: string;
-  blogTitle: string;
-  slug: Slug;
-  mainImage: CustomImage | null;
-  categories: Array<{
-    _id: string;
-    title: string;
-  }> | null;
-  author: string | null;
-  publishedAt: string | null;
-  blogContent: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs: Array<{
-      label: string;
-      type: "external" | "internal";
-      reference: {
-        _type: "blogPost";
-        slug: string;
-      } | {
-        _type: "myProfilePage";
-        slug: string | null;
-      } | null;
-      url?: string;
-      openInNewTab?: boolean;
-      isDisabled?: boolean;
-      _type: "linkUrl";
-      _key: string;
-    }> | null;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    _key: string;
-    _type: "code";
-    language?: string;
-    filename?: string;
-    code?: string;
-    highlightedLines?: Array<number>;
-    markDefs: null;
-  } | {
-    _key: string;
-    _type: "customImage";
-    imageFile?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    altText: string;
-    isClickable?: boolean;
-    linkUrl?: string;
-    markDefs: null;
-  } | {
-    url: string;
-    _type: "youtube";
-    _key: string;
-    markDefs: null;
-  }> | null;
-}>;
-// Variable: SINGLE_BLOG_POST_QUERY
-// Query: *[_type == "blogPost" && slug.current == $slug][0]{  _id,  _createdAt,  blogTitle,  slug,  mainImage,  categories[]->{_id, title},  author,  publishedAt,  "blogContent": blogContent[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}},    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  }}
-export type SINGLE_BLOG_POST_QUERYResult = {
-  _id: string;
-  _createdAt: string;
-  blogTitle: string;
-  slug: Slug;
-  mainImage: CustomImage | null;
-  categories: Array<{
-    _id: string;
-    title: string;
-  }> | null;
-  author: string | null;
-  publishedAt: string | null;
-  blogContent: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs: Array<{
-      label: string;
-      type: "external" | "internal";
-      reference: {
-        _type: "blogPost";
-        slug: string;
-      } | {
-        _type: "myProfilePage";
-        slug: string | null;
-      } | null;
-      url?: string;
-      openInNewTab?: boolean;
-      isDisabled?: boolean;
-      _type: "linkUrl";
-      _key: string;
-    }> | null;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    _key: string;
-    _type: "code";
-    language?: string;
-    filename?: string;
-    code?: string;
-    highlightedLines?: Array<number>;
-    markDefs: null;
-  } | {
-    _key: string;
-    _type: "customImage";
-    imageFile?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    altText: string;
-    isClickable?: boolean;
-    linkUrl?: string;
-    markDefs: null;
-  } | {
-    url: string;
-    _type: "youtube";
-    _key: string;
-    markDefs: null;
-  }> | null;
-  seo: {
-    title: string | null;
-    description: string | null;
-    openGraph: {
-      title: string | null;
-      description: string | null;
-      image: {
-        imageFile: {
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                width: number;
-                height: number;
-              } | null;
-            } | null;
-          } | null;
-        } | null;
-        altText: string;
-      } | null;
-    } | null;
-    robots: {
-      disableIndex: boolean | null;
-      disableFollow: boolean | null;
-      disableImageIndex: boolean | null;
-      disableSnippet: boolean | null;
-    } | null;
-    canonicalUrl: string | null;
-    redirect: string | null;
-    keywords: Array<string> | null;
-  } | null;
-} | null;
+
+// Source: ./src/layout/query.ts
 // Variable: LAYOUT_QUERY
-// Query: *[_type == "layout"][0]{  identity {    siteTitle,    siteDescription,    logo {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    favicon {      asset->{_id, url, metadata{dimensions{width, height}}}    },    socialLinks[]{      network,      label,      url    }  },  header {    links[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    cta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    showSocialLinks  },  footer {    mainContent,    email,    phone,    base,    columns[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    }  }}
+// Query: *[_type == "layout"][0]{  identity {    siteTitle,    siteDescription,    logo {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}}      },      altText    },    favicon {      asset->{_id, url, metadata{dimensions{width, height}}}    },    socialLinks[]{      network,      label,      url    }  },    header {    links[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    cta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    showSocialLinks  },    footer {    mainContent,    email,    phone,    base,    columns[]{      _key,      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    }  }}
 export type LAYOUT_QUERYResult = {
   identity: {
     siteTitle: string;
@@ -1379,14 +1385,14 @@ export type SITE_SETTINGS_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"myProfilePage\"][0]{\n  \"fullName\": autherInfo->fullName,\n  \"headline\": autherInfo->description,\n  \"cvUrl\": uploadCV.asset->url,\n  hero {\n    statusLabel,\n    location,\n    headline,\n    headlineAccent,\n    subline,\n    primaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    secondaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    portrait {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    nowBuilding { title, progress },\n    facts[]{ label, value }\n  },\n  \"curiosity\": pageSections[_type == \"curiositySection\"][0]{\n  eyebrow,\n  heading,\n  headingAccent,\n  intro,\n  stack {\n    title,\n    groups[]{\n      label,\n      description,\n      items[]{ isPrimary, \"tech\": tech->{ label } }\n    }\n  },\n  learning { title, topics, upNext },\n  passion { statement },\n  interests { title, items },\n  work {\n    title,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n },\n    \"projects\": select(\n      count(projects) > 0 => projects[]->{\n        _id,\n        \"title\": projectTitle,\n        \"year\": string::split(date, \"-\")[0],\n        \"tech\": stack[]->label,\n        projectLink {\n          label,\n          type,\n          url,\n          openInNewTab,\n          isDisabled,\n          \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n        }\n      },\n      *[_type == \"project\"] | order(date desc, _createdAt desc)[0...3]{\n        _id,\n        \"title\": projectTitle,\n        \"year\": string::split(date, \"-\")[0],\n        \"tech\": stack[]->label,\n        projectLink {\n          label,\n          type,\n          url,\n          openInNewTab,\n          isDisabled,\n          \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n        }\n      }\n    )\n  }\n}\n}": PROFILE_QUERYResult;
-    "*[_type == \"project\"] | order(date desc, _createdAt desc)[0...3]{\n  _id,\n  \"title\": projectTitle,\n  date,\n  \"technologies\": stack[]->{_id, \"name\": label}\n}": LATEST_PROJECTS_QUERYResult;
-    "*[_type == \"aboutPage\"][0]{\n  \"description\": pageSections[_type == \"richTextSection\"][0].content[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \"technologies\": pageSections[_type == \"technologySection\" || _type == \"technologyCarousel\"].technology[]{\"label\": title}\n}": ABOUT_QUERYResult;
-    "*[_type == \"techTag\"][]{\n  _id,\n  label,\n  iconImage\n}": TECH_QUERYResult;
-    "*[_type == \"project\"][]{\n  _id,\n  \"projectDescription\": projectDescription[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink,\n  projectTitle\n}": PROJECT_QUERYResult;
-    "*[_type == \"blogPost\"]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  \"blogContent\": blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n}": BLOG_POSTS_QUERYResult;
-    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  \"blogContent\": blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
-    "*[_type == \"layout\"][0]{\n  identity {\n    siteTitle,\n    siteDescription,\n    logo {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    favicon {\n      asset->{_id, url, metadata{dimensions{width, height}}}\n    },\n    socialLinks[]{\n      network,\n      label,\n      url\n    }\n  },\n  header {\n    links[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    cta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    showSocialLinks\n  },\n  footer {\n    mainContent,\n    email,\n    phone,\n    base,\n    columns[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    }\n  }\n}": LAYOUT_QUERYResult;
+    "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  \n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  \"blogContent\": blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n,\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
+    "*[_type == \"blogPost\"]{\n  \n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  \"blogContent\": blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n\n}": BLOG_POSTS_QUERYResult;
+    "*[_type == \"myProfilePage\"][0]{\n  \n  \n  \"fullName\": autherInfo->fullName,\n  \"headline\": autherInfo->description,\n  \"cvUrl\": uploadCV.asset->url\n,\n  \n  hero {\n    statusLabel,\n    location,\n    headline,\n    headlineAccent,\n    subline,\n    primaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    secondaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    portrait {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    nowBuilding { title, progress },\n    facts[]{ label, value }\n  }\n\n,\n  \n  \"curiosity\": pageSections[_type == \"curiositySection\"][0]{\n  eyebrow,\n  heading,\n  headingAccent,\n  intro,\n  stack {\n    title,\n    groups[]{\n      label,\n      description,\n      items[]{ isPrimary, \"tech\": tech->{ label } }\n    }\n  },\n  learning { title, topics, upNext },\n  passion { statement },\n  interests { title, items },\n  work {\n    title,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n },\n    \"projects\": select(\n      count(projects) > 0 => projects[]->{\n        _id,\n        \"title\": projectTitle,\n        \"year\": string::split(date, \"-\")[0],\n        \"tech\": stack[]->label,\n        projectLink {\n          label,\n          type,\n          url,\n          openInNewTab,\n          isDisabled,\n          \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n        }\n      },\n      *[_type == \"project\"] | order(date desc, _createdAt desc)[0...3]{\n        _id,\n        \"title\": projectTitle,\n        \"year\": string::split(date, \"-\")[0],\n        \"tech\": stack[]->label,\n        projectLink {\n          label,\n          type,\n          url,\n          openInNewTab,\n          isDisabled,\n          \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n        }\n      }\n    )\n  }\n}\n\n}": PROFILE_QUERYResult;
+    "*[_type == \"project\"] | order(date desc, _createdAt desc)[0...3]{\n  \n  _id,\n  \"title\": projectTitle,\n  date,\n  \"technologies\": stack[]->{_id, \"name\": label}\n\n}": LATEST_PROJECTS_QUERYResult;
+    "*[_type == \"aboutPage\"][0]{\n  \n  \"description\": pageSections[_type == \"richTextSection\"][0].content[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  \"technologies\": pageSections[_type == \"technologySection\" || _type == \"technologyCarousel\"].technology[]{\"label\": title}\n\n}": ABOUT_QUERYResult;
+    "*[_type == \"techTag\"][]{\n  \n  _id,\n  label,\n  iconImage\n\n}": TECH_QUERYResult;
+    "*[_type == \"project\"][]{\n  \n  _id,\n  \"projectDescription\": projectDescription[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n},\n  start,\n  end,\n  githubUrl,\n  projectImage,\n  projectLink,\n  projectTitle\n\n}": PROJECT_QUERYResult;
+    "*[_type == \"layout\"][0]{\n  identity {\n    siteTitle,\n    siteDescription,\n    logo {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    favicon {\n      asset->{_id, url, metadata{dimensions{width, height}}}\n    },\n    socialLinks[]{\n      network,\n      label,\n      url\n    }\n  },\n  \n  header {\n    links[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    cta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    showSocialLinks\n  }\n,\n  \n  footer {\n    mainContent,\n    email,\n    phone,\n    base,\n    columns[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    }\n  }\n\n}": LAYOUT_QUERYResult;
     "*[_type == \"siteSettings\"][0]{\n  seo {\n    titleTemplate,\n    defaultOgImage {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    }\n  },\n  analytics {\n    googleTagManagerID\n  }\n}": SITE_SETTINGS_QUERYResult;
   }
 }
