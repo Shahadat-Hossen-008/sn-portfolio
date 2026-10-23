@@ -1,5 +1,4 @@
 import { defineField, defineType } from "sanity";
-import { toPlainText } from "@portabletext/react";
 import { seo, seoGroup } from "@/sanity/_root/seo";
 import { SiSanity } from "react-icons/si";
 import { IoDocument } from "react-icons/io5";
@@ -15,18 +14,18 @@ export const project = defineType({
       name: "content",
       title: "Content",
       icon: SiSanity,
-      default: true
-    }
+      default: true,
+    },
   ],
   fields: [
-     seo({group:"seo", slugOptions:{isFixed: true, prefix:"project"}}),
-     defineField({
+    seo({ group: "seo", slugOptions: { isFixed: true, prefix: "project" } }),
+    defineField({
       name: "projects",
       title: "Projects",
-      type:"array",
-      of:[{type:"reference", to:[{type:"project"}]}],
-      group:"content"
-     })
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "project" }] }],
+      group: "content",
+    }),
   ],
   preview: {
     select: {

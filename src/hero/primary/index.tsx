@@ -44,7 +44,7 @@ export function PrimaryHero({
                       ·
                     </span>
                   )}
-                  {location}
+                  [{location}]
                 </span>
               </p>
             )}

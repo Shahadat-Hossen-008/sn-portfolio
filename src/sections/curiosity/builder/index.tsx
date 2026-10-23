@@ -21,9 +21,7 @@ export function CuriositySectionBuilder({
   const headingParts = splitHeadline(heading, data?.headingAccent);
   const eyebrow = data?.eyebrow?.trim() ?? "";
   const eyebrowText =
-    sectionNumber === undefined
-      ? eyebrow
-      : `${String(sectionNumber).padStart(2, "0")} — ${eyebrow}`.trim();
+    sectionNumber === undefined ? eyebrow : ` — ${eyebrow}`.trim();
   const projects = projectRows(data?.work?.projects, latestProjects);
   const intro = data?.intro?.trim() || undefined;
 
