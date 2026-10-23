@@ -1,18 +1,12 @@
-import type {
-  CuriosityData,
-  LatestProjects,
-} from "@/sanity/lib/curiosity";
+import type { LatestProjects } from "@/sanity/lib/curiosity";
+import type { ProfileSection } from "@/sanity/lib/sections";
 
-export interface ISanityCuriosityBlock {
-  _type: "curiositySection";
-  _key?: string;
-  data: CuriosityData;
-  latestProjects: LatestProjects;
-  sectionNumber?: number;
-}
-
-export type ISanitySectionBlock = ISanityCuriosityBlock;
+/** The generated, discriminated block type; no hand-copied shapes. */
+export type ISanitySectionBlock = ProfileSection;
 
 export interface ISectionBuilderProps {
-  sections?: ISanitySectionBlock[];
+  /** `profile.sections`: the editor's ordered page sections. */
+  sections?: ISanitySectionBlock[] | null;
+  /** Fallback rows for the curiosity "work" tile. */
+  latestProjects?: LatestProjects;
 }
