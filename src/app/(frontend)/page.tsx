@@ -34,18 +34,8 @@ export default async function page() {
     <div className="bg-background ">
       <HeroBuilder profile={profile} />
       <SectionBuilder
-        sections={
-          profile?.curiosity
-            ? [
-                {
-                  _type: "curiositySection",
-                  data: profile.curiosity,
-                  latestProjects: latestProjects ?? [],
-                  sectionNumber: 2,
-                },
-              ]
-            : undefined
-        }
+        sections={profile?.sections}
+        latestProjects={latestProjects ?? []}
       />
       <AboutSectionBuilder about={about} />
       <TechnologySectionBuilder technology={tech} />

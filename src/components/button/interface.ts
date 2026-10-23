@@ -11,4 +11,6 @@ export interface IButtonProps {
    * the CMS link, not "is this an off-site URL" — that is detected from `href`.
    */
   external?: boolean;
+  /** Additive, per-usage classes appended after the variant's own classes. */
+  className?: string;
 }

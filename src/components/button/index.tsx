@@ -20,8 +20,11 @@ export function Button({
   variant,
   children,
   external = false,
+  className: extraClassName,
 }: IButtonProps) {
-  const className = VARIANT_CLASSES[variant];
+  const className = extraClassName
+    ? `${VARIANT_CLASSES[variant]} ${extraClassName}`
+    : VARIANT_CLASSES[variant];
   const target = external ? "_blank" : undefined;
   const rel = external ? "noopener noreferrer" : undefined;
 
