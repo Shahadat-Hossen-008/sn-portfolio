@@ -7,6 +7,7 @@ import { splitHeadline } from "@/sanity/lib/hero";
 import { CuriositySection } from "../index";
 import type { ICuriositySectionProps } from "../interface";
 import type { ISanityCuriositySectionProps } from "./interface";
+import { getSectionLabel } from "@/lib/sectionLabel";
 
 export function CuriositySectionBuilder({
   data,
@@ -19,9 +20,7 @@ export function CuriositySectionBuilder({
 
   const layout = getTileLayout(tiles);
   const headingParts = splitHeadline(heading, data?.headingAccent);
-  const eyebrow = data?.eyebrow?.trim() ?? "";
-  const eyebrowText =
-    sectionNumber === undefined ? eyebrow : ` — ${eyebrow}`.trim();
+  const eyebrowText = getSectionLabel(sectionNumber, data?.eyebrow);
   const projects = projectRows(data?.work?.projects, latestProjects);
   const intro = data?.intro?.trim() || undefined;
 

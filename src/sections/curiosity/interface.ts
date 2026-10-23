@@ -6,7 +6,7 @@ import type {
 
 export interface ICuriositySectionProps {
   data: CuriosityData;
-  eyebrowText: string;
+  eyebrowText: string | null;
   headingParts: string[];
   intro?: string;
   tiles: CuriosityTileAvailability;

@@ -30,7 +30,7 @@
   --color-accent-foreground: var(--color-limestone);
   --color-focus-ring: var(--color-forest);
 
-    /* Type scale (name → text-display, text-title, ...) */
+  /* Type scale (name → text-display, text-title, ...) */
   --text-display: clamp(2.75rem, 1.6rem + 4.8vw, 4.75rem);
   --text-display--line-height: 1.04;
   --text-display--letter-spacing: -0.02em;
@@ -53,8 +53,10 @@
   --radius-panel: 1.75rem;
   --radius-nested: 1rem;
   --radius-row: 0.75rem;
-  --shadow-button: 0 10px 24px -10px color-mix(in srgb, var(--color-forest) 55%, transparent);
-  --shadow-panel: 0 40px 80px -30px color-mix(in srgb, var(--color-forest) 60%, transparent);
+  --shadow-button: 0 10px 24px -10px
+    color-mix(in srgb, var(--color-forest) 55%, transparent);
+  --shadow-panel: 0 40px 80px -30px
+    color-mix(in srgb, var(--color-forest) 60%, transparent);
   --container-page: 75rem;
   --breakpoint-bento: 53.75rem;
 
@@ -77,23 +79,65 @@
   --stagger: 80ms;
 
   --gradient-page:
-    radial-gradient(900px 600px at 0% 0%, color-mix(in srgb, var(--color-forest) 7%, transparent), transparent 60%),
-    linear-gradient(165deg, var(--color-soft-limestone) 0%, var(--color-limestone) 60%);
-  --gradient-button: linear-gradient(135deg, var(--color-soft-forest) 0%, var(--color-forest) 70%);
+    radial-gradient(
+      900px 600px at 0% 0%,
+      color-mix(in srgb, var(--color-forest) 7%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(
+      165deg,
+      var(--color-soft-limestone) 0%,
+      var(--color-limestone) 60%
+    );
+  --gradient-button: linear-gradient(
+    135deg,
+    var(--color-soft-forest) 0%,
+    var(--color-forest) 70%
+  );
   --gradient-panel:
-    radial-gradient(420px 320px at 100% 0%, var(--glow-strong), transparent 70%),
+    radial-gradient(
+      420px 320px at 100% 0%,
+      var(--glow-strong),
+      transparent 70%
+    ),
     radial-gradient(360px 280px at 0% 100%, var(--glow-soft), transparent 70%),
-    linear-gradient(155deg, var(--color-soft-forest) 0%, var(--color-forest) 62%);
-  --gradient-highlight: linear-gradient(90deg, var(--color-mint), var(--color-lime));
-  --gradient-progress: linear-gradient(90deg, var(--color-mint), var(--color-lime));
-  --gradient-fade-line: linear-gradient(180deg, var(--color-forest), transparent);
+    linear-gradient(
+      155deg,
+      var(--color-soft-forest) 0%,
+      var(--color-forest) 62%
+    );
+  --gradient-highlight: linear-gradient(
+    90deg,
+    var(--color-mint),
+    var(--color-lime)
+  );
+  --gradient-progress: linear-gradient(
+    90deg,
+    var(--color-mint),
+    var(--color-lime)
+  );
+  --gradient-fade-line: linear-gradient(
+    180deg,
+    var(--color-forest),
+    transparent
+  );
 }
 
-@utility bg-page-gradient   { background-image: var(--gradient-page); }
-@utility bg-button-gradient { background-image: var(--gradient-button); }
-@utility bg-panel-gradient  { background-image: var(--gradient-panel); }
-@utility bg-progress-gradient { background-image: var(--gradient-progress); }
-@utility bg-fade-line       { background-image: var(--gradient-fade-line); }
+@utility bg-page-gradient {
+  background-image: var(--gradient-page);
+}
+@utility bg-button-gradient {
+  background-image: var(--gradient-button);
+}
+@utility bg-panel-gradient {
+  background-image: var(--gradient-panel);
+}
+@utility bg-progress-gradient {
+  background-image: var(--gradient-progress);
+}
+@utility bg-fade-line {
+  background-image: var(--gradient-fade-line);
+}
 @utility highlight-swipe {
   background: var(--gradient-highlight) 0 88% / 100% 34% no-repeat;
 }
@@ -109,8 +153,10 @@
     padding: 2rem;
     border-radius: var(--radius-panel);
     color: var(--color-limestone);
-    --tile-ring: inset 0 0 0 1px color-mix(in srgb, var(--color-limestone) 16%, transparent);
-    --tile-ring-hover: inset 0 0 0 1px color-mix(in srgb, var(--color-mint) 55%, transparent);
+    --tile-ring: inset 0 0 0 1px
+      color-mix(in srgb, var(--color-limestone) 16%, transparent);
+    --tile-ring-hover: inset 0 0 0 1px
+      color-mix(in srgb, var(--color-mint) 55%, transparent);
     box-shadow: var(--tile-ring), var(--shadow-panel);
   }
 
@@ -119,17 +165,33 @@
   }
 
   [data-tone="forest"] {
-    background: linear-gradient(155deg, var(--color-soft-forest) 0%, var(--color-forest) 72%);
+    background: linear-gradient(
+      155deg,
+      var(--color-soft-forest) 0%,
+      var(--color-forest) 72%
+    );
   }
 
   [data-tone="glow"] {
-    background: radial-gradient(380px 300px at 100% 100%, var(--glow-strong), transparent 70%), var(--color-soft-forest);
+    background:
+      radial-gradient(
+        380px 300px at 100% 100%,
+        var(--glow-strong),
+        transparent 70%
+      ),
+      var(--color-soft-forest);
   }
 
   [data-tone="cta"] {
     flex-direction: row;
     gap: 2rem;
-    background: radial-gradient(420px 320px at 100% 0%, var(--glow-strong), transparent 70%), var(--color-forest);
+    background:
+      radial-gradient(
+        420px 320px at 100% 0%,
+        var(--glow-strong),
+        transparent 70%
+      ),
+      var(--color-forest);
   }
 
   [data-tone="light"] {
@@ -148,12 +210,24 @@
     display: none;
   }
 
-  .bento-rise--0 { --i: 0; }
-  .bento-rise--1 { --i: 1; }
-  .bento-rise--2 { --i: 2; }
-  .bento-rise--3 { --i: 3; }
-  .bento-rise--4 { --i: 4; }
-  .bento-rise--5 { --i: 5; }
+  .bento-rise--0 {
+    --i: 0;
+  }
+  .bento-rise--1 {
+    --i: 1;
+  }
+  .bento-rise--2 {
+    --i: 2;
+  }
+  .bento-rise--3 {
+    --i: 3;
+  }
+  .bento-rise--4 {
+    --i: 4;
+  }
+  .bento-rise--5 {
+    --i: 5;
+  }
 
   .lab {
     display: flex;
@@ -193,11 +267,15 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .bento-tile {
-    transition: transform 0.4s var(--ease-soft), box-shadow 0.4s;
+    transition:
+      transform 0.4s var(--ease-soft),
+      box-shadow 0.4s;
   }
 
   .bento-cta-button {
-    transition: transform 0.25s var(--ease-soft), background-color 0.25s var(--ease-soft);
+    transition:
+      transform 0.25s var(--ease-soft),
+      background-color 0.25s var(--ease-soft);
   }
 
   .bento-tile:hover {
@@ -213,11 +291,15 @@
   }
 
   .bento-tile:hover {
-    box-shadow: var(--tile-ring-hover), 0 36px 64px -32px color-mix(in srgb, var(--color-forest) 70%, transparent);
+    box-shadow:
+      var(--tile-ring-hover),
+      0 36px 64px -32px color-mix(in srgb, var(--color-forest) 70%, transparent);
   }
 
   [data-tone="light"]:hover {
-    box-shadow: var(--tile-ring-hover), 0 30px 56px -32px color-mix(in srgb, var(--color-forest) 45%, transparent);
+    box-shadow:
+      var(--tile-ring-hover),
+      0 30px 56px -32px color-mix(in srgb, var(--color-forest) 45%, transparent);
   }
 
   .bento-type-item[data-animated] {
@@ -229,11 +311,24 @@
   }
 
   @keyframes bento-type {
-    0% { width: 0; opacity: 1; }
-    12% { width: calc(var(--n) * 1ch); }
-    28% { width: calc(var(--n) * 1ch); }
-    36% { width: 0; }
-    36.01%, 100% { width: 0; opacity: 0; }
+    0% {
+      width: 0;
+      opacity: 1;
+    }
+    12% {
+      width: calc(var(--n) * 1ch);
+    }
+    28% {
+      width: calc(var(--n) * 1ch);
+    }
+    36% {
+      width: 0;
+    }
+    36.01%,
+    100% {
+      width: 0;
+      opacity: 0;
+    }
   }
 
   .bento-pulse {
@@ -241,8 +336,13 @@
   }
 
   @keyframes bento-pulse {
-    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-mint) 40%, transparent); }
-    70%, 100% { box-shadow: 0 0 0 12px transparent; }
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-mint) 40%, transparent);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 12px transparent;
+    }
   }
 
   .bento-swipe {
@@ -258,8 +358,14 @@
   }
 
   @keyframes bento-rise {
-    from { opacity: 0; transform: translateY(1.5rem); }
-    to { opacity: 1; transform: none; }
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .bento-swipe {
@@ -432,7 +538,6 @@
     text-decoration-thickness: 2px;
   }
 }
-
 
 [data-surface="forest"] {
   color-scheme: dark;

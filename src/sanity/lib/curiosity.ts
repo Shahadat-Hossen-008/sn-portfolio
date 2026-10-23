@@ -1,10 +1,8 @@
-import type {
-  LATEST_PROJECTS_QUERYResult,
-  PROFILE_QUERYResult,
-} from "@/sanity/types";
+import type { LATEST_PROJECTS_QUERYResult } from "@/sanity/types";
 import { resolveLink } from "@/sanity/lib/links";
+import type { ProfileSection } from "@/sanity/lib/sections";
 
-export type CuriosityData = NonNullable<PROFILE_QUERYResult>["curiosity"];
+export type CuriosityData = Extract<ProfileSection, { _type: "curiositySection" }>;
 export type NonNullableCuriosity = NonNullable<CuriosityData>;
 export type LatestProjects = LATEST_PROJECTS_QUERYResult;
 export type LatestProject = LATEST_PROJECTS_QUERYResult[number];
