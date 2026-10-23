@@ -1,45 +1,51 @@
 import { defineArrayMember, defineType } from "sanity";
 
-export const pageSection =  defineType({
+export const pageSection = defineType({
   name: "pageSections",
-  title: "page Sections",
+  title: "Page Sections",
   type: "array",
-  of:[
+  of: [
     defineArrayMember({
-      title: "Profile Content",
-      type:"profileContent"
+      title: "Stack & Curiosity",
+      name: "curiositySection",
+      type: "reference",
+      to: [{ type: "curiositySection" }],
+      validation: (rule) => rule.required().error("Please select a section."),
     }),
     defineArrayMember({
       title: "Rich Text",
-      type:"richTextSection"
-    }),
-    defineArrayMember({
-      title: "Image",
-      type: "customImage"
+      name: "richTextSection",
+      type: "reference",
+      to: [{ type: "richTextSection" }],
+      validation: (rule) => rule.required().error("Please select a section."),
     }),
     defineArrayMember({
       title: "Technology",
-      type: "technologySection"
+      name: "technologySection",
+      type: "reference",
+      to: [{ type: "technologySection" }],
+      validation: (rule) => rule.required().error("Please select a section."),
     }),
     defineArrayMember({
       title: "Carousel Technology",
-      type: "technologyCarousel"
+      name: "technologyCarousel",
+      type: "reference",
+      to: [{ type: "technologyCarousel" }],
+      validation: (rule) => rule.required().error("Please select a section."),
     }),
-    defineArrayMember({ title: "Stack & Curiosity", type: "curiositySection" }),
-
   ],
-  options:{
-    insertMenu:{
+  options: {
+    insertMenu: {
       filter: true,
-      views:[
+      views: [
         {
           name: "grid",
-        }
+        },
       ],
       groups: [
         {
           name: "profile",
-          of: ["profileContent", "curiositySection"],
+          of: ["curiositySection"],
         },
         {
           name: "sections",
@@ -47,10 +53,9 @@ export const pageSection =  defineType({
             "richTextSection",
             "technologyCarousel",
             "technologySection",
-            "customImage",
           ],
         },
       ],
-    }
-  }
-})
+    },
+  },
+});

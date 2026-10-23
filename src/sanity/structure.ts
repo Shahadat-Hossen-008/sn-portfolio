@@ -3,6 +3,7 @@ import entitiesStructure from "./structure/entitiesStructure";
 import layoutStructure from "./structure/layout";
 import miscellaneousStructure from "./structure/miscellaneous";
 import pagesStructure from "./structure/pages";
+import sectionsStructure from "./structure/sections";
 import siteSettingsStructure from "./structure/siteSettings";
 import { StructureBuilder } from "sanity/structure";
 
@@ -14,6 +15,7 @@ export function structure(S: StructureBuilder) {
       layoutStructure(S),
       S.divider(),
       pagesStructure(S),
+      sectionsStructure(S),
       S.divider(),
       entitiesStructure(S),
       S.divider(),

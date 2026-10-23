@@ -16,20 +16,20 @@ import { projectTemplate } from "../entites/project";
 import portableText from "../_root/portableText";
 import { customImage } from "../_root/media";
 import { technologyItem } from "../_root/technology-item";
-import technologies from "../buildableSection/technologies";
-import profileContent from "../buildableSection/profileContent";
 import { heroSection } from "../buildableSection/heroSection";
 import { pageSection } from "../_root/sections";
+// Page Sections
+import technologies from "../buildableSection/technologies";
 import richText from "../buildableSection/richText";
 import carouselTech from "../buildableSection/carouselTech";
 import { curiositySection } from "../buildableSection/curiosity";
-// pages
+// Pages
 import { profile } from "../pages/profilePage";
 import { about } from "../pages/aboutPage";
-import { blogTag } from "../miscellaneous/blogTag";
 import { project } from "../pages/projectPage";
 import { blog } from "../pages/blogPage";
-// miscellaneous
+// Miscellaneous
+import { blogTag } from "../miscellaneous/blogTag";
 import { techTag } from "../miscellaneous/techTag";
 
 /**
@@ -44,21 +44,22 @@ export const entities: DocumentDefinition[] = [
   blogPost,
   projectTemplate,
 ];
-export const hoistedObjects: SchemaTypeDefinition[] =[
+
+export const sections: DocumentDefinition[] = [
+  curiositySection,
+  richText,
+  technologies,
+  carouselTech,
+];
+
+export const hoistedObjects: SchemaTypeDefinition[] = [
   portableText,
   customImage,
   technologyItem,
-
   pageSection,
-
-  // buildable section
-  profileContent,
   heroSection,
-  technologies,
-  richText,
-  carouselTech,
-  curiositySection,
 ];
+
 export const fixedPages: DocumentDefinition[] = [profile, about, project, blog];
 
 export const miscellaneous = [blogTag, techTag];
@@ -80,7 +81,7 @@ const singletonTypeNames = new Set([
  * can never see. `unpublish` is left alone because singletons here have no
  * draft/publish split.
  */
-const  BLOCKED_SINGLETON_ACTIONS = new Set(["delete", "duplicate"]);
+const BLOCKED_SINGLETON_ACTIONS = new Set(["delete", "duplicate"]);
 
 /**
  * Singletons must never be creatable from the "create new" menu: the sidebar
@@ -93,7 +94,14 @@ const withoutSingletonTemplates = (templates: Template[]): Template[] =>
   );
 
 export const schema = {
-  types: [...globalSchemas, ...entities, ...hoistedObjects, ...fixedPages, ...miscellaneous],
+  types: [
+    ...globalSchemas,
+    ...entities,
+    ...sections,
+    ...hoistedObjects,
+    ...fixedPages,
+    ...miscellaneous,
+  ],
   templates: withoutSingletonTemplates,
 };
 
@@ -109,5 +117,7 @@ export const singletonDocumentActions = (
 ): DocumentActionComponent[] => {
   if (!singletonTypeNames.has(context.schemaType)) return prev;
 
-  return prev.filter(({ action }) => !BLOCKED_SINGLETON_ACTIONS.has(action ?? ""));
+  return prev.filter(
+    ({ action }) => !BLOCKED_SINGLETON_ACTIONS.has(action ?? ""),
+  );
 };

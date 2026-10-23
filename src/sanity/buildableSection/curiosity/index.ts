@@ -44,7 +44,7 @@ const stringList = (options: {
 export const curiositySection = defineType({
   name: "curiositySection",
   title: "Stack & Curiosity",
-  type: "object",
+  type: "document",
   icon: BsGrid3X3Gap,
   description:
     "A bento grid with five fixed, named tiles: Stack, Learning, Passion, Interests and Work. Every tile is optional. To extend the grid later, add a new named tile field; never turn the tiles into a list.",

@@ -1,9 +1,9 @@
 import { TagIcon } from "@sanity/icons";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export default defineType({
   name: "technologySection",
-  type: "object",
+  type: "document",
   title: "Technologies",
   icon: TagIcon,
   fields: [
@@ -11,9 +11,21 @@ export default defineType({
       name: "technology",
       title: "Technology",
       type: "array",
-      of: [ {type: "technologyItem"}],
+      of: [defineArrayMember({ type: "technologyItem" })],
       validation: (rule) => rule.required(),
     }),
   ],
-  
+  preview: {
+    select: {
+      technology: "technology",
+    },
+    prepare({ technology }) {
+      const count = Array.isArray(technology) ? technology.length : 0;
+      return {
+        title: "Technologies",
+        subtitle: `${count} item${count === 1 ? "" : "s"}`,
+        media: TagIcon,
+      };
+    },
+  },
 });
