@@ -1,0 +1,15 @@
+import type {
+  CuriosityData,
+  CuriosityProjectRow,
+  CuriosityTileAvailability,
+} from "@/sanity/lib/curiosity";
+
+export interface ICuriositySectionProps {
+  data: CuriosityData;
+  eyebrowText: string;
+  headingParts: string[];
+  intro?: string;
+  tiles: CuriosityTileAvailability;
+  layout: "designed" | "fallback";
+  projects: CuriosityProjectRow[];
+}
