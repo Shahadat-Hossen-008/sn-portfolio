@@ -241,6 +241,18 @@
     }
   }
   /* End Curiosity grid */
+
+  /* About page */
+  .cta-band {
+    background: radial-gradient(
+      420px 320px at 100% 0%,
+      var(--glow-strong),
+      transparent 70%
+    ), var(--color-forest);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-limestone) 16%,
+      transparent), var(--shadow-panel);
+  }
+  /* End About page */
 }
 
 /* Hero: the base state is the final, fully visible state. Only the
