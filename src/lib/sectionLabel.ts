@@ -14,12 +14,15 @@ export function formatSectionNumber(n: number): string {
  * If `eyebrow` is missing, empty, or only whitespace, returns `null`.
  */
 export function getSectionLabel(
-  number: number,
+  number?: number | null,
   eyebrow?: string | null,
 ): string | null {
   const text = eyebrow?.trim();
   if (!text) {
     return null;
+  }
+  if (number === null || number === undefined) {
+    return text;
   }
   return `${formatSectionNumber(number)} — ${text}`;
 }
