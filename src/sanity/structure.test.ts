@@ -75,9 +75,25 @@ describe("structure()", () => {
     }
   });
 
-  it("still lists pages, entities and miscellaneous below the singletons", () => {
+  it("lists pages, page sections, entities and miscellaneous below the singletons", () => {
     expect(items.filter((item) => item.kind === "divider")).toHaveLength(3);
-    expect(items.filter((item) => item.kind === "listItem")).toHaveLength(3);
+    expect(items.filter((item) => item.kind === "listItem")).toHaveLength(4);
+    const pageSections = items.find((item) => item.v.title === "Page Sections");
+    expect(pageSections).toBeDefined();
+    expect(
+      pageSections?.v.child?.v.items?.map((item) => item.v.schemaType),
+    ).toEqual([
+      "curiositySection",
+      "aboutBuilderSection",
+      "aboutIntroSection",
+      "quoteSection",
+      "processSection",
+      "experienceSection",
+      "ctaSection",
+      "richTextSection",
+      "technologySection",
+      "technologyCarousel",
+    ]);
   });
 
   it("opens the Blog Page singleton in Pages for assigning blog posts", () => {
