@@ -24,6 +24,11 @@ import richText from "../buildableSection/richText";
 import carouselTech from "../buildableSection/carouselTech";
 import { curiositySection } from "../buildableSection/curiosity";
 import { aboutBuilderSection } from "../buildableSection/aboutBuilderSection";
+import { aboutIntroSection } from "../buildableSection/aboutIntroSection";
+import { quoteSection } from "../buildableSection/quoteSection";
+import { processSection } from "../buildableSection/processSection";
+import { experienceSection } from "../buildableSection/experienceSection";
+import { ctaSection } from "../buildableSection/ctaSection";
 // Pages
 import { profile } from "../pages/profilePage";
 import { about } from "../pages/aboutPage";
@@ -49,6 +54,11 @@ export const entities: DocumentDefinition[] = [
 export const sections: DocumentDefinition[] = [
   curiositySection,
   aboutBuilderSection,
+  aboutIntroSection,
+  quoteSection,
+  processSection,
+  experienceSection,
+  ctaSection,
   richText,
   technologies,
   carouselTech,

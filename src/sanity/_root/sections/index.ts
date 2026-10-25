@@ -22,6 +22,11 @@ export const pageSection = defineType({
   of: [
     sectionRef("curiositySection", "Stack & Curiosity"),
     sectionRef("aboutBuilderSection", "About the builder"),
+    sectionRef("aboutIntroSection", "About intro"),
+    sectionRef("quoteSection", "Quote"),
+    sectionRef("processSection", "Process"),
+    sectionRef("experienceSection", "Experience"),
+    sectionRef("ctaSection", "Call to action"),
     sectionRef("richTextSection", "Rich Text"),
     sectionRef("technologySection", "Technology"),
     sectionRef("technologyCarousel", "Carousel Technology"),
@@ -34,12 +39,24 @@ export const pageSection = defineType({
         {
           name: "profile",
           title: "About me",
-          of: ["curiositySection", "aboutBuilderSection"],
+          of: [
+            "curiositySection",
+            "aboutBuilderSection",
+            "aboutIntroSection",
+            "quoteSection",
+            "processSection",
+            "experienceSection",
+          ],
         },
         {
           name: "sections",
           title: "Content",
-          of: ["richTextSection", "technologyCarousel", "technologySection"],
+          of: [
+            "richTextSection",
+            "technologyCarousel",
+            "technologySection",
+            "ctaSection",
+          ],
         },
       ],
     },

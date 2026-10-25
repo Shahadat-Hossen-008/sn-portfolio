@@ -160,6 +160,36 @@ export type PageSections = Array<{
   _type: "reference";
   _weak?: boolean;
   _key: string;
+  [internalGroqTypeReferenceTo]?: "aboutIntroSection";
+} | {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  _key: string;
+  [internalGroqTypeReferenceTo]?: "quoteSection";
+} | {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  _key: string;
+  [internalGroqTypeReferenceTo]?: "processSection";
+} | {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  _key: string;
+  [internalGroqTypeReferenceTo]?: "experienceSection";
+} | {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  _key: string;
+  [internalGroqTypeReferenceTo]?: "ctaSection";
+} | {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  _key: string;
   [internalGroqTypeReferenceTo]?: "richTextSection";
 } | {
   _ref: string;
@@ -326,6 +356,112 @@ export type RichTextSection = {
   _updatedAt: string;
   _rev: string;
   content: PortableText;
+};
+
+export type CtaSection = {
+  _id: string;
+  _type: "ctaSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  heading: string;
+  headingAccent?: string;
+  intro?: string;
+  cta?: {
+    label: string;
+    type: "internal" | "external";
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "myProfilePage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    };
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+  };
+};
+
+export type ExperienceSection = {
+  _id: string;
+  _type: "experienceSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  heading: string;
+  headingAccent?: string;
+  intro?: string;
+  roles?: Array<{
+    role: string;
+    company: string;
+    startDate: string;
+    current?: boolean;
+    endDate?: string;
+    outcome?: string;
+    tools?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "techTag";
+    }>;
+    _key: string;
+  }>;
+};
+
+export type ProcessSection = {
+  _id: string;
+  _type: "processSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  heading: string;
+  headingAccent?: string;
+  intro?: string;
+  steps?: Array<{
+    label: string;
+    heading: string;
+    tools?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "techTag";
+    }>;
+    _key: string;
+  }>;
+};
+
+export type QuoteSection = {
+  _id: string;
+  _type: "quoteSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  quote: string;
+  quoteAccent?: string;
+  note?: string;
+};
+
+export type AboutIntroSection = {
+  _id: string;
+  _type: "aboutIntroSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  heading: string;
+  headingAccent?: string;
+  intro?: string;
+  body?: string;
 };
 
 export type AboutBuilderSection = {
@@ -822,7 +958,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = BlogTag | BlogPage | CustomImage | Slug | ProjectPage | AboutPage | PageSections | HeroSection | TechnologyItem | PortableText | TechnologyCarousel | TechnologySection | RichTextSection | AboutBuilderSection | CuriositySection | TechTag | Project | Layout | MyProfilePage | BlogPost | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = BlogTag | BlogPage | CustomImage | Slug | ProjectPage | AboutPage | PageSections | HeroSection | TechnologyItem | PortableText | TechnologyCarousel | TechnologySection | RichTextSection | CtaSection | ExperienceSection | ProcessSection | QuoteSection | AboutIntroSection | AboutBuilderSection | CuriositySection | TechTag | Project | Layout | MyProfilePage | BlogPost | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/app/(frontend)/blog/[slug]/query.ts
 // Variable: SINGLE_BLOG_POST_QUERY
@@ -1108,6 +1244,12 @@ export type PROFILE_QUERYResult = {
     } | null;
   } | {
     _id: string;
+    _type: "aboutIntroSection";
+  } | {
+    _id: string;
+    _type: "ctaSection";
+  } | {
+    _id: string;
     _type: "curiositySection";
     eyebrow: string | null;
     heading: string;
@@ -1175,6 +1317,15 @@ export type PROFILE_QUERYResult = {
         };
       }> | null;
     } | null;
+  } | {
+    _id: string;
+    _type: "experienceSection";
+  } | {
+    _id: string;
+    _type: "processSection";
+  } | {
+    _id: string;
+    _type: "quoteSection";
   } | {
     _id: string;
     _type: "richTextSection";
