@@ -1,5 +1,10 @@
 import { aboutBuilderSectionFragment } from "@/sections/about-builder/builder/fragment";
+import { aboutIntroSectionFragment } from "@/sections/about-intro/builder/fragment";
+import { ctaSectionFragment } from "@/sections/cta/builder/fragment";
 import { curiositySectionFragment } from "@/sections/curiosity/builder/fragment";
+import { experienceSectionFragment } from "@/sections/experience/builder/fragment";
+import { processSectionFragment } from "@/sections/process/builder/fragment";
+import { quoteSectionFragment } from "@/sections/quote/builder/fragment";
 
 /**
  * The ordered `pageSections` array, dereferenced. Each block carries its
@@ -12,6 +17,11 @@ export const PAGE_SECTIONS_FRAGMENT = /* groq */ `
     _id,
     _type,
     _type == "curiositySection" => ${curiositySectionFragment},
-    _type == "aboutBuilderSection" => ${aboutBuilderSectionFragment}
+    _type == "aboutBuilderSection" => ${aboutBuilderSectionFragment},
+    _type == "aboutIntroSection" => ${aboutIntroSectionFragment},
+    _type == "quoteSection" => ${quoteSectionFragment},
+    _type == "processSection" => ${processSectionFragment},
+    _type == "experienceSection" => ${experienceSectionFragment},
+    _type == "ctaSection" => ${ctaSectionFragment}
   }
 `;

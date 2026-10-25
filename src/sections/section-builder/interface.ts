@@ -9,4 +9,6 @@ export interface ISectionBuilderProps {
   sections?: ISanitySectionBlock[] | null;
   /** Fallback rows for the curiosity "work" tile. */
   latestProjects?: LatestProjects;
+  /** When false, no section receives a section number. Defaults to true. */
+  numbered?: boolean;
 }
