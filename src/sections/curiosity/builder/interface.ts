@@ -17,5 +17,5 @@ export type {
 export interface ISanityCuriositySectionProps {
   data: CuriosityData;
   latestProjects: LatestProjects;
-  sectionNumber: number;
+  sectionNumber?: number | null;
 }
