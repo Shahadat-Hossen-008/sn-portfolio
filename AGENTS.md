@@ -76,7 +76,7 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 | `global/` | Pinned singletons: `siteSettings/` (SEO / analytics), `layout/` (identity / header / footer) |
 | `entites/` | Referenced content records: `author`, `blogPost`, `project` (note folder spelling `entites`) |
 | `pages/` | Pinned singleton pages: `profilePage` (`myProfilePage`), `aboutPage`, `blogPage`, `projectPage` |
-| `buildableSection/` | Reusable page section documents (`curiositySection`, `richTextSection`, `technologySection`, `technologyCarousel`, `aboutBuilderSection`, `aboutIntroSection`, `quoteSection`, `processSection`, `experienceSection`, `ctaSection`) + inline `heroSection` object |
+| `buildableSection/` | Reusable page section documents, including the legacy `aboutIntroSection` retained for existing references; page-only openings use inline page objects such as `pageIntro` |
 | `miscellaneous/` | Leaf tag documents: `blogTag`, `techTag` |
 | `structure/` | Custom Studio sidebar (`siteSettings`, `layout`, `pages`, `sections`, `entitiesStructure`, `miscellaneous`) + `utils/create-document-structure.ts` |
 | `schemaTypes/index.ts` | **The schema registry.** Exports `globalSchemas`, `entities`, `sections`, `hoistedObjects`, `fixedPages`, `miscellaneous` |
@@ -90,6 +90,7 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 - **Client/Server boundary**: Only interactive leaves use `"use client"` (`layout/header/index.tsx`, `sections/contact/sub-components/form/index.tsx`, `sections/projects/index.tsx`, `sections/technology/index.tsx`, `components/youtube/index.tsx`). `app/actions/sendEmail.ts` uses `"use server"`. Everything else is RSC.
 - **Studio sidebar (`src/sanity/structure.ts`)**: Composes **[pinned singletons: Site Settings, Layout]** → **Pages** → **Page Sections** (flat list of reusable section documents) → **Entities** → **Miscellaneous**.
 - **Reference-based `pageSections`**: Sections (`curiositySection`, `richTextSection`, `technologySection`, `technologyCarousel`) are `type: "document"` created under **Page Sections**. Pages reference them via `pageSections` (`type: "reference"`), and `PAGE_SECTIONS_FRAGMENT` returns the ordered array `"sections": pageSections[]->{ _id, _type, _type == "..." => {...fragment} }`, and `SectionBuilder` renders each block by `_type` in Studio order (numbers computed from rendered sections). Adding a section = one fragment line + one `case`.
+- **Page-specific openings**: Content that belongs only at the top of a page should be modeled as an inline object on that page singleton, before its reorderable `pageSections`. Keep legacy referenced content readable through a compatibility schema and rendering fallback until existing documents have been migrated.
 
 ### 3.4 Global Singletons (`siteSettings` & `layout`)
 
