@@ -33,7 +33,7 @@ export function ExperienceSection({
               className="font-display text-heading font-normal text-balance"
             />
             {intro && (
-              <p className="mt-2 max-w-[23.75rem] text-base leading-[1.6] text-muted-foreground">
+              <p className="mt-2 max-w-95 text-base leading-[1.6] text-muted-foreground">
                 {intro}
               </p>
             )}
