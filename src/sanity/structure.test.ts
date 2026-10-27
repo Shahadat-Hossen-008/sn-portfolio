@@ -85,7 +85,6 @@ describe("structure()", () => {
     ).toEqual([
       "curiositySection",
       "aboutBuilderSection",
-      "aboutIntroSection",
       "quoteSection",
       "processSection",
       "experienceSection",

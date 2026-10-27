@@ -49,7 +49,7 @@ describe("About-page section schemas", () => {
     ctaSection,
   ];
 
-  it("registers all five in sections as documents", () => {
+  it("registers the About page section documents in order", () => {
     for (const section of newSections) {
       expect(section.type).toBe("document");
       expect(sections.some((s) => s.name === section.name)).toBe(true);
@@ -59,8 +59,7 @@ describe("About-page section schemas", () => {
     const aboutBuilderIndex = sectionNames.indexOf("aboutBuilderSection");
     expect(aboutBuilderIndex).toBeGreaterThan(-1);
 
-    expect(sectionNames.slice(aboutBuilderIndex + 1, aboutBuilderIndex + 6)).toEqual([
-      "aboutIntroSection",
+    expect(sectionNames.slice(aboutBuilderIndex + 1, aboutBuilderIndex + 5)).toEqual([
       "quoteSection",
       "processSection",
       "experienceSection",
@@ -88,7 +87,6 @@ describe("About-page section schemas", () => {
     expect(profileGroup?.of).toEqual([
       "curiositySection",
       "aboutBuilderSection",
-      "aboutIntroSection",
       "quoteSection",
       "processSection",
       "experienceSection",

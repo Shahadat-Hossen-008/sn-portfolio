@@ -20,16 +20,14 @@ const sampleAboutData: ABOUT_PAGE_QUERYResult = {
     redirect: null,
     keywords: null,
   },
+  pageIntro: {
+    eyebrow: "About me",
+    heading: "Design and code with purpose",
+    headingAccent: "purpose",
+    intro: "Intro lead text",
+    body: "Intro body text",
+  },
   sections: [
-    {
-      _id: "intro-1",
-      _type: "aboutIntroSection",
-      eyebrow: "About me",
-      heading: "Design and code with purpose",
-      headingAccent: "purpose",
-      intro: "Intro lead text",
-      body: "Intro body text",
-    },
     {
       _id: "quote-1",
       _type: "quoteSection",
@@ -93,12 +91,12 @@ const sampleAboutData: ABOUT_PAGE_QUERYResult = {
 };
 
 describe("AboutPage", () => {
-  it("renders sample sections with exactly one h1 and no numbered headings", async () => {
+  it("renders the page intro plus sections with exactly one h1 and no numbered headings", async () => {
     vi.mocked(sanityFetch).mockResolvedValueOnce({
       data: sampleAboutData,
     } as never);
 
-    const PageComponent = await AboutPage({});
+    const PageComponent = await AboutPage();
     const html = renderToStaticMarkup(PageComponent);
 
     const h1Matches = html.match(/<h1/g);

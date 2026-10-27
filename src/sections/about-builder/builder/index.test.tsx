@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import type { NonNullableAboutBuilder } from "@/sanity/lib/aboutBuilder";
+import type { NonNullableAboutBuilder } from "@/sections/about-builder/helpers";
 import { AboutBuilderSectionBuilder } from "./index";
 
 const base: NonNullableAboutBuilder = {

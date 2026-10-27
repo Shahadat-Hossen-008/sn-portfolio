@@ -68,17 +68,8 @@ describe("SectionBuilder", () => {
     expect(html).toContain("02 — About the builder");
   });
 
-  it("renders five new About page section types in Studio order", () => {
+  it("renders About page section types in Studio order", () => {
     const sections: ISanitySectionBlock[] = [
-      {
-        _id: "intro",
-        _type: "aboutIntroSection",
-        eyebrow: "Intro eyebrow",
-        heading: "Intro heading",
-        headingAccent: null,
-        intro: "Intro lead text",
-        body: "Intro body text",
-      },
       {
         _id: "quote",
         _type: "quoteSection",
@@ -137,14 +128,12 @@ describe("SectionBuilder", () => {
       <SectionBuilder sections={sections} numbered={false} />,
     );
 
-    const posIntro = html.indexOf("Intro heading");
     const posQuote = html.indexOf("Quote statement");
     const posProc = html.indexOf("Process heading");
     const posExp = html.indexOf("Experience heading");
     const posCta = html.indexOf("CTA heading");
 
-    expect(posIntro).toBeGreaterThan(-1);
-    expect(posQuote).toBeGreaterThan(posIntro);
+    expect(posQuote).toBeGreaterThan(-1);
     expect(posProc).toBeGreaterThan(posQuote);
     expect(posExp).toBeGreaterThan(posProc);
     expect(posCta).toBeGreaterThan(posExp);
