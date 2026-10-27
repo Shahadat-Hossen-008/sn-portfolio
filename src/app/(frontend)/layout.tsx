@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 
 import { LayoutBuilder } from "@/layout";
-import { LAYOUT_QUERY, SITE_SETTINGS_QUERY } from "@/layout/query";
-import { sanityFetch } from "@/sanity/lib/live";
-import { buildMetadata } from "@/sanity/lib/metadata";
+import { getLayoutSettings } from "@/layout/get-layout";
+import { buildMetadata } from "@/lib/metadata";
 
 export const viewport: Viewport = { themeColor: "#e2dbc9" };
 
@@ -17,10 +16,7 @@ export const viewport: Viewport = { themeColor: "#e2dbc9" };
  * serializable props — the navbar and footer never fetch (see AGENTS.md §3.4).
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const [{ data: layout }, { data: siteSettings }] = await Promise.all([
-    sanityFetch({ query: LAYOUT_QUERY }),
-    sanityFetch({ query: SITE_SETTINGS_QUERY }),
-  ]);
+  const { layout, siteSettings } = await getLayoutSettings();
 
   return buildMetadata({ layout, siteSettings, path: "/" });
 }
@@ -30,10 +26,7 @@ export default async function FrontendLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [{ data: layout }, { data: siteSettings }] = await Promise.all([
-    sanityFetch({ query: LAYOUT_QUERY }),
-    sanityFetch({ query: SITE_SETTINGS_QUERY }),
-  ]);
+  const { layout, siteSettings } = await getLayoutSettings();
 
   return (
     <LayoutBuilder layout={layout} siteSettings={siteSettings}>

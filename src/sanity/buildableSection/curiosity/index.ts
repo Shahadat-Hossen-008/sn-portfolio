@@ -2,8 +2,21 @@ import { BsGrid3X3Gap } from "react-icons/bs";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { link } from "@/sanity/_root/link";
-import { countPrimaryItems } from "@/sanity/lib/curiosity";
-import { splitHeadline } from "@/sanity/lib/hero";
+import { splitHeadline } from "@/lib/hero";
+
+type PrimaryGroup = {
+  items?: Array<{ isPrimary?: boolean } | null> | null;
+} | null;
+
+function countPrimaryItems(groups: unknown): number {
+  if (!Array.isArray(groups)) return 0;
+  return (groups as PrimaryGroup[]).reduce(
+    (total, group) =>
+      total +
+      (group?.items ?? []).filter((item) => item?.isPrimary === true).length,
+    0,
+  );
+}
 
 /** Every tile is an optional object that starts collapsed. */
 const collapsedTile = { collapsible: true, collapsed: true };

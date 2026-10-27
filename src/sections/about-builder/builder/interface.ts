@@ -1,4 +1,4 @@
-import type { NonNullableAboutBuilder } from "@/sanity/lib/aboutBuilder";
+import type { NonNullableAboutBuilder } from "@/sections/about-builder/helpers";
 
 export interface ISanityAboutBuilderProps {
   data: NonNullableAboutBuilder;

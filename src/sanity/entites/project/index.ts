@@ -1,7 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { LinkIcon, ProjectsIcon } from "@sanity/icons";
 import { link } from "@/sanity/_root/link";
-import { formatDate } from "@/sanity/lib/formatDate";
+import { formatDate } from "@/lib/formatDate";
 
 export const projectTemplate = defineType({
   name: "project",

@@ -1,4 +1,4 @@
-import { cleanTools } from "@/sanity/lib/aboutSections";
+import { cleanTools } from "@/sections/shared/section-formatting";
 import { ProcessSection } from "../index";
 import type { IProcessProps, IProcessStep } from "../interface";
 import type { ISanityProcessProps } from "./interface";

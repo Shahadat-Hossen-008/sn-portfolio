@@ -1,6 +1,6 @@
 import { AccentHeading } from "@/components/accent-heading";
 import { TagList } from "@/components/tag-list";
-import { formatPeriod } from "@/sanity/lib/aboutSections";
+import { formatPeriod } from "@/sections/shared/section-formatting";
 import type { IExperienceProps } from "./interface";
 
 export function ExperienceSection({

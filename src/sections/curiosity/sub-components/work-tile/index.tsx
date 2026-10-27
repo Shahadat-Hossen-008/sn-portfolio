@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/button";
-import { isExternalHref, resolveLink } from "@/sanity/lib/links";
-import type { CuriosityProjectRow } from "@/sanity/lib/curiosity";
+import { isExternalHref, resolveLink } from "@/lib/sanity/links";
+import type { CuriosityProjectRow } from "@/sections/curiosity/helpers";
 import { Tile } from "../tile";
 import type { IWorkTileProps } from "./interface";
 

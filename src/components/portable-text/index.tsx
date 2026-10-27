@@ -3,8 +3,8 @@ import Image from "next/image";
 
 import { isSupportedReactPlayerUrl } from "@/sanity/_root/portableText/iframe/videoUrl";
 import { urlFor } from "@/sanity/lib/image";
-import { resolveLink } from "@/sanity/lib/links";
-import type { SanityLink } from "@/sanity/lib/links";
+import { resolveLink } from "@/lib/sanity/links";
+import type { SanityLink } from "@/lib/sanity/links";
 import { YouTube } from "@/components/youtube";
 import type { IPortableTextComponents } from "./interface";
 

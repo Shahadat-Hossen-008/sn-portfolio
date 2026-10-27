@@ -1,6 +1,6 @@
 import { defineField } from "sanity";
 
-import { splitHeadline } from "@/sanity/lib/hero";
+import { splitHeadline } from "@/lib/hero";
 
 export const sectionHeaderFields = (options?: {
   headingMax?: number;

@@ -1,4 +1,4 @@
-import type { CleanTool } from "@/sanity/lib/aboutSections";
+import type { CleanTool } from "@/sections/shared/section-formatting";
 
 export interface IProcessStep {
   _key: string;

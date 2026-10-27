@@ -1,7 +1,7 @@
 import type {
   CuriosityProjectRow,
   NonNullableCuriosity,
-} from "@/sanity/lib/curiosity";
+} from "@/sections/curiosity/helpers";
 
 export type Work = NonNullableCuriosity["work"];
 

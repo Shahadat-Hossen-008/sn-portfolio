@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { isExternalHref } from "@/sanity/lib/links";
+import { isExternalHref } from "@/lib/sanity/links";
 import type { ButtonVariant, IButtonProps } from "./interface";
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {

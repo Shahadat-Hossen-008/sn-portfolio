@@ -1,4 +1,4 @@
-import type { NonNullableCuriosity } from "@/sanity/lib/curiosity";
+import type { NonNullableCuriosity } from "@/sections/curiosity/helpers";
 
 export type Passion = NonNullableCuriosity["passion"];
 

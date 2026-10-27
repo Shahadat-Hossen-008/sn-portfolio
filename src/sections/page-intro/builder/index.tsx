@@ -4,7 +4,7 @@ import type { ISanityPageIntroProps } from "./interface";
 
 export function PageIntroSectionBuilder({ data }: ISanityPageIntroProps) {
   const heading = data?.heading?.trim();
-  if (!heading || !data){ 
+  if (!data || !heading) {
     return null;
   }
 

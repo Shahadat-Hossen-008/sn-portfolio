@@ -1,47 +1,15 @@
-import { ToastContainer } from "react-toastify";
+import type { Metadata } from "next";
 
-import { HeroBuilder } from "@/hero";
-import { sanityFetch } from "@/sanity/lib/live";
-import { AboutSectionBuilder } from "@/sections/about/builder";
-import { ContactSectionBuilder } from "@/sections/contact/builder";
-import { ProjectsSectionBuilder } from "@/sections/projects/builder";
-import { SectionBuilder } from "@/sections/section-builder";
-import { TechnologySectionBuilder } from "@/sections/technology/builder";
-import {
-  ABOUT_QUERY,
-  LATEST_PROJECTS_QUERY,
-  PROFILE_QUERY,
-  PROJECT_QUERY,
-  TECH_QUERY,
-} from "./query";
+import { MyProfilePageBuilder } from "@/page-builder/my-profile";
+import { getHomePage } from "@/page-builder/my-profile/get-page";
+import { generateMyProfileMetadata } from "@/page-builder/my-profile/metadata";
 
-export default async function page() {
-  const [
-    { data: profile },
-    { data: projects },
-    { data: about },
-    { data: tech },
-    { data: latestProjects },
-  ] = await Promise.all([
-    sanityFetch({ query: PROFILE_QUERY }),
-    sanityFetch({ query: PROJECT_QUERY }),
-    sanityFetch({ query: ABOUT_QUERY }),
-    sanityFetch({ query: TECH_QUERY }),
-    sanityFetch({ query: LATEST_PROJECTS_QUERY }),
-  ]);
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMyProfileMetadata();
+}
 
-  return (
-    <div className="bg-background ">
-      <HeroBuilder profile={profile} />
-      <SectionBuilder
-        sections={profile?.sections}
-        latestProjects={latestProjects ?? []}
-      />
-      <AboutSectionBuilder about={about} />
-      <TechnologySectionBuilder technology={tech} />
-      <ProjectsSectionBuilder projects={projects} />
-      <ContactSectionBuilder />
-      <ToastContainer />
-    </div>
-  );
+export default async function HomePage() {
+  const data = await getHomePage();
+
+  return <MyProfilePageBuilder data={data} />;
 }

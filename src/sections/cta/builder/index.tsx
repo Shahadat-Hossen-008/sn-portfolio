@@ -1,4 +1,4 @@
-import { resolveLink } from "@/sanity/lib/links";
+import { resolveLink } from "@/lib/sanity/links";
 import { CtaSection } from "../index";
 import type { ICtaSectionProps } from "../interface";
 import type { ISanityCtaProps } from "./interface";

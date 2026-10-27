@@ -1,5 +1,5 @@
 import { hasSanityImage } from "@/sanity/lib/images";
-import { isExternalHref, resolveLink } from "@/sanity/lib/links";
+import { isExternalHref, resolveLink } from "@/lib/sanity/links";
 import { Footer } from "../index";
 import type { IFooterProps } from "../interface";
 import type { ISanityFooterProps } from "./interface";

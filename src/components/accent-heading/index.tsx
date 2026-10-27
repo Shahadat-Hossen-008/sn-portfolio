@@ -1,4 +1,4 @@
-import { splitHeadline } from "@/sanity/lib/hero";
+import { splitHeadline } from "@/lib/hero";
 import type { IAccentHeadingProps } from "./interface";
 
 export function AccentHeading({

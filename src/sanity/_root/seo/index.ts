@@ -28,7 +28,7 @@ export const seoGroups = {
 
 /**
  * Four `noindex`-style switches. Rendered as an object so the OR-merge in
- * `@/sanity/lib/metadata` has a single shape to consume at both levels.
+ * `@/lib/metadata` has a single shape to consume at both levels.
  */
 export const robotsField = defineField({
   name: "robots",

@@ -1,6 +1,6 @@
 import Script from "next/script";
 
-import { getGtmContainerId } from "@/sanity/lib/analytics";
+import { getGtmContainerId } from "./helpers";
 import type { IGoogleTagManagerProps } from "./interface";
 
 /**

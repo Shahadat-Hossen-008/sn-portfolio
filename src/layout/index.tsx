@@ -1,3 +1,5 @@
+import { ToastContainer } from "react-toastify";
+
 import { GoogleTagManager } from "@/components/analytics";
 import { Section } from "@/components/section";
 import { SanityLive } from "@/sanity/lib/live";
@@ -16,6 +18,7 @@ export function LayoutBuilder({
       <main>{children}</main>
       <FooterBuilder layout={layout} />
       <GoogleTagManager id={siteSettings?.analytics?.googleTagManagerID} />
+      <ToastContainer />
       <SanityLive />
     </Section>
   );

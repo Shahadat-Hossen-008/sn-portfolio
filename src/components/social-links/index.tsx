@@ -12,7 +12,7 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 
-import { normalizeExternalUrl } from "@/sanity/lib/links";
+import { normalizeExternalUrl } from "@/lib/sanity/links";
 import type { ISocialLinksProps, SiteSocialLink } from "./interface";
 
 const NETWORK_ICONS: Record<string, ComponentType<{ className?: string }>> = {

@@ -1,5 +1,5 @@
-import { resolveLink } from "@/sanity/lib/links";
-import type { SanityLink } from "@/sanity/lib/links";
+import { resolveLink } from "@/lib/sanity/links";
+import type { SanityLink } from "@/lib/sanity/links";
 import { ProjectsSection } from "../index";
 import type { IResolvedProjectItem } from "../interface";
 import type { ISanityProjectsSectionProps } from "./interface";

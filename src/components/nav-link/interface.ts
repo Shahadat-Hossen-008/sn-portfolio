@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { ResolvedNavLink } from "@/sanity/lib/links";
+import type { ResolvedNavLink } from "@/lib/sanity/links";
 
 export interface INavLinkItemProps {
   link: ResolvedNavLink;

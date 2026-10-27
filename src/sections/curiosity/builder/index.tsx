@@ -2,8 +2,8 @@ import {
   getCuriosityTiles,
   getTileLayout,
   projectRows,
-} from "@/sanity/lib/curiosity";
-import { splitHeadline } from "@/sanity/lib/hero";
+} from "@/sections/curiosity/helpers";
+import { splitHeadline } from "@/lib/hero";
 import { CuriositySection } from "../index";
 import type { ICuriositySectionProps } from "../interface";
 import type { ISanityCuriositySectionProps } from "./interface";

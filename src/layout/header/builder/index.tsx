@@ -1,6 +1,6 @@
 import { hasSanityImage } from "@/sanity/lib/images";
-import { isExternalHref, resolveLink } from "@/sanity/lib/links";
-import type { ResolvedNavLink } from "@/sanity/lib/links";
+import { isExternalHref, resolveLink } from "@/lib/sanity/links";
+import type { ResolvedNavLink } from "@/lib/sanity/links";
 import { Header } from "../index";
 import type { IHeaderProps } from "../interface";
 import type { ISanityHeaderProps } from "./interface";

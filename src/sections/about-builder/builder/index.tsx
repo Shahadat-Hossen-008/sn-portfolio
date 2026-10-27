@@ -1,6 +1,6 @@
-import { cleanFacts, cleanNotes } from "@/sanity/lib/aboutBuilder";
-import { splitHeadline } from "@/sanity/lib/hero";
-import { resolveLink } from "@/sanity/lib/links";
+import { cleanFacts, cleanNotes } from "@/sections/about-builder/helpers";
+import { splitHeadline } from "@/lib/hero";
+import { resolveLink } from "@/lib/sanity/links";
 import { AboutBuilderSection } from "../index";
 import type { IAboutBuilderProps } from "../interface";
 import type { ISanityAboutBuilderProps } from "./interface";

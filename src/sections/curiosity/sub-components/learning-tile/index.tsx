@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { getTypedTimings } from "@/sanity/lib/curiosity";
+import { getTypedTimings } from "@/sections/curiosity/helpers";
 import { Tile } from "../tile";
 import type { ILearningTileProps } from "./interface";
 

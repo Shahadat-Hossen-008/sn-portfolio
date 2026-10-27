@@ -1,6 +1,6 @@
 import { AccentHeading } from "@/components/accent-heading";
 import { TagList } from "@/components/tag-list";
-import { formatStepLabel } from "@/sanity/lib/aboutSections";
+import { formatStepLabel } from "@/sections/shared/section-formatting";
 import type { IProcessProps } from "./interface";
 
 export function ProcessSection({

@@ -1,7 +1,7 @@
-import type { ProfileSection } from "@/sanity/lib/sections";
+import type { PageSection } from "@/page-builder/shared/page-section";
 
 export type QuoteSectionData = Extract<
-  ProfileSection,
+  PageSection,
   { _type: "quoteSection" }
 >;
 

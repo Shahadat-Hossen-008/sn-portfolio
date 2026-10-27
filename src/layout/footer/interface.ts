@@ -1,4 +1,4 @@
-import type { ResolvedNavLink } from "@/sanity/lib/links";
+import type { ResolvedNavLink } from "@/lib/sanity/links";
 import type { SiteIdentity, SiteSocialLink } from "../interface";
 
 export type FooterLogo = NonNullable<SiteIdentity>["logo"];

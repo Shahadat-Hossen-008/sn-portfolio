@@ -4,7 +4,7 @@ import type {
   LatestProject,
   LatestProjects,
   NonNullableCuriosity,
-} from "@/sanity/lib/curiosity";
+} from "@/sections/curiosity/helpers";
 
 export type {
   CuriosityData,

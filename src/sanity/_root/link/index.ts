@@ -1,15 +1,13 @@
 import { EarthGlobeIcon, LinkIcon, PinIcon } from "@sanity/icons";
 import { defineField } from "sanity";
 
-import { INTERNAL_REFERENCE_TYPES } from "@/sanity/lib/routes";
+import { INTERNAL_REFERENCE_TYPES } from "@/lib/sanity/routes";
 import {
   LINK_TYPES,
   LINK_TYPE_LABELS,
   type LinkType,
-} from "@/sanity/lib/links";
-
-
-export { LINK_TYPES, LINK_TYPE_LABELS } from "@/sanity/lib/links";
+} from "@/lib/sanity/links";
+export { LINK_TYPES, LINK_TYPE_LABELS } from "@/lib/sanity/links";
 
 /** Creates an inline link field using the shared link behavior and validation. */
 export const link = (name = "link") => {

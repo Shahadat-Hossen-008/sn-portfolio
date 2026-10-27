@@ -1,4 +1,4 @@
-import { cleanTools } from "@/sanity/lib/aboutSections";
+import { cleanTools } from "@/sections/shared/section-formatting";
 import { ExperienceSection } from "../index";
 import type { IExperienceProps, IExperienceRole } from "../interface";
 import type { ISanityExperienceProps } from "./interface";

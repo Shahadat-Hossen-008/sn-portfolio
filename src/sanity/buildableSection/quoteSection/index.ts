@@ -1,7 +1,7 @@
 import { BsChatQuote } from "react-icons/bs";
 import { defineField, defineType } from "sanity";
 
-import { splitHeadline } from "@/sanity/lib/hero";
+import { splitHeadline } from "@/lib/hero";
 
 export const quoteSection = defineType({
   name: "quoteSection",

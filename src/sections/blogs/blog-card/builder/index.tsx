@@ -1,4 +1,4 @@
-import { formatDate } from "@/sanity/lib/formatDate";
+import { formatDate } from "@/lib/formatDate";
 import { BlogCard } from "../index";
 import type { IBlogCardProps } from "../interface";
 import type { ISanityBlogCardProps } from "./interface";

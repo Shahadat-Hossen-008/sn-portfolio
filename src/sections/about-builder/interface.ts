@@ -1,4 +1,4 @@
-import type { AboutFact, AboutNote } from "@/sanity/lib/aboutBuilder";
+import type { AboutFact, AboutNote } from "@/sections/about-builder/helpers";
 
 export interface IAboutBuilderCta {
   href: string;

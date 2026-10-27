@@ -2,7 +2,7 @@ import type {
   CuriosityData,
   CuriosityProjectRow,
   CuriosityTileAvailability,
-} from "@/sanity/lib/curiosity";
+} from "@/sections/curiosity/helpers";
 
 export interface ICuriositySectionProps {
   data: CuriosityData;

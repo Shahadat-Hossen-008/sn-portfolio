@@ -4,16 +4,19 @@ import { CuriositySectionBuilder } from "@/sections/curiosity/builder";
 import { ExperienceSectionBuilder } from "@/sections/experience/builder";
 import { ProcessSectionBuilder } from "@/sections/process/builder";
 import { QuoteSectionBuilder } from "@/sections/quote/builder";
-import { assignSectionNumbers } from "@/sanity/lib/aboutBuilder";
-import { getCuriosityTiles } from "@/sanity/lib/curiosity";
-import type { LatestProjects } from "@/sanity/lib/curiosity";
+import { getCuriosityTiles } from "@/sections/curiosity/helpers";
+import type { LatestProjects } from "@/sections/curiosity/helpers";
+import { assignSectionNumbers } from "./numbering";
 import type {
   ISanitySectionBlock,
   ISectionBuilderProps,
 } from "./interface";
 
-/** Mirrors each section builder's own "render nothing" rule. */
-function willRender(
+/**
+ * Mirrors each section builder's own early-return condition so skipped blocks
+ * do not consume a section number.
+ */
+function shouldRenderSection(
   section: ISanitySectionBlock,
   latestProjects: LatestProjects,
 ): boolean {
@@ -54,7 +57,9 @@ export function SectionBuilder({
 }: ISectionBuilderProps) {
   if (!sections || sections.length === 0) return null;
 
-  const renders = sections.map((section) => willRender(section, latestProjects));
+  const renders = sections.map((section) =>
+    shouldRenderSection(section, latestProjects),
+  );
   const numbers = numbered
     ? assignSectionNumbers(renders)
     : renders.map(() => null);

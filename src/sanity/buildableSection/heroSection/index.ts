@@ -2,7 +2,7 @@ import { BsStars } from "react-icons/bs";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { link } from "@/sanity/_root/link";
-import { splitHeadline } from "@/sanity/lib/hero";
+import { splitHeadline } from "@/lib/hero";
 
 export const heroSection = defineType({
   name: "heroSection",
