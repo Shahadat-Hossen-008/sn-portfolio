@@ -41,18 +41,21 @@ pnpm typegen   # sanity schema extract + sanity typegen generate
 src/app/layout.tsx                    root shell (html/body); imports globals.css
 src/app/(frontend)/                   public site route group
   layout.tsx                          fetches LAYOUT_QUERY + SITE_SETTINGS_QUERY → <LayoutBuilder/>, generateMetadata
-  page.tsx + query.ts                 home: <HeroBuilder/> + <SectionBuilder/> + standalone main sections
-  blog/page.tsx + query.ts            blog index → <BlogCardBuilder/>
-  blog/[slug]/                        single blog post → <BlogDetailsBuilder/> + interface.ts + query.ts
+  page.tsx                            home route delegates to page-builder/my-profile
+  blog/page.tsx                       blog index route delegates to page-builder/blog
+  blog/[slug]/page.tsx                single post route delegates to page-builder/blog-details
+  about/page.tsx                      About route delegates to page-builder/about
 src/app/studio/[[...tool]]/page.tsx   Sanity Studio (export const dynamic = 'force-static')
 src/app/actions/                      "use server" contact action (sendEmail.ts + contactValidation.ts)
 src/fragments/                        shared root GROQ fragments (root/link, root/portable-text, root/seo)
 src/layout/                           LayoutBuilder + query.ts + header/ + footer/ (with builder/ & fragment.ts)
-src/hero/                             HeroBuilder + fragment.ts + primary/ (with builder/ & fragment.ts)
+src/page-builder/                     Page-specific query, fragment, data-loader, metadata, and composition modules
 src/sections/                         independent section-builder/ + standalone main sections
+src/sections/hero/                    HeroBuilder + fragment.ts + primary/ (with builder/ & fragment.ts)
+src/lib/                              cross-layer helpers; Sanity-specific routing/link helpers in lib/sanity/
 src/components/                       atomic UI primitives (kebab-case folders with index.tsx & interface.ts)
 src/emails/                           @react-email contact templates (index.tsx + interface.ts)
-src/sanity/                           Studio config + schemas + SDK client/pure helpers (zero GROQ queries)
+src/sanity/                           Studio config + schemas + Sanity SDK adapters (zero GROQ queries)
 sanity.config.ts                      root Studio config
 ```
 
@@ -62,35 +65,38 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 
 1. **`src/fragments/`** — Shared root GROQ projections (`LINK_REFERENCE_FRAGMENT`, `PORTABLE_TEXT_PROJECTION`, `SEO_FIELDS_FRAGMENT`), re-exported via `src/fragments/index.ts`.
 2. **`src/layout/`** — `LayoutBuilder` (`index.tsx`, `interface.ts`, `query.ts` with `LAYOUT_QUERY` & `SITE_SETTINGS_QUERY`), `header/`, and `footer/` (each with `builder/index.tsx`, `builder/interface.ts`, `builder/fragment.ts`).
-3. **`src/hero/`** — `HeroBuilder` (`index.tsx`, `interface.ts`, `fragment.ts`) and `primary/` (`PrimaryHero` + `builder/`).
-4. **`src/sections/`** — Two distinct concepts:
+3. **`src/sections/hero/`** — `HeroBuilder` (`index.tsx`, `interface.ts`, `fragment.ts`) and `primary/` (`PrimaryHero` + `builder/`).
+4. **`src/page-builder/`** — Page-specific data and composition modules. For example, `about/` owns the About page query, its projection fragment, request-cached loader, metadata, and composition; the matching route delegates to this module.
+5. **`src/sections/`** — Two distinct concepts:
    - `section-builder/` (`index.tsx`, `interface.ts`, `fragment.ts` `PAGE_SECTIONS_FRAGMENT`) — Independent dynamic dispatcher for CMS `pageSections` blocks (`curiositySection`).
    - Standalone main sections (`curiosity/`, `about/`, `technology/`, `projects/`, `contact/`, `blogs/blog-card/`, `blogs/blog-details/`), each with `index.tsx` (pure UI), `interface.ts` (`I...Props`), `builder/` (`index.tsx`, `interface.ts` `ISanity...Props`, `fragment.ts`), and optional `sub-components/<part>/`.
-5. **`src/components/`** — Atomic UI primitives (`analytics`, `background`, `button`, `image`, `nav-link`, `portable-text`, `preview-portable-text`, `section`, `social-links`, `youtube`).
+6. **`src/components/`** — Atomic UI primitives (`analytics`, `background`, `button`, `image`, `nav-link`, `portable-text`, `preview-portable-text`, `section`, `social-links`, `youtube`).
 
 ### 3.2 Backend Architecture (`src/sanity/`)
 
 | Folder | Contents |
 |---|---|
-| `_root/` | Shared schema primitives: `media/` (`customImage`), `portableText/`, `sections/` (`pageSections` reference array), `seo/` (+`slug/`), `link/`, `technology-item/`, `section-header/` |
+| `_root/` | Shared schema primitives: `media/` (`customImage`), `portableText/`, `sections/` (`pageSections` reference array), `seo/` (+`slug/`), `link/`, `technology-item/`, `section-header/`, and inline `page-intro-section/` |
 | `global/` | Pinned singletons: `siteSettings/` (SEO / analytics), `layout/` (identity / header / footer) |
 | `entites/` | Referenced content records: `author`, `blogPost`, `project` (note folder spelling `entites`) |
 | `pages/` | Pinned singleton pages: `profilePage` (`myProfilePage`), `aboutPage`, `blogPage`, `projectPage` |
-| `buildableSection/` | Reusable page section documents, including the legacy `aboutIntroSection` retained for existing references; page-only openings use inline page objects such as `pageIntro` |
+| `buildableSection/` | Reusable page section documents such as `curiositySection`, `aboutBuilderSection`, `quoteSection`, `processSection`, `experienceSection`, and `ctaSection` |
 | `miscellaneous/` | Leaf tag documents: `blogTag`, `techTag` |
 | `structure/` | Custom Studio sidebar (`siteSettings`, `layout`, `pages`, `sections`, `entitiesStructure`, `miscellaneous`) + `utils/create-document-structure.ts` |
 | `schemaTypes/index.ts` | **The schema registry.** Exports `globalSchemas`, `entities`, `sections`, `hoistedObjects`, `fixedPages`, `miscellaneous` |
-| `lib/` | SDK & pure helpers: `client.ts`, `live.ts`, `image.ts`, `images.ts`, `formatDate.ts`, `hero.ts`, `curiosity.ts`, `routes.ts`, `links.ts`, `metadata.ts`, `analytics.ts`, `preview.ts` |
+| `lib/` | Sanity-specific adapters: `client.ts`, `live.ts`, `image.ts`, `images.ts`, `preview.ts` |
 
-`src/sanity/` contains **zero** GROQ queries and **zero** imports from frontend layers (`src/app`, `src/components`, `src/sections`, `src/layout`, `src/hero`, `src/fragments`).
+`src/lib/` contains framework-independent helpers shared by schemas and the frontend (`formatDate.ts`, `hero.ts`), frontend metadata helpers, and Sanity link/routing helpers under `src/lib/sanity/`. Page and section-specific helpers stay in their owning `src/page-builder/` or `src/sections/` module; component-only helpers stay beside their component.
+
+`src/sanity/` contains **zero** GROQ queries and **zero** imports from frontend layers (`src/app`, `src/components`, `src/sections`, `src/layout`, `src/page-builder`, `src/fragments`). Cross-layer pure helpers belong in `src/lib/`; feature-specific helpers and query-derived types belong with their frontend feature or page-builder.
 
 ### 3.3 Data Flow & Studio Sidebar
 
-- **Routes fetch, builders adapt, UI components render**: Route files (`layout.tsx`, `page.tsx`) call `sanityFetch({ query, params })` in parallel via `Promise.all()` and pass plain serializable props to `*Builder` components. Components and builders **never** import `sanityFetch` or `client`.
+- **Routes delegate, page builders fetch and compose, UI components render**: Public routes delegate data loading, metadata, and composition to their matching `src/page-builder/<page>/` module. Page-builder modules own page-specific root queries, projection fragments, cached loaders, and page composition; shared UI and section builders **never** import `sanityFetch` or `client`.
 - **Client/Server boundary**: Only interactive leaves use `"use client"` (`layout/header/index.tsx`, `sections/contact/sub-components/form/index.tsx`, `sections/projects/index.tsx`, `sections/technology/index.tsx`, `components/youtube/index.tsx`). `app/actions/sendEmail.ts` uses `"use server"`. Everything else is RSC.
 - **Studio sidebar (`src/sanity/structure.ts`)**: Composes **[pinned singletons: Site Settings, Layout]** → **Pages** → **Page Sections** (flat list of reusable section documents) → **Entities** → **Miscellaneous**.
 - **Reference-based `pageSections`**: Sections (`curiositySection`, `richTextSection`, `technologySection`, `technologyCarousel`) are `type: "document"` created under **Page Sections**. Pages reference them via `pageSections` (`type: "reference"`), and `PAGE_SECTIONS_FRAGMENT` returns the ordered array `"sections": pageSections[]->{ _id, _type, _type == "..." => {...fragment} }`, and `SectionBuilder` renders each block by `_type` in Studio order (numbers computed from rendered sections). Adding a section = one fragment line + one `case`.
-- **Page-specific openings**: Content that belongs only at the top of a page should be modeled as an inline object on that page singleton, before its reorderable `pageSections`. Keep legacy referenced content readable through a compatibility schema and rendering fallback until existing documents have been migrated.
+- **Page-specific openings**: Content that belongs only at the top of a page should be modeled as an inline object on that page singleton, before its reorderable `pageSections`. Use `pageSections` references for reusable or editor-reorderable content.
 
 ### 3.4 Global Singletons (`siteSettings` & `layout`)
 
@@ -99,7 +105,7 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 - `layout.footer` — `mainContent`, `email`, `phone`, `columns[]` (flat array of `link` objects), `base`.
 - `siteSettings.seo` — `titleTemplate` (`{title}` placeholder), `defaultOgImage`, `robots`.
 - `siteSettings.analytics` — `googleTagManagerID` (`^GTM-[A-Z0-9]+$`).
-- **Nullability & Routing**: Singletons have fixed IDs (`_id == schema.name`) and may return `null` until created in Studio; every consumer must null-check. Internal links resolve exclusively via `ROUTES_BY_TYPE` in `src/sanity/lib/routes.ts`.
+- **Nullability & Routing**: Singletons have fixed IDs (`_id == schema.name`) and may return `null` until created in Studio; every consumer must null-check. Internal links resolve exclusively via `ROUTES_BY_TYPE` in `src/lib/sanity/routes.ts`.
 
 ---
 
@@ -107,8 +113,8 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 
 - **Folders & Files**: `kebab-case` folders in frontend layers, each with `index.tsx` and `interface.ts` (`I...Props` for UI, `ISanity...Props` for builders).
 - **Queries & Fragments**:
-  - Root executable queries (`SCREAMING_SNAKE`) live in `src/layout/query.ts` and `src/app/(frontend)/**/query.ts` wrapped in `defineQuery(...)`.
-  - Component fragments live in `builder/fragment.ts` (or `src/fragments/`) as `/* groq */ \`...\`` template literals (**never** wrap partial fragments in `defineQuery`, as TypeGen parses every `defineQuery` as a standalone root query).
+  - Root executable queries (`SCREAMING_SNAKE`) live in `src/layout/query.ts` or beside their page-builder module in `query.ts` and are wrapped in `defineQuery(...)`.
+  - Shared root fragments live in `src/fragments/`; page-owned projections live in the matching page-builder's `fragment.ts`; feature fragments live beside their builders in `builder/fragment.ts`. Use `/* groq */ \`...\`` template literals for partial fragments (**never** wrap partial fragments in `defineQuery`, as TypeGen parses every `defineQuery` as a standalone root query).
 - **Schema Idioms**:
   - Pass `seo()` from `_root/seo` to every page schema (`slug({ source, isFixed, prefix })` locks fixed route slugs).
   - Use `defineArrayMember()` for array `of` members and always provide a `preview` on section/object schemas.

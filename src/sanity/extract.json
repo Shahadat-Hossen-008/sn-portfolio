@@ -5132,6 +5132,14 @@
         },
         "optional": false
       },
+      "pageIntro": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "pageIntroSection"
+        },
+        "optional": true
+      },
       "pageSections": {
         "type": "objectAttribute",
         "value": {
