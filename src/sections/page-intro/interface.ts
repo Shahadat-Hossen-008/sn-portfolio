@@ -1,4 +1,4 @@
-export interface IAboutIntroProps {
+export interface IPageIntroProps {
   eyebrow?: string;
   heading: string;
   headingAccent?: string | null;

@@ -1,5 +1,4 @@
 import { AboutBuilderSectionBuilder } from "@/sections/about-builder/builder";
-import { AboutIntroSectionBuilder } from "@/sections/about-intro/builder";
 import { CtaSectionBuilder } from "@/sections/cta/builder";
 import { CuriositySectionBuilder } from "@/sections/curiosity/builder";
 import { ExperienceSectionBuilder } from "@/sections/experience/builder";
@@ -25,7 +24,6 @@ function willRender(
         Object.values(getCuriosityTiles(section, latestProjects)).some(Boolean)
       );
     case "aboutBuilderSection":
-    case "aboutIntroSection":
     case "processSection":
     case "experienceSection":
     case "ctaSection":
@@ -83,13 +81,6 @@ export function SectionBuilder({
                 key={section._id}
                 data={section}
                 sectionNumber={sectionNumber}
-              />
-            );
-          case "aboutIntroSection":
-            return (
-              <AboutIntroSectionBuilder
-                key={section._id}
-                data={section}
               />
             );
           case "quoteSection":

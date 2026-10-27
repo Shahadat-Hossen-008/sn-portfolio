@@ -13,6 +13,7 @@ import author from "../entites/author";
 import blogPost from "../entites/blogPost";
 import { projectTemplate } from "../entites/project";
 // Hoisted objects
+import { PageIntroSection } from "../_root/page-intro-section";
 import portableText from "../_root/portableText";
 import { customImage } from "../_root/media";
 import { technologyItem } from "../_root/technology-item";
@@ -24,7 +25,6 @@ import richText from "../buildableSection/richText";
 import carouselTech from "../buildableSection/carouselTech";
 import { curiositySection } from "../buildableSection/curiosity";
 import { aboutBuilderSection } from "../buildableSection/aboutBuilderSection";
-import { aboutIntroSection } from "../buildableSection/aboutIntroSection";
 import { quoteSection } from "../buildableSection/quoteSection";
 import { processSection } from "../buildableSection/processSection";
 import { experienceSection } from "../buildableSection/experienceSection";
@@ -54,7 +54,6 @@ export const entities: DocumentDefinition[] = [
 export const sections: DocumentDefinition[] = [
   curiositySection,
   aboutBuilderSection,
-  aboutIntroSection,
   quoteSection,
   processSection,
   experienceSection,
@@ -65,6 +64,7 @@ export const sections: DocumentDefinition[] = [
 ];
 
 export const hoistedObjects: SchemaTypeDefinition[] = [
+  PageIntroSection,
   portableText,
   customImage,
   technologyItem,

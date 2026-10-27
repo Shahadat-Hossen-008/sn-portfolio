@@ -22,7 +22,6 @@ export const pageSection = defineType({
   of: [
     sectionRef("curiositySection", "Stack & Curiosity"),
     sectionRef("aboutBuilderSection", "About the builder"),
-    sectionRef("aboutIntroSection", "About intro"),
     sectionRef("quoteSection", "Quote"),
     sectionRef("processSection", "Process"),
     sectionRef("experienceSection", "Experience"),
@@ -42,7 +41,6 @@ export const pageSection = defineType({
           of: [
             "curiositySection",
             "aboutBuilderSection",
-            "aboutIntroSection",
             "quoteSection",
             "processSection",
             "experienceSection",

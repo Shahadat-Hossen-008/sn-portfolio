@@ -3,19 +3,19 @@ import { defineField, defineType } from "sanity";
 
 import { sectionHeaderFields } from "@/sanity/_root/section-header";
 
-export const aboutIntroSection = defineType({
-  name: "aboutIntroSection",
-  title: "About intro",
-  type: "document",
+export const PageIntroSection = defineType({
+  name: "pageIntroSection",
+  title: "Page intro",
+  type: "object",
   icon: BsFileEarmarkText,
   description:
-    "The opening of the About page: a large heading on the left, and a lead sentence with a short paragraph on the right.",
+    "The opening of the page: a large heading on the left, and a lead sentence with a short paragraph on the right.",
   fields: [
     ...sectionHeaderFields({
       headingMax: 60,
       introMax: 140,
       headingDescription:
-        "The main heading of the About page, shown large on the left. Max 60 characters.",
+        "The main heading of the page, shown large on the left. Max 60 characters.",
       introDescription:
         "The lead sentence, shown first on the right in larger text. Max 140 characters.",
     }),
@@ -32,8 +32,8 @@ export const aboutIntroSection = defineType({
   preview: {
     select: { title: "heading", subtitle: "eyebrow" },
     prepare: ({ title, subtitle }) => ({
-      title: title || "About intro",
-      subtitle: subtitle || "About page opening",
+      title: title || "Page intro",
+      subtitle: subtitle || "Page opening",
     }),
   },
 });

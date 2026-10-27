@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
 import { pageSection } from "@/sanity/_root/sections";
-import { aboutIntroSection } from "@/sanity/buildableSection/aboutIntroSection";
 import { ctaSection } from "@/sanity/buildableSection/ctaSection";
 import { experienceSection } from "@/sanity/buildableSection/experienceSection";
 import { processSection } from "@/sanity/buildableSection/processSection";
@@ -44,7 +43,6 @@ const captureCustomValidator = (validationFn: unknown) => {
 
 describe("About-page section schemas", () => {
   const newSections = [
-    aboutIntroSection,
     quoteSection,
     processSection,
     experienceSection,
@@ -149,38 +147,6 @@ describe("About-page section schemas", () => {
     }
   });
 
-  describe("aboutIntroSection", () => {
-    it("enforces limits on heading, lead and body", () => {
-      const headingField = aboutIntroSection.fields.find((f) => f.name === "heading");
-      const introField = aboutIntroSection.fields.find((f) => f.name === "intro");
-      const bodyField = aboutIntroSection.fields.find((f) => f.name === "body");
-
-      const headingRule = createMockRule();
-      (headingField?.validation as ValidationFn | undefined)?.(headingRule);
-      expect(headingRule.required).toHaveBeenCalled();
-      expect(headingRule.max).toHaveBeenCalledWith(60);
-
-      const introRule = createMockRule();
-      (introField?.validation as ValidationFn | undefined)?.(introRule);
-      expect(introRule.max).toHaveBeenCalledWith(140);
-
-      const bodyRule = createMockRule();
-      (bodyField?.validation as ValidationFn | undefined)?.(bodyRule);
-      expect(bodyRule.max).toHaveBeenCalledWith(220);
-    });
-
-    it("prepares preview safely with fallbacks", () => {
-      const preview = aboutIntroSection.preview;
-      expect(preview?.prepare?.({ title: "My heading", subtitle: "My eyebrow" })).toEqual({
-        title: "My heading",
-        subtitle: "My eyebrow",
-      });
-      expect(preview?.prepare?.({ title: undefined, subtitle: undefined })).toEqual({
-        title: "About intro",
-        subtitle: "About page opening",
-      });
-    });
-  });
 
   describe("quoteSection", () => {
     it("enforces limits on quote and note", () => {

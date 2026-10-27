@@ -1,16 +1,16 @@
 import { AccentHeading } from "@/components/accent-heading";
-import type { IAboutIntroProps } from "./interface";
+import type { IPageIntroProps } from "./interface";
 
-export function AboutIntroSection({
+export function PageIntroSection({
   eyebrow,
   heading,
   headingAccent,
   intro,
   body,
-}: IAboutIntroProps) {
+}: IPageIntroProps) {
   return (
     <section
-      aria-labelledby="about-intro-heading"
+      aria-labelledby="page-intro-heading"
       className="bg-background text-foreground"
     >
       <div className="mx-auto w-full max-w-page px-8">
@@ -23,7 +23,7 @@ export function AboutIntroSection({
             )}
             <AccentHeading
               as="h1"
-              id="about-intro-heading"
+              id="page-intro-heading"
               text={heading}
               accent={headingAccent}
               className="font-display text-display font-normal text-balance"
@@ -43,4 +43,4 @@ export function AboutIntroSection({
   );
 }
 
-export default AboutIntroSection;
+export default PageIntroSection;

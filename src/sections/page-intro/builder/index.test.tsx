@@ -2,12 +2,10 @@ import { readFileSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import type { NonNullableAboutIntroSection } from "./interface";
-import { AboutIntroSectionBuilder } from "./index";
+import type { PageIntroData } from "./interface";
+import { PageIntroSectionBuilder } from "./index";
 
-const base: NonNullableAboutIntroSection = {
-  _id: "intro-1",
-  _type: "aboutIntroSection",
+const base: PageIntroData = {
   eyebrow: "About me",
   heading: "Building interfaces with precision and care",
   headingAccent: "precision",
@@ -15,15 +13,15 @@ const base: NonNullableAboutIntroSection = {
   body: "A short follow up paragraph about my background.",
 };
 
-const render = (data: Partial<NonNullableAboutIntroSection> = {}) =>
-  renderToStaticMarkup(<AboutIntroSectionBuilder data={{ ...base, ...data }} />);
+const render = (data: Partial<PageIntroData> = {}) =>
+  renderToStaticMarkup(<PageIntroSectionBuilder data={{ ...base, ...data }} />);
 
-describe("AboutIntroSectionBuilder", () => {
+describe("PageIntroSectionBuilder", () => {
   it("renders exactly one h1 with the accent inside <em>", () => {
     const html = render();
 
     expect(html.match(/<h1/g)).toHaveLength(1);
-    expect(html).toContain('id="about-intro-heading"');
+    expect(html).toContain('id="page-intro-heading"');
     expect(html).toContain("font-display text-display font-normal text-balance");
     expect(html).toMatch(/with <em[^>]*>precision<\/em> and care/);
   });

@@ -1,5 +1,4 @@
 import { aboutBuilderSectionFragment } from "@/sections/about-builder/builder/fragment";
-import { aboutIntroSectionFragment } from "@/sections/about-intro/builder/fragment";
 import { ctaSectionFragment } from "@/sections/cta/builder/fragment";
 import { curiositySectionFragment } from "@/sections/curiosity/builder/fragment";
 import { experienceSectionFragment } from "@/sections/experience/builder/fragment";
@@ -18,7 +17,6 @@ export const PAGE_SECTIONS_FRAGMENT = /* groq */ `
     _type,
     _type == "curiositySection" => ${curiositySectionFragment},
     _type == "aboutBuilderSection" => ${aboutBuilderSectionFragment},
-    _type == "aboutIntroSection" => ${aboutIntroSectionFragment},
     _type == "quoteSection" => ${quoteSectionFragment},
     _type == "processSection" => ${processSectionFragment},
     _type == "experienceSection" => ${experienceSectionFragment},
