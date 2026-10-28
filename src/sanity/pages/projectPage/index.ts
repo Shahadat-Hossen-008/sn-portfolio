@@ -18,7 +18,7 @@ export const project = defineType({
     },
   ],
   fields: [
-    seo({ group: "seo", slugOptions: { isFixed: true, prefix: "project" } }),
+    seo({ group: "seo", slugOptions: { isFixed: true, prefix: "projects" } }),
     defineField({
       name: "pageIntro",
       title: "Page Intro",
