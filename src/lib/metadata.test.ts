@@ -264,11 +264,10 @@ describe("public route resolution", () => {
       "/blog/hello-world",
     );
     expect(resolveRoute("aboutPage", "about")).toBe("/about");
-    expect(resolveRoute("projectPage", "project")).toBeNull();
+    expect(resolveRoute("projectPage", "projects")).toBe("/projects");
     expect(resolveRoute("blogPost")).toBeNull();
     expect(resolveRoute("unknownType")).toBeNull();
   });
-
 });
 
 describe("link resolution", () => {
@@ -302,7 +301,7 @@ describe("link resolution", () => {
   });
 
   it("rejects invalid destinations instead of producing broken hrefs", () => {
-    expect(resolveLink({ type: "internal", reference: { _type: "projectPage" } })).toBeNull();
+    expect(resolveLink({ type: "internal", reference: { _type: "unknownType" } })).toBeNull();
     expect(resolveLink({ type: "external", url: "javascript:alert(1)" })).toBeNull();
     expect(resolveLink({ type: "external", url: "#unknown" })).toBeNull();
     expect(resolveLink({ type: "external", url: null })).toBeNull();
@@ -316,7 +315,7 @@ describe("link resolution", () => {
   it("drops unresolved entries from link lists", () => {
     const links = ([
       { label: "Home", type: "internal", reference: { _type: "myProfilePage" } },
-      { label: "Missing", type: "internal", reference: { _type: "projectPage" } },
+      { label: "Missing", type: "internal", reference: { _type: "unknownType" } },
       { label: "Contact", type: "external", url: "https://mysite.com/contact", isDisabled: true },
     ] satisfies SanityLink[]).flatMap((link) => {
       const href = resolveLink(link);
