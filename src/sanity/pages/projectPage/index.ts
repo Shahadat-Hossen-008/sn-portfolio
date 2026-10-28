@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 import { seo, seoGroup } from "@/sanity/_root/seo";
 import { SiSanity } from "react-icons/si";
 import { IoDocument } from "react-icons/io5";
@@ -20,10 +20,30 @@ export const project = defineType({
   fields: [
     seo({ group: "seo", slugOptions: { isFixed: true, prefix: "project" } }),
     defineField({
+      name: "pageIntro",
+      title: "Page Intro",
+      type: "pageIntroSection",
+      group: "content",
+    }),
+    defineField({
       name: "projects",
       title: "Projects",
       type: "array",
-      of: [{ type: "reference", to: [{ type: "project" }] }],
+      description:
+        "The projects shown on the showcase, in order. Drag to reorder. Leave empty to show every project automatically.",
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "project" }],
+        }),
+      ],
+      validation: (rule) => rule.unique(),
+      group: "content",
+    }),
+    defineField({
+      name: "pageSections",
+      title: "Page Sections",
+      type: "pageSections",
       group: "content",
     }),
   ],
