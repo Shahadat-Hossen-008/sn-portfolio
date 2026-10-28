@@ -10,12 +10,8 @@
  * Not every routable document has a usable slug in Sanity:
  *   - `myProfilePage` has a fixed, empty slug and renders at `/`.
  *   - `blogPost` keeps a top level `slug`, not `seo.slug`.
- *   - `aboutPage` / `projectPage` are fixed-slug singletons whose routes are
- *     **not implemented yet** in `src/app/(frontend)`, so resolving them would
- *     produce a 404. They are intentionally absent from the map; adding the
- *     route means adding the entry here *and* `INTERNAL_REFERENCE_TYPES` below
- *     becomes valid again automatically (the Studio `reference` field derives
- *     its allowed types from that array).
+ *   - `aboutPage` / `projectPage` are fixed-slug singletons with explicit
+ *     routes, so they do not depend on the slug value stored in Sanity.
  *
  * Type safety: `INTERNAL_REFERENCE_TYPES` is derived from the map keys, so a
  * resolver can never be written for a document type the Studio cannot produce,
@@ -25,6 +21,7 @@
 export const ROUTES_BY_TYPE = {
   myProfilePage: () => "/",
   aboutPage: () => "/about",
+  projectPage: () => "/projects",
   blogPost: (slug?: string | null) =>
     slug ? `/blog/${encodeURIComponent(slug)}` : null,
 } as const;

@@ -26,28 +26,14 @@ export const curiositySectionFragment = /* groq */ `{
         "title": projectTitle,
         "year": string::split(date, "-")[0],
         "tech": stack[]->label,
-        projectLink {
-          label,
-          type,
-          url,
-          openInNewTab,
-          isDisabled,
-          ${LINK_REFERENCE_FRAGMENT}
-        }
+        liveLink
       },
       *[_type == "project"] | order(date desc, _createdAt desc)[0...3]{
         _id,
         "title": projectTitle,
         "year": string::split(date, "-")[0],
         "tech": stack[]->label,
-        projectLink {
-          label,
-          type,
-          url,
-          openInNewTab,
-          isDisabled,
-          ${LINK_REFERENCE_FRAGMENT}
-        }
+        liveLink
       }
     )
   }

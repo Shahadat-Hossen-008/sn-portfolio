@@ -40,15 +40,15 @@ export function projectRows(
         const label = technology?.trim();
         return label ? [label] : [];
       });
-      const link = project.projectLink;
+      const href = project.liveLink?.trim() || null;
 
       return [{
         _id: project._id,
         title,
         year: project.year?.trim() || null,
         technologies,
-        href: link?.isDisabled ? null : resolveLink(link),
-        openInNewTab: link?.openInNewTab === true,
+        href,
+        openInNewTab: Boolean(href),
       }];
     });
   }

@@ -1,12 +1,9 @@
 "use client";
 
-import { format } from "date-fns";
-import { parseISO } from "date-fns/fp";
 import useEmblaCarousel from "embla-carousel-react";
-import { PortableText } from "next-sanity";
 import Image from "next/image";
 
-import { portableTextComponents } from "@/components/portable-text";
+import { formatDate } from "@/lib/formatDate";
 import { urlFor } from "@/sanity/lib/image";
 import LeftIcon from "../../../public/LeftIcon";
 import RightIcon from "../../../public/RightIcon";
@@ -61,15 +58,21 @@ export function ProjectsSection({ projects }: IProjectsSectionProps) {
                       {project.projectTitle}
                     </h3>
                     <p className="pb-4 font-mono">
-                      Project Duretion:{" "}
-                      {format(parseISO(project.start || ""), "LLL d, yyyy")} -{" "}
-                      {format(parseISO(project.end || ""), "LLL d, yyyy")}
+                      Project Duration:{" "}
+                      {formatDate(project.start) ?? "—"} –{" "}
+                      {project.status === "inProgress"
+                        ? "Present"
+                        : (formatDate(project.end) ?? "—")}
                     </p>
                     {project.projectDescription && (
-                      <PortableText
-                        value={project.projectDescription}
-                        components={portableTextComponents}
-                      />
+                      <p className="pb-3 leading-[1.6]">
+                        {project.projectDescription}
+                      </p>
+                    )}
+                    {project.problemStatement && (
+                      <p className="pb-3 leading-[1.6] text-foreground/70">
+                        {project.problemStatement}
+                      </p>
                     )}
                     {project.projectHref && (
                       <a
@@ -81,14 +84,16 @@ export function ProjectsSection({ projects }: IProjectsSectionProps) {
                         View Project
                       </a>
                     )}
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 inline-block bg-limestone text-forest rounded-full px-6.5 py-3 text-base transition-colors duration-300 hover:bg-soft-limestone"
-                    >
-                      Github
-                    </a>
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-block bg-limestone text-forest rounded-full px-6.5 py-3 text-base transition-colors duration-300 hover:bg-soft-limestone"
+                      >
+                        Github
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}
