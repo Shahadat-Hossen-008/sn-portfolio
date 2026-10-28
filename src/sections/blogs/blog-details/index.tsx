@@ -2,7 +2,7 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";
 
-import { portableTextComponents } from "@/components/portable-text";
+import { createPortableTextComponents } from "@/components/portable-text";
 import { urlFor } from "@/sanity/lib/image";
 import type { IBlogDetailsProps } from "./interface";
 
@@ -41,7 +41,7 @@ export function BlogDetails({
       {blogContent && (
         <PortableText
           value={blogContent}
-          components={portableTextComponents}
+          components={createPortableTextComponents(blogContent)}
         />
       )}
     </section>
