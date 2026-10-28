@@ -14,7 +14,7 @@ export const previewPortableTextComponents = {
     youtube: () => null,
     editorialSection: () => null,
     decisionCards: () => null,
-    outcomeMetrics: () => null,
+    outcomeState: () => null,
     portableTable: () => null,
     mermaidDiagram: () => null,
   },
