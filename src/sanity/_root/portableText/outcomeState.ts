@@ -1,8 +1,8 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { BarChartIcon } from "@sanity/icons";
 
-export const outcomeStatItem = defineType({
-  name: "outcomeStatItem",
+export const outcomeStateItem = defineType({
+  name: "outcomeStateItem",
   type: "object",
   title: "Outcome Item",
   fields: [
@@ -39,10 +39,10 @@ export const outcomeStatItem = defineType({
   },
 });
 
-export const outcomeMetrics = defineType({
-  name: "outcomeMetrics",
+export const outcomeState = defineType({
+  name: "outcomeState",
   type: "object",
-  title: "Outcome Boxes (What It Provides)",
+  title: "Outcome State (What It Provides)",
   icon: BarChartIcon,
   fields: [
     defineField({
@@ -58,7 +58,7 @@ export const outcomeMetrics = defineType({
       description:
         "Concrete capabilities and deliverables rendered in a unified 1px bordered grid (e.g. 'Walk-in ready' — 'Purchase without creating an account').",
       type: "array",
-      of: [defineArrayMember({ type: "outcomeStatItem" })],
+      of: [defineArrayMember({ type: "outcomeStateItem" })],
       validation: (rule) =>
         rule
           .required()

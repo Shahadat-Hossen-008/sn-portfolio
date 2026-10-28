@@ -4,7 +4,7 @@ import { youtube } from "./iframe";
 import { code } from "./code";
 import { editorialSection } from "./editorialSection";
 import { decisionCards, decisionCardItem } from "./decisionCards";
-import { outcomeMetrics, outcomeStatItem } from "./outcomeState";
+import { outcomeState, outcomeStateItem } from "./outcomeState";
 import {
   portableTable,
   portableTableCell,
@@ -17,8 +17,8 @@ export {
   editorialSection,
   decisionCards,
   decisionCardItem,
-  outcomeMetrics,
-  outcomeStatItem,
+  outcomeState,
+  outcomeStateItem,
   portableTable,
   portableTableCell,
   portableTableHeader,
@@ -50,9 +50,9 @@ export default defineField({
       title: "Decision Cards Grid",
     }),
     defineArrayMember({
-      name: "outcomeMetrics",
-      type: "outcomeMetrics",
-      title: "Outcome Stats Grid",
+      name: "outcomeState",
+      type: "outcomeState",
+      title: "Outcome State Grid",
     }),
     defineArrayMember({
       name: "portableTable",
