@@ -72,23 +72,34 @@ export function formatPeriod(
 }
 
 /**
- * Cleans an array of technology tag references:
+ * Cleans an array of technology tags (inline strings or legacy reference objects):
  * drops null items or items with null/empty labels, trims labels, caps at max 4, keeps order.
  */
 export function cleanTools(
-  tools?: ReadonlyArray<{ _id?: string | null; label?: string | null } | null> | null,
+  tools?: ReadonlyArray<
+    string | { _id?: string | null; label?: string | null } | null
+  > | null,
 ): CleanTool[] {
   if (!tools || !Array.isArray(tools)) return [];
 
   const cleaned: CleanTool[] = [];
   for (const tool of tools) {
-    if (!tool || !tool._id) continue;
-    const label = tool.label?.trim();
-    if (!label) continue;
-    cleaned.push({
-      _id: tool._id,
-      label,
-    });
+    if (!tool) continue;
+    if (typeof tool === "string") {
+      const label = tool.trim();
+      if (!label) continue;
+      cleaned.push({
+        _id: label,
+        label,
+      });
+    } else if (tool._id) {
+      const label = tool.label?.trim();
+      if (!label) continue;
+      cleaned.push({
+        _id: tool._id,
+        label,
+      });
+    }
     if (cleaned.length === 4) break;
   }
 

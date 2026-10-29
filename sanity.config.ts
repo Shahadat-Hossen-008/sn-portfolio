@@ -15,6 +15,7 @@ import {
   schema,
   singletonDocumentActions,
 } from "./src/sanity/schemaTypes";
+import { CustomPortableTextInput } from "./src/sanity/components/portable-text-input";
 import { structure } from "./src/sanity/structure";
 import "./src/sanity/studio.css";
 
@@ -25,6 +26,11 @@ export default defineConfig({
   projectId,
   dataset,
   schema,
+  form: {
+    components: {
+      input: CustomPortableTextInput,
+    },
+  },
   document: {
     // Singletons only: every other schema type keeps the stock action list.
     actions: singletonDocumentActions,
