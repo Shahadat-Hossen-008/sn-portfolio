@@ -51,12 +51,18 @@ describe("aboutSections helpers", () => {
 
   describe("formatPeriod", () => {
     it("formats a current role with Present", () => {
-      expect(formatPeriod("2024-01-01", undefined, true)).toBe("Jan 2024 — Present");
-      expect(formatPeriod("2024-01-01", "2025-01-01", true)).toBe("Jan 2024 — Present");
+      expect(formatPeriod("2024-01-01", undefined, true)).toBe(
+        "Jan 2024 — Present",
+      );
+      expect(formatPeriod("2024-01-01", "2025-01-01", true)).toBe(
+        "Jan 2024 — Present",
+      );
     });
 
     it("formats an ended role with end date", () => {
-      expect(formatPeriod("2022-06-01", "2023-12-01", false)).toBe("Jun 2022 — Dec 2023");
+      expect(formatPeriod("2022-06-01", "2023-12-01", false)).toBe(
+        "Jun 2022 — Dec 2023",
+      );
     });
 
     it("returns only start date if end date is missing and not current", () => {
@@ -90,6 +96,26 @@ describe("aboutSections helpers", () => {
         { _id: "t5", label: "TypeScript" },
         { _id: "t6", label: "Next.js" },
         { _id: "t7", label: "Tailwind" },
+      ]);
+    });
+
+    it("supports inline string array tools ", () => {
+      const input = [
+        " React ",
+        "",
+        "   ",
+        null,
+        "TypeScript",
+        "Next.js",
+        "Tailwind",
+        "GraphQL",
+      ];
+
+      expect(cleanTools(input)).toEqual([
+        { _id: "React", label: "React" },
+        { _id: "TypeScript", label: "TypeScript" },
+        { _id: "Next.js", label: "Next.js" },
+        { _id: "Tailwind", label: "Tailwind" },
       ]);
     });
 

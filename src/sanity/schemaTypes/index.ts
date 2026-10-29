@@ -14,7 +14,18 @@ import blogPost from "../entites/blogPost";
 import { projectTemplate } from "../entites/project";
 // Hoisted objects
 import { PageIntroSection } from "../_root/page-intro-section";
-import portableText from "../_root/portableText";
+import portableText, {
+  decisionCardItem,
+  decisionCards,
+  editorialSection,
+  mermaidDiagram,
+  outcomeState,
+  outcomeStateItem,
+  portableTable,
+  portableTableCell,
+  portableTableHeader,
+  portableTableRow,
+} from "../_root/portableText";
 import { customImage } from "../_root/media";
 import { technologyItem } from "../_root/technology-item";
 import { heroSection } from "../buildableSection/heroSection";
@@ -66,6 +77,16 @@ export const sections: DocumentDefinition[] = [
 export const hoistedObjects: SchemaTypeDefinition[] = [
   PageIntroSection,
   portableText,
+  editorialSection,
+  decisionCards,
+  decisionCardItem,
+  outcomeState,
+  outcomeStateItem,
+  portableTable,
+  portableTableHeader,
+  portableTableCell,
+  portableTableRow,
+  mermaidDiagram,
   customImage,
   technologyItem,
   pageSection,

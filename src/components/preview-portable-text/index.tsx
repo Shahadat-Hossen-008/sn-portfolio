@@ -10,7 +10,13 @@ export const previewPortableTextComponents = {
     code: () => null,
     customImage: () => null,
     portableImage: () => null,
+    portableTextImage: () => null,
     youtube: () => null,
+    editorialSection: () => null,
+    decisionCards: () => null,
+    outcomeState: () => null,
+    portableTable: () => null,
+    mermaidDiagram: () => null,
   },
   marks: {
     linkUrl: ({ children }: IPreviewPortableTextMarkProps) => {
