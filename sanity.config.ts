@@ -18,6 +18,8 @@ import {
 import { CustomPortableTextInput } from "./src/sanity/components/portable-text-input";
 import { structure } from "./src/sanity/structure";
 import "./src/sanity/studio.css";
+import { presentationTool } from "sanity/presentation";
+import { previewLocations } from "@/sanity/presentation/location";
 
 export default defineConfig({
   name: "shahadat-portfolio",
@@ -37,6 +39,13 @@ export default defineConfig({
   },
   plugins: [
     structureTool({ structure }),
+    presentationTool({
+      previewUrl: {
+        initial: process.env.NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_DEVELOP ?? "http://localhost:3000",
+        previewMode: { enable: "/api/draft-mode/enable" },
+      },
+      resolve: { locations: previewLocations },
+    }),
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),

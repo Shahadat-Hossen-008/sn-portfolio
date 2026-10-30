@@ -787,18 +787,10 @@ export type Project = {
   date?: string;
   projectDescription?: string;
   problemStatement?: string;
-  problem?: PortableText;
-  approach?: PortableText;
-  decisionMaking?: Array<{
-    title: string;
-    description?: string;
-    _type: "decision";
-    _key: string;
-  }>;
-  outcome?: PortableText;
+  caseStudy?: PortableText;
   start: string;
   end?: string;
-  caseStudy?: {
+  caseStudyLink?: {
     label: string;
     type: "internal" | "external";
     reference?: {
@@ -2566,26 +2558,7 @@ export type PROJECT_QUERYResult = Array<{
   liveLink: string | null;
   githubUrl: string | null;
   projectImage: CustomImage;
-  caseStudy: {
-    label: string;
-    type: "external" | "internal";
-    url: string | null;
-    openInNewTab: boolean | null;
-    isDisabled: boolean | null;
-    reference: {
-      _type: "aboutPage";
-      slug: string | null;
-    } | {
-      _type: "blogPost";
-      slug: string;
-    } | {
-      _type: "myProfilePage";
-      slug: string | null;
-    } | {
-      _type: "projectPage";
-      slug: string | null;
-    } | null;
-  } | null;
+  caseStudy: null;
   stack: Array<{
     _id: string;
     label: string;
@@ -2648,26 +2621,7 @@ export type PROJECT_PAGE_QUERYResult = {
     liveLink: string | null;
     githubUrl: string | null;
     projectImage: CustomImage;
-    caseStudy: {
-      label: string;
-      type: "external" | "internal";
-      url: string | null;
-      openInNewTab: boolean | null;
-      isDisabled: boolean | null;
-      reference: {
-        _type: "aboutPage";
-        slug: string | null;
-      } | {
-        _type: "blogPost";
-        slug: string;
-      } | {
-        _type: "myProfilePage";
-        slug: string | null;
-      } | {
-        _type: "projectPage";
-        slug: string | null;
-      } | null;
-    } | null;
+    caseStudy: null;
     stack: Array<{
       _id: string;
       label: string;

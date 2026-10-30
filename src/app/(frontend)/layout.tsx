@@ -3,7 +3,8 @@ import type { Metadata, Viewport } from "next";
 import { LayoutBuilder } from "@/layout";
 import { getLayoutSettings } from "@/layout/get-layout";
 import { buildMetadata } from "@/lib/metadata";
-
+import {draftMode} from 'next/headers'
+import {VisualEditing} from 'next-sanity/visual-editing'
 export const viewport: Viewport = { themeColor: "#e2dbc9" };
 
 /**
@@ -27,10 +28,13 @@ export default async function FrontendLayout({
   children: React.ReactNode;
 }>) {
   const { layout, siteSettings } = await getLayoutSettings();
-
+  const {isEnabled} = await draftMode()
   return (
-    <LayoutBuilder layout={layout} siteSettings={siteSettings}>
+    <>
+      <LayoutBuilder layout={layout} siteSettings={siteSettings}>
       {children}
     </LayoutBuilder>
+    {isEnabled && <VisualEditing />}
+    </>
   );
 }
