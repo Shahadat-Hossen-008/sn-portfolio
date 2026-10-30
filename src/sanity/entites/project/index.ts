@@ -151,36 +151,12 @@ export const projectTemplate = defineType({
     }),
 
     defineField({
-      name: "problem",
-      title: "Problem (full)",
+      name: "caseStudy",
+      title: "Case Study",
       type: "portableText",
       group: "story",
       description:
-        "Detail page version: context, constraints and what was broken. Lists and images allowed.",
-    }),
-    defineField({
-      name: "approach",
-      title: "Approach",
-      type: "portableText",
-      group: "story",
-      description: "How you thought about it and what you built.",
-    }),
-    defineField({
-      name: "decisionMaking",
-      title: "Key decisions",
-      type: "array",
-      group: "story",
-      description: "The trade-offs that shaped the build. Drag to reorder.",
-      of: [decision],
-      validation: (rule) => rule.max(6),
-    }),
-    defineField({
-      name: "outcome",
-      title: "Outcome",
-      type: "portableText",
-      group: "story",
-      description:
-        "What was delivered and the value it provides. Only state measured results when verified.",
+        "Detail page version: context, constraints, approach & outcome. Lists and images allowed.",
     }),
 
     defineField({
@@ -216,8 +192,8 @@ export const projectTemplate = defineType({
     }),
 
     {
-      ...link("caseStudy"),
-      title: "Case study",
+      ...link("caseStudyLink"),
+      title: "Case study Link",
       icon: LinkIcon,
       group: "links",
       description: "Optional. Leave empty when the project has no write-up.",

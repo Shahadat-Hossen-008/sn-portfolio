@@ -78,6 +78,19 @@ function PortableTextArrayInput(props: ArrayOfObjectsInputProps) {
  * Global Studio input wrapper registered once in `sanity.config.ts`.
  * Automatically applies the Sanity v4.22.1 Portable Text modal focus fix to all
  * Portable Text (`array` of `block`) fields without requiring per-schema `components`.
+ *
+ * Why this exists: on `sanity@4.22.1`, opening an object block dialog in Portable Text
+ * (image, code, youtube, editorialSection, table, …) collapses `openPath` in
+ * `useDocumentForm.handleFocus` as soon as focus lands on the block, so the dialog
+ * closes immediately. The two guards below suppress that focus round-trip.
+ *
+ * Removal condition: upstream fixed this in `sanity@6.9.2` (sanity-io/sanity#13924),
+ * but `6.9.2`–`6.14.0` shipped a Portable Text data-loss regression, so the first safe
+ * target is `sanity >= 6.14.1`. After upgrading, delete this wrapper and its
+ * `sanity.config.ts` wiring, then re-verify: image upload inside Portable Text keeps
+ * the block dialog open, `editorialSection` fields keep focus, and nested dialogs
+ * (table rows/cells, card items) do not steal focus. The `selection`-payload guard is
+ * defensive and is not guaranteed to be covered by #13924.
  */
 export function CustomPortableTextInput(props: InputProps) {
   if (isArrayOfBlocksSchemaType(props.schemaType)) {

@@ -84,6 +84,7 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 | `miscellaneous/` | Leaf tag documents: `blogTag`, `techTag` |
 | `structure/` | Custom Studio sidebar (`siteSettings`, `layout`, `pages`, `sections`, `entitiesStructure`, `miscellaneous`) + `utils/create-document-structure.ts` |
 | `schemaTypes/index.ts` | **The schema registry.** Exports `globalSchemas`, `entities`, `sections`, `hoistedObjects`, `fixedPages`, `miscellaneous` |
+| `components/` | Studio-only custom inputs: `slug-input/` (slug field UI) and `portable-text-input/` (global Portable Text focus workaround, see §5.6) |
 | `lib/` | Sanity-specific adapters: `client.ts`, `live.ts`, `image.ts`, `images.ts`, `preview.ts` |
 
 `src/lib/` contains framework-independent helpers shared by schemas and the frontend (`formatDate.ts`, `hero.ts`), frontend metadata helpers, and Sanity link/routing helpers under `src/lib/sanity/`. Page and section-specific helpers stay in their owning `src/page-builder/` or `src/sections/` module; component-only helpers stay beside their component.
@@ -132,6 +133,10 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 5. **Known Legacy Quirks**:
    - `src/sanity/_root/seo/slug/restricted-slugs.ts` is unreachable legacy code.
    - `entites/` folder spelling and `MAIL_RECIEVER_ADDRESS` env var spelling are existing conventions—do not rename without a coordinated migration.
+6. **Portable Text Focus Workaround (Studio only)**: `src/sanity/components/portable-text-input/index.tsx` is a **version-pinned patch for a Sanity bug**, registered globally via `form.components.input` in `sanity.config.ts`. It is not content-model scaffolding: Portable Text object blocks (`portableTextImage`, `code`, `youtube`, `editorialSection`, …) open dialogs, and on `sanity@4.22.1` the document form's focus handler collapses `openPath`, so the dialog closes the moment focus lands on the block. A single image block reproduces it — removing block types does **not** remove the need for the patch.
+   - **Removal condition**: delete the wrapper and its `sanity.config.ts` wiring only after upgrading to **`sanity >= 6.14.1`**. Upstream fix landed in `6.9.2` (PR sanity-io/sanity#13924), but `6.9.2`–`6.14.0` shipped a Portable Text data-loss regression; `6.14.1` is the first safe target.
+   - **Before deleting**, manually verify in Studio: (a) upload an image inside Portable Text and confirm the block dialog stays open, (b) open `editorialSection` and type in its fields without focus jumping, (c) nested dialogs (table rows/cells, card items) keep focus. The wrapper has two guards — the single-segment `onPathFocus` guard maps to #13924; the `selection`-payload guard is defensive and is **not** guaranteed fixed by that PR.
+   - The wrapper reads non-public props (`member.open`, `member.item.members`, `field.members`, `onPathFocus` payloads); re-verify after any Sanity major upgrade.
 
 ---
 
