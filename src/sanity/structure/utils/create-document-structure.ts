@@ -1,5 +1,5 @@
 import { StructureBuilder } from "sanity/structure";
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 export const createSingleDocumentStructure = (
   schemaName: string,
@@ -14,4 +14,15 @@ export const createSingleDocumentStructure = (
     .child(S.document().schemaType(schemaName).documentId(schemaName));
 
   return icon ? item.icon(icon) : item;
+};
+
+export const createDynamicDocumentStructure = (
+  schemaName: string,
+  title: string,
+  S: StructureBuilder,
+  icon?: ComponentType | ReactNode,
+) => {
+  const item = S.documentTypeListItem(schemaName).title(title);
+
+  return icon !== undefined ? item.icon(icon as ComponentType) : item;
 };

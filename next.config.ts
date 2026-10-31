@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
 
+  turbopack: {
+    resolveAlias: {
+      "node:crypto": "crypto",
+    },
+  },
+
   images: {
     remotePatterns: [
       {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import GoogleTagManager from "@/components/analytics/GoogleTagManager";
+import { GoogleTagManager } from "@/components/analytics";
 
 /**
  * Gate: "Verify invalid or absent GTM IDs do not load the script."

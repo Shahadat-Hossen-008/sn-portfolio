@@ -6,7 +6,7 @@ export default function HamburgerMenu() {
       width="36"
       height="36"
       viewBox="0 0 24 24"
-      className="bg-white text-[#212121] rounded-full p-2 transition-colors duration-300 hover:bg-gray-200"
+      className="bg-limestone text-forest rounded-full p-2 transition-colors duration-300 hover:bg-soft-limestone"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

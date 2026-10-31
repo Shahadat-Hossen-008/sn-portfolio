@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
-import GoogleTagManager from "@/components/analytics/GoogleTagManager";
-import Footer from "@/components/footer/Footer";
-import Navbar from "@/components/navbar/Navbar";
-import { SanityLive, sanityFetch } from "@/sanity/lib/live";
-import { buildMetadata } from "@/sanity/lib/metadata";
-import { LAYOUT_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { LayoutBuilder } from "@/layout";
+import { getLayoutSettings } from "@/layout/get-layout";
+import { buildMetadata } from "@/lib/metadata";
+import {draftMode} from 'next/headers'
+import {VisualEditing} from 'next-sanity/visual-editing'
+export const viewport: Viewport = { themeColor: "#e2dbc9" };
 
 /**
  * Layout for every public route.
@@ -17,10 +17,7 @@ import { LAYOUT_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
  * serializable props — the navbar and footer never fetch (see AGENTS.md §3.4).
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const [{ data: layout }, { data: siteSettings }] = await Promise.all([
-    sanityFetch({ query: LAYOUT_QUERY }),
-    sanityFetch({ query: SITE_SETTINGS_QUERY }),
-  ]);
+  const { layout, siteSettings } = await getLayoutSettings();
 
   return buildMetadata({ layout, siteSettings, path: "/" });
 }
@@ -30,18 +27,14 @@ export default async function FrontendLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [{ data: layout }, { data: siteSettings }] = await Promise.all([
-    sanityFetch({ query: LAYOUT_QUERY }),
-    sanityFetch({ query: SITE_SETTINGS_QUERY }),
-  ]);
-
+  const { layout, siteSettings } = await getLayoutSettings();
+  const {isEnabled} = await draftMode()
   return (
     <>
-      <Navbar layout={layout} />
-      <main>{children}</main>
-      <Footer layout={layout} />
-      <GoogleTagManager id={siteSettings?.analytics?.googleTagManagerID} />
-      <SanityLive />
+      <LayoutBuilder layout={layout} siteSettings={siteSettings}>
+      {children}
+    </LayoutBuilder>
+    {isEnabled && <VisualEditing />}
     </>
   );
 }

@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import { fraunces, jetBrainsMono, urbanist } from "@/app/fonts";
 
 /**
  * Root shell for the whole app, including `/studio`.
@@ -13,7 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${urbanist.variable} ${jetBrainsMono.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

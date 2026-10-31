@@ -1,55 +1,62 @@
-import {  defineType } from "sanity";
+import { defineArrayMember, defineType } from "sanity";
 
-export const pageSection =  defineType({
+/**
+ * One reference member per section document.
+ * `name` must equal the document type so insertMenu groups can find it.
+ */
+const sectionRef = (type: string, title: string) =>
+  defineArrayMember({
+    name: type,
+    title,
+    type: "reference",
+    to: [{ type }],
+    validation: (rule) => rule.required().error("Please select a section."),
+  });
+
+export const pageSection = defineType({
   name: "pageSections",
-  title: "page Sections",
+  title: "Page Sections",
   type: "array",
-  of:[
-    {
-      title: "Profile Content",
-      type:"profileContent"
-    },
-    {
-      title: "Rich Text",
-      type:"richTextSection"
-    },
-    {
-      title: "Image",
-      type: "customImage"
-    },
-    {
-      title: "Technology",
-      type: "technologySection"
-    },
-    {
-      title: "Carousel Technology",
-      type: "technologyCarousel"
-    }
-
+  description:
+    "The sections shown on this page, in order. Create sections under Page Sections, then pick them here. One section can be reused on several pages.",
+  of: [
+    sectionRef("curiositySection", "Stack & Curiosity"),
+    sectionRef("aboutBuilderSection", "About the builder"),
+    sectionRef("quoteSection", "Quote"),
+    sectionRef("processSection", "Process"),
+    sectionRef("experienceSection", "Experience"),
+    sectionRef("ctaSection", "Call to action"),
+    sectionRef("richTextSection", "Rich Text"),
+    sectionRef("technologySection", "Technology"),
+    sectionRef("technologyCarousel", "Carousel Technology"),
   ],
-  options:{
-    insertMenu:{
+  options: {
+    insertMenu: {
       filter: true,
-      views:[
-        {
-          name: "grid",
-        }
-      ],
+      views: [{ name: "grid" }],
       groups: [
         {
           name: "profile",
-          of: ["profileContent"],
+          title: "About me",
+          of: [
+            "curiositySection",
+            "aboutBuilderSection",
+            "quoteSection",
+            "processSection",
+            "experienceSection",
+          ],
         },
         {
           name: "sections",
+          title: "Content",
           of: [
             "richTextSection",
             "technologyCarousel",
             "technologySection",
-            "customImage",
+            "ctaSection",
           ],
         },
       ],
-    }
-  }
-})
+    },
+  },
+});

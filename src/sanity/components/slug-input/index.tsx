@@ -6,11 +6,8 @@ import {
   SlugOptions,
   SlugSchemaType,
   SlugValue,
-  useDataset,
 } from "sanity";
 import Link from "next/link";
-import { getBaseUrl } from "@/sanity/utils";
-import { IWorkspace } from "@/sanity/utils/type";
 
 interface CustomSlugSchemaType extends Omit<SlugSchemaType, "options"> {
   options?: SlugOptions & {
@@ -22,22 +19,11 @@ interface CustomSlugSchemaType extends Omit<SlugSchemaType, "options"> {
 type CustomSlugInputProps = ObjectInputProps<SlugValue, CustomSlugSchemaType>;
 
 export default function SlugInput(props: CustomSlugInputProps) {
-  const dataset = useDataset() as IWorkspace;
   const { renderDefault, value, schemaType } = props;
-  let isFixed = false;
+  const isFixed = Boolean(schemaType.options?.isFixed);
 
-  if (schemaType.options && schemaType.options.isFixed) {
-    isFixed = schemaType.options.isFixed;
-  }
-
-  const url: string[] = [getBaseUrl(dataset)];
-  if (schemaType.options && schemaType.options.prefix) {
-    url.push(schemaType.options.prefix);
-  }
-
-  if (value && value.current) {
-    url.push(value.current);
-  }
+  const segments = [schemaType.options?.prefix, value?.current].filter(Boolean);
+  const relativePath = `/${segments.join("/")}`;
 
   return (
     <Flex gap={3} direction={"column"}>
@@ -49,18 +35,14 @@ export default function SlugInput(props: CustomSlugInputProps) {
         hidden={!isFixed && value?.current == undefined}
       >
         <Link
-          href={url.join("/")}
+          href={relativePath}
           style={{ textDecoration: "none" }}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Flex gap={2} direction={"row"} align={"center"}>
-            <Text size={isFixed ? 2 : 1} readOnly>
-              {url
-                .join("/")
-                .replace(new RegExp("https?:\/\/[^\/]+"), "")}
-            </Text>
-            <Text size={1} readOnly>
+            <Text size={isFixed ? 2 : 1}>{relativePath}</Text>
+            <Text size={1}>
               <HiOutlineExternalLink />
             </Text>
           </Flex>

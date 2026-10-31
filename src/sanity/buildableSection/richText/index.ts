@@ -4,7 +4,7 @@ import { toPlainText } from "@portabletext/react";
 
 export default defineType({
   name: "richTextSection",
-  type: "object",
+  type: "document",
   title: "Rich Text Section",
   icon: BsFileRichtextFill,
   fields: [
@@ -20,12 +20,12 @@ export default defineType({
       content: "content",
     },
     prepare({ content }) {
-      const plainText = toPlainText(content)
-        .substring(0, 40)
-        .replace(/[.,]+$/g, "");
+      const plainText = content
+        ? toPlainText(content).substring(0, 40).replace(/[.,]+$/g, "")
+        : "";
 
       return {
-        title: plainText ? plainText + "..." : undefined,
+        title: plainText ? `${plainText}...` : "Rich Text Section",
         subtitle: "Rich Text Section",
         media: BsFileRichtextFill,
       };

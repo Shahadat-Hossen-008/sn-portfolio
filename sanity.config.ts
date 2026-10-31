@@ -15,8 +15,11 @@ import {
   schema,
   singletonDocumentActions,
 } from "./src/sanity/schemaTypes";
+import { CustomPortableTextInput } from "./src/sanity/components/portable-text-input";
 import { structure } from "./src/sanity/structure";
 import "./src/sanity/studio.css";
+import { presentationTool } from "sanity/presentation";
+import { previewLocations } from "@/sanity/presentation/location";
 
 export default defineConfig({
   name: "shahadat-portfolio",
@@ -25,12 +28,24 @@ export default defineConfig({
   projectId,
   dataset,
   schema,
+  form: {
+    components: {
+      input: CustomPortableTextInput,
+    },
+  },
   document: {
     // Singletons only: every other schema type keeps the stock action list.
     actions: singletonDocumentActions,
   },
   plugins: [
     structureTool({ structure }),
+    presentationTool({
+      previewUrl: {
+        initial: process.env.NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL_DEVELOP ?? "http://localhost:3000",
+        previewMode: { enable: "/api/draft-mode/enable" },
+      },
+      resolve: { locations: previewLocations },
+    }),
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),

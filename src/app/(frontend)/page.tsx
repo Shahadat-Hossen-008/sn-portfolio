@@ -1,31 +1,15 @@
-import Contact from "@/components/contact/Contact";
-import About from "@/components/about/About";
-import Profile from "@/components/profile/Profile";
-import Project from "@/components/projects/Project";
-import Technology from "@/components/technology/Technology";
-import { sanityFetch } from "@/sanity/lib/live";
-import { ToastContainer } from "react-toastify";
-import {
-  ABOUT_QUERY,
-  PROJECT_QUERY,
-  PROFILE_QUERY,
-  TECH_QUERY,
-} from "@/sanity/lib/queries";
+import type { Metadata } from "next";
 
-export default async function page() {
-  const { data: profile } = await sanityFetch({ query: PROFILE_QUERY });
-  const { data: projects } = await sanityFetch({ query: PROJECT_QUERY });
-  const { data: about } = await sanityFetch({ query: ABOUT_QUERY });
-  const { data: tech } = await sanityFetch({ query: TECH_QUERY });
+import { MyProfilePageBuilder } from "@/page-builder/my-profile";
+import { getHomePage } from "@/page-builder/my-profile/get-page";
+import { generateMyProfileMetadata } from "@/page-builder/my-profile/metadata";
 
-  return (
-    <div className="bg-black ">
-      <Profile profile={profile} />
-      <About about={about} />
-      <Technology technology={tech} />
-      <Project projects={projects} />
-      <Contact />
-      <ToastContainer/>
-    </div>
-  );
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMyProfileMetadata();
+}
+
+export default async function HomePage() {
+  const data = await getHomePage();
+
+  return <MyProfilePageBuilder data={data} />;
 }

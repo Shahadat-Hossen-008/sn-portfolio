@@ -1,4 +1,4 @@
-import type { FormSubmitData } from "@/app/types/formType";
+import type { FormSubmitData } from "@/sections/contact/sub-components/form/interface";
 
 const EMAIL_PATTERN =
   /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;

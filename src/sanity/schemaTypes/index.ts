@@ -13,21 +13,40 @@ import author from "../entites/author";
 import blogPost from "../entites/blogPost";
 import { projectTemplate } from "../entites/project";
 // Hoisted objects
-import portableText from "../_root/portableText";
+import { PageIntroSection } from "../_root/page-intro-section";
+import portableText, {
+  decisionCardItem,
+  decisionCards,
+  editorialSection,
+  mermaidDiagram,
+  outcomeState,
+  outcomeStateItem,
+  portableTable,
+  portableTableCell,
+  portableTableHeader,
+  portableTableRow,
+} from "../_root/portableText";
 import { customImage } from "../_root/media";
 import { technologyItem } from "../_root/technology-item";
-import technologies from "../buildableSection/technologies";
-import profileContent from "../buildableSection/profileContent";
+import { heroSection } from "../buildableSection/heroSection";
 import { pageSection } from "../_root/sections";
+// Page Sections
+import technologies from "../buildableSection/technologies";
 import richText from "../buildableSection/richText";
 import carouselTech from "../buildableSection/carouselTech";
-// pages
+import { curiositySection } from "../buildableSection/curiosity";
+import { aboutBuilderSection } from "../buildableSection/aboutBuilderSection";
+import { quoteSection } from "../buildableSection/quoteSection";
+import { processSection } from "../buildableSection/processSection";
+import { experienceSection } from "../buildableSection/experienceSection";
+import { ctaSection } from "../buildableSection/ctaSection";
+// Pages
 import { profile } from "../pages/profilePage";
 import { about } from "../pages/aboutPage";
-import { blogTag } from "../miscellaneous/blogTag";
 import { project } from "../pages/projectPage";
 import { blog } from "../pages/blogPage";
-// miscellaneous
+// Miscellaneous
+import { blogTag } from "../miscellaneous/blogTag";
 import { techTag } from "../miscellaneous/techTag";
 
 /**
@@ -42,19 +61,38 @@ export const entities: DocumentDefinition[] = [
   blogPost,
   projectTemplate,
 ];
-export const hoistedObjects: SchemaTypeDefinition[] =[
-  portableText,
-  customImage,
-  technologyItem,
 
-  pageSection,
-
-  // buildable section
-  profileContent,
-  technologies,
+export const sections: DocumentDefinition[] = [
+  curiositySection,
+  aboutBuilderSection,
+  quoteSection,
+  processSection,
+  experienceSection,
+  ctaSection,
   richText,
+  technologies,
   carouselTech,
 ];
+
+export const hoistedObjects: SchemaTypeDefinition[] = [
+  PageIntroSection,
+  portableText,
+  editorialSection,
+  decisionCards,
+  decisionCardItem,
+  outcomeState,
+  outcomeStateItem,
+  portableTable,
+  portableTableHeader,
+  portableTableCell,
+  portableTableRow,
+  mermaidDiagram,
+  customImage,
+  technologyItem,
+  pageSection,
+  heroSection,
+];
+
 export const fixedPages: DocumentDefinition[] = [profile, about, project, blog];
 
 export const miscellaneous = [blogTag, techTag];
@@ -76,7 +114,7 @@ const singletonTypeNames = new Set([
  * can never see. `unpublish` is left alone because singletons here have no
  * draft/publish split.
  */
-const  BLOCKED_SINGLETON_ACTIONS = new Set(["delete", "duplicate"]);
+const BLOCKED_SINGLETON_ACTIONS = new Set(["delete", "duplicate"]);
 
 /**
  * Singletons must never be creatable from the "create new" menu: the sidebar
@@ -89,7 +127,14 @@ const withoutSingletonTemplates = (templates: Template[]): Template[] =>
   );
 
 export const schema = {
-  types: [...globalSchemas, ...entities, ...hoistedObjects, ...fixedPages, ...miscellaneous],
+  types: [
+    ...globalSchemas,
+    ...entities,
+    ...sections,
+    ...hoistedObjects,
+    ...fixedPages,
+    ...miscellaneous,
+  ],
   templates: withoutSingletonTemplates,
 };
 
@@ -105,5 +150,7 @@ export const singletonDocumentActions = (
 ): DocumentActionComponent[] => {
   if (!singletonTypeNames.has(context.schemaType)) return prev;
 
-  return prev.filter(({ action }) => !BLOCKED_SINGLETON_ACTIONS.has(action ?? ""));
+  return prev.filter(
+    ({ action }) => !BLOCKED_SINGLETON_ACTIONS.has(action ?? ""),
+  );
 };
