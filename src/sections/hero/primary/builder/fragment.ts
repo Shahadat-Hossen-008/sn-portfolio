@@ -29,7 +29,7 @@ export const PRIMARY_HERO_FRAGMENT = /* groq */ `
       },
       altText
     },
-    nowBuilding { title, progress },
+    nowBuilding { title, description, progress },
     facts[]{ label, value }
   }
 `;
