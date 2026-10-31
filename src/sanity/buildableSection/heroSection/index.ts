@@ -86,6 +86,8 @@ export const heroSection = defineType({
       name: "portrait",
       title: "Portrait",
       type: "customImage",
+      description:
+        "Optional portrait image to display now building information.",
     }),
     defineField({
       name: "nowBuilding",
@@ -98,6 +100,13 @@ export const heroSection = defineType({
           title: "Title",
           type: "string",
           validation: (rule) => rule.max(100),
+        }),
+        defineField({
+          name: "description",
+          title: "Description",
+          type: "text",
+          rows: 2,
+          validation: (rule) => rule.max(200),
         }),
         defineField({
           name: "progress",
