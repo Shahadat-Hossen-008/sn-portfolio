@@ -20,7 +20,7 @@ export const pageSection = defineType({
   description:
     "The sections shown on this page, in order. Create sections under Page Sections, then pick them here. One section can be reused on several pages.",
   of: [
-    sectionRef("curiositySection", "Stack & Curiosity"),
+    sectionRef("personalIntroSection", "Personal Introduction"),
     sectionRef("aboutBuilderSection", "About the builder"),
     sectionRef("quoteSection", "Quote"),
     sectionRef("processSection", "Process"),
@@ -39,7 +39,7 @@ export const pageSection = defineType({
           name: "profile",
           title: "About me",
           of: [
-            "curiositySection",
+            "personalIntroSection",
             "aboutBuilderSection",
             "quoteSection",
             "processSection",

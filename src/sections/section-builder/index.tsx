@@ -1,11 +1,12 @@
 import { AboutBuilderSectionBuilder } from "@/sections/about-builder/builder";
 import { CtaSectionBuilder } from "@/sections/cta/builder";
-import { CuriositySectionBuilder } from "@/sections/curiosity/builder";
+import {
+  PersonalIntroSectionBuilder,
+  hasPersonalIntroContent,
+} from "@/sections/personal-intro/builder";
 import { ExperienceSectionBuilder } from "@/sections/experience/builder";
 import { ProcessSectionBuilder } from "@/sections/process/builder";
 import { QuoteSectionBuilder } from "@/sections/quote/builder";
-import { getCuriosityTiles } from "@/sections/curiosity/helpers";
-import type { LatestProjects } from "@/sections/curiosity/helpers";
 import { assignSectionNumbers } from "./numbering";
 import type {
   ISanitySectionBlock,
@@ -16,15 +17,12 @@ import type {
  * Mirrors each section builder's own early-return condition so skipped blocks
  * do not consume a section number.
  */
-function shouldRenderSection(
-  section: ISanitySectionBlock,
-  latestProjects: LatestProjects,
-): boolean {
+function shouldRenderSection(section: ISanitySectionBlock): boolean {
   switch (section._type) {
-    case "curiositySection":
+    case "personalIntroSection":
       return (
         Boolean(section.heading?.trim()) &&
-        Object.values(getCuriosityTiles(section, latestProjects)).some(Boolean)
+        hasPersonalIntroContent(section)
       );
     case "aboutBuilderSection":
     case "processSection":
@@ -52,14 +50,11 @@ function shouldRenderSection(
  */
 export function SectionBuilder({
   sections,
-  latestProjects = [],
   numbered = true,
 }: ISectionBuilderProps) {
   if (!sections || sections.length === 0) return null;
 
-  const renders = sections.map((section) =>
-    shouldRenderSection(section, latestProjects),
-  );
+  const renders = sections.map((section) => shouldRenderSection(section));
   const numbers = numbered
     ? assignSectionNumbers(renders)
     : renders.map(() => null);
@@ -71,13 +66,11 @@ export function SectionBuilder({
         const sectionNumber = numbers[index];
 
         switch (section._type) {
-          case "curiositySection":
+          case "personalIntroSection":
             return (
-              <CuriositySectionBuilder
+              <PersonalIntroSectionBuilder
                 key={section._id}
                 data={section}
-                latestProjects={latestProjects}
-                sectionNumber={sectionNumber}
               />
             );
           case "aboutBuilderSection":
