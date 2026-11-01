@@ -2,25 +2,20 @@ import { cache } from "react";
 
 import { sanityFetch } from "@/sanity/lib/live";
 import type { IMyProfilePageData } from "./interface";
-import {
-  LATEST_PROJECTS_QUERY,
-  PROFILE_QUERY,
-} from "./query";
+import { PROFILE_QUERY } from "./query";
 
 /** The profile singleton is shared by the home route and metadata generation. */
-export const getProfile = cache(async () =>
-  sanityFetch({ query: PROFILE_QUERY }),
-);
+export const getProfile = cache(async () => {
+  try {
+    return await sanityFetch({ query: PROFILE_QUERY });
+  } catch (error) {
+    console.warn("[getProfile] Network error fetching profile:", error);
+    return { data: null };
+  }
+});
 
-/** Fetch all independent home-page content together. */
+/** Fetch home-page content. Reuses getProfile for request-scoped caching. */
 export const getHomePage = cache(async (): Promise<IMyProfilePageData> => {
-  const [
-    { data: profile },
-    { data: latestProjects },
-  ] = await Promise.all([
-    getProfile(),
-    sanityFetch({ query: LATEST_PROJECTS_QUERY }),
-  ]);
-
-  return { profile, latestProjects };
+  const profileResult = await getProfile();
+  return { profile: profileResult.data };
 });

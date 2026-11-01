@@ -3,10 +3,7 @@ import { defineQuery } from "next-sanity";
 import { SEO_FIELDS_FRAGMENT } from "@/fragments";
 import { HERO_FRAGMENT } from "@/sections/hero/fragment";
 import { ABOUT_SECTION_FRAGMENT } from "@/sections/about/builder/fragment";
-import {
-  LATEST_PROJECTS_FRAGMENT,
-  PROJECT_SECTION_FRAGMENT,
-} from "@/sections/projects/builder/fragment";
+import { PROJECT_SECTION_FRAGMENT } from "@/sections/projects/builder/fragment";
 import { PAGE_SECTIONS_FRAGMENT } from "@/sections/section-builder/fragment";
 import { TECH_SECTION_FRAGMENT } from "@/sections/technology/builder/fragment";
 
@@ -15,11 +12,6 @@ export const PROFILE_QUERY = defineQuery(`*[_type == "myProfilePage"][0]{
   ${SEO_FIELDS_FRAGMENT},
   ${HERO_FRAGMENT},
   ${PAGE_SECTIONS_FRAGMENT}
-}`);
-
-/** Three newest projects used when the curiosity section has no selected projects. */
-export const LATEST_PROJECTS_QUERY = defineQuery(`*[_type == "project"] | order(date desc, _createdAt desc)[0...3]{
-  ${LATEST_PROJECTS_FRAGMENT}
 }`);
 
 /** About-section data projected from reusable content on the About page. */
