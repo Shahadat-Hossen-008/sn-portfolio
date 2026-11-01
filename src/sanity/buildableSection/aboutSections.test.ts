@@ -29,7 +29,9 @@ const createMockRule = (): MockRule => {
 };
 
 const captureCustomValidator = (validationFn: unknown) => {
-  let validator: ((value: unknown, context: unknown) => true | string) | undefined;
+  let validator:
+    | ((value: unknown, context: unknown) => true | string)
+    | undefined;
   const mockRule = {
     ...createMockRule(),
     custom: vi.fn((fn: (value: unknown, context: unknown) => true | string) => {
@@ -59,7 +61,9 @@ describe("About-page section schemas", () => {
     const aboutBuilderIndex = sectionNames.indexOf("aboutBuilderSection");
     expect(aboutBuilderIndex).toBeGreaterThan(-1);
 
-    expect(sectionNames.slice(aboutBuilderIndex + 1, aboutBuilderIndex + 5)).toEqual([
+    expect(
+      sectionNames.slice(aboutBuilderIndex + 1, aboutBuilderIndex + 5),
+    ).toEqual([
       "quoteSection",
       "processSection",
       "experienceSection",
@@ -68,7 +72,11 @@ describe("About-page section schemas", () => {
   });
 
   it("registers each section as a reference member in pageSections", () => {
-    const ofList = pageSection.of as Array<{ name?: string; type: string; to?: Array<{ type: string }> }>;
+    const ofList = pageSection.of as Array<{
+      name?: string;
+      type: string;
+      to?: Array<{ type: string }>;
+    }>;
     for (const section of newSections) {
       const refMember = ofList.find((m) => m.name === section.name);
       expect(refMember).toBeDefined();
@@ -85,7 +93,7 @@ describe("About-page section schemas", () => {
     expect(profileGroup).toBeDefined();
     expect(profileGroup?.title).toBe("About me");
     expect(profileGroup?.of).toEqual([
-      "curiositySection",
+      "personalIntroSection",
       "aboutBuilderSection",
       "quoteSection",
       "processSection",
@@ -102,7 +110,9 @@ describe("About-page section schemas", () => {
     ]);
 
     for (const section of newSections) {
-      const membershipCount = groups.filter((g) => g.of?.includes(section.name)).length;
+      const membershipCount = groups.filter((g) =>
+        g.of?.includes(section.name),
+      ).length;
       expect(membershipCount).toBe(1);
     }
   });
@@ -118,7 +128,8 @@ describe("About-page section schemas", () => {
 
       for (const field of topFields) {
         expect(
-          typeof field.description === "string" && field.description.trim().length > 0,
+          typeof field.description === "string" &&
+            field.description.trim().length > 0,
           `Expected non-empty description on ${section.name}.${field.name}`,
         ).toBe(true);
 
@@ -127,7 +138,8 @@ describe("About-page section schemas", () => {
             if (Array.isArray(member.fields)) {
               for (const subField of member.fields) {
                 expect(
-                  typeof subField.description === "string" && subField.description.trim().length > 0,
+                  typeof subField.description === "string" &&
+                    subField.description.trim().length > 0,
                   `Expected non-empty description on ${section.name}.${field.name}[item].${subField.name}`,
                 ).toBe(true);
               }
@@ -145,7 +157,6 @@ describe("About-page section schemas", () => {
     }
   });
 
-
   describe("quoteSection", () => {
     it("enforces limits on quote and note", () => {
       const quoteField = quoteSection.fields.find((f) => f.name === "quote");
@@ -162,11 +173,15 @@ describe("About-page section schemas", () => {
     });
 
     it("validates quoteAccent against quote matching case", () => {
-      const quoteAccentField = quoteSection.fields.find((f) => f.name === "quoteAccent");
+      const quoteAccentField = quoteSection.fields.find(
+        (f) => f.name === "quoteAccent",
+      );
       const validator = captureCustomValidator(quoteAccentField?.validation);
       expect(validator).toBeDefined();
 
-      const context = { parent: { quote: "Good code is its own documentation." } };
+      const context = {
+        parent: { quote: "Good code is its own documentation." },
+      };
 
       expect(validator!(undefined, context)).toBe(true);
       expect(validator!("", context)).toBe(true);
@@ -184,11 +199,15 @@ describe("About-page section schemas", () => {
 
     it("prepares preview safely with fallbacks", () => {
       const preview = quoteSection.preview;
-      expect(preview?.prepare?.({ title: "My quote", subtitle: "My note" })).toEqual({
+      expect(
+        preview?.prepare?.({ title: "My quote", subtitle: "My note" }),
+      ).toEqual({
         title: "My quote",
         subtitle: "My note",
       });
-      expect(preview?.prepare?.({ title: undefined, subtitle: undefined })).toEqual({
+      expect(
+        preview?.prepare?.({ title: undefined, subtitle: undefined }),
+      ).toEqual({
         title: "Quote",
         subtitle: "Pull quote",
       });
@@ -197,9 +216,13 @@ describe("About-page section schemas", () => {
 
   describe("processSection", () => {
     it("enforces limits on heading, intro, steps, step label, step heading, and tools", () => {
-      const headingField = processSection.fields.find((f) => f.name === "heading");
+      const headingField = processSection.fields.find(
+        (f) => f.name === "heading",
+      );
       const introField = processSection.fields.find((f) => f.name === "intro");
-      const stepsField = processSection.fields.find((f) => f.name === "steps") as {
+      const stepsField = processSection.fields.find(
+        (f) => f.name === "steps",
+      ) as {
         validation?: unknown;
         of?: Array<{ fields?: Array<{ name: string; validation?: unknown }> }>;
       };
@@ -228,7 +251,9 @@ describe("About-page section schemas", () => {
       expect(labelRule.max).toHaveBeenCalledWith(16);
 
       const stepHeadingRule = createMockRule();
-      (stepHeadingField?.validation as ValidationFn | undefined)?.(stepHeadingRule);
+      (stepHeadingField?.validation as ValidationFn | undefined)?.(
+        stepHeadingRule,
+      );
       expect(stepHeadingRule.required).toHaveBeenCalled();
       expect(stepHeadingRule.max).toHaveBeenCalledWith(40);
 
@@ -240,7 +265,10 @@ describe("About-page section schemas", () => {
 
     it("prepares preview with 0, 1, and 3 steps without crashing", () => {
       const preview = processSection.preview;
-      const prepare = preview?.prepare as (val: { title?: string; steps?: unknown[] }) => {
+      const prepare = preview?.prepare as (val: {
+        title?: string;
+        steps?: unknown[];
+      }) => {
         title: string;
         subtitle: string;
       };
@@ -267,8 +295,12 @@ describe("About-page section schemas", () => {
 
   describe("experienceSection", () => {
     it("enforces limits on intro, roles, role, company, startDate, outcome, and tools", () => {
-      const introField = experienceSection.fields.find((f) => f.name === "intro");
-      const rolesField = experienceSection.fields.find((f) => f.name === "roles") as {
+      const introField = experienceSection.fields.find(
+        (f) => f.name === "intro",
+      );
+      const rolesField = experienceSection.fields.find(
+        (f) => f.name === "roles",
+      ) as {
         validation?: unknown;
         of?: Array<{ fields?: Array<{ name: string; validation?: unknown }> }>;
       };
@@ -313,16 +345,28 @@ describe("About-page section schemas", () => {
     });
 
     it("validates endDate: valid when current, error when missing, error when before start, valid when after start", () => {
-      const rolesField = experienceSection.fields.find((f) => f.name === "roles") as {
-        of?: Array<{ fields?: Array<{ name: string; validation?: unknown; hidden?: (ctx: { parent?: unknown }) => boolean }> }>;
+      const rolesField = experienceSection.fields.find(
+        (f) => f.name === "roles",
+      ) as {
+        of?: Array<{
+          fields?: Array<{
+            name: string;
+            validation?: unknown;
+            hidden?: (ctx: { parent?: unknown }) => boolean;
+          }>;
+        }>;
       };
-      const endDateField = rolesField?.of?.[0]?.fields?.find((f) => f.name === "endDate");
+      const endDateField = rolesField?.of?.[0]?.fields?.find(
+        (f) => f.name === "endDate",
+      );
       const validator = captureCustomValidator(endDateField?.validation);
       expect(validator).toBeDefined();
 
       // Valid when current is true
       expect(validator!(undefined, { parent: { current: true } })).toBe(true);
-      expect(validator!("2020-01-01", { parent: { current: true } })).toBe(true);
+      expect(validator!("2020-01-01", { parent: { current: true } })).toBe(
+        true,
+      );
 
       // Error when missing while current is false/unset
       expect(validator!(undefined, { parent: { current: false } })).toBe(
@@ -348,18 +392,32 @@ describe("About-page section schemas", () => {
     });
 
     it("hides endDate when current is true", () => {
-      const rolesField = experienceSection.fields.find((f) => f.name === "roles") as {
-        of?: Array<{ fields?: Array<{ name: string; hidden?: (ctx: { parent?: unknown }) => boolean }> }>;
+      const rolesField = experienceSection.fields.find(
+        (f) => f.name === "roles",
+      ) as {
+        of?: Array<{
+          fields?: Array<{
+            name: string;
+            hidden?: (ctx: { parent?: unknown }) => boolean;
+          }>;
+        }>;
       };
-      const endDateField = rolesField?.of?.[0]?.fields?.find((f) => f.name === "endDate");
+      const endDateField = rolesField?.of?.[0]?.fields?.find(
+        (f) => f.name === "endDate",
+      );
       expect(endDateField?.hidden?.({ parent: { current: true } })).toBe(true);
-      expect(endDateField?.hidden?.({ parent: { current: false } })).toBe(false);
+      expect(endDateField?.hidden?.({ parent: { current: false } })).toBe(
+        false,
+      );
       expect(endDateField?.hidden?.({ parent: undefined })).toBe(false);
     });
 
     it("prepares experienceSection preview with 0, 1, and 3 roles without crashing", () => {
       const preview = experienceSection.preview;
-      const prepare = preview?.prepare as (val: { title?: string; roles?: unknown[] }) => {
+      const prepare = preview?.prepare as (val: {
+        title?: string;
+        roles?: unknown[];
+      }) => {
         title: string;
         subtitle: string;
       };
@@ -368,7 +426,9 @@ describe("About-page section schemas", () => {
         title: "My Experience",
         subtitle: "0 roles",
       });
-      expect(prepare({ title: "My Experience", roles: [{ _key: "1" }] })).toEqual({
+      expect(
+        prepare({ title: "My Experience", roles: [{ _key: "1" }] }),
+      ).toEqual({
         title: "My Experience",
         subtitle: "1 role",
       });
@@ -384,7 +444,9 @@ describe("About-page section schemas", () => {
     });
 
     it("prepares role item preview correctly for current and past roles", () => {
-      const rolesField = experienceSection.fields.find((f) => f.name === "roles") as {
+      const rolesField = experienceSection.fields.find(
+        (f) => f.name === "roles",
+      ) as {
         of?: Array<{
           preview?: {
             prepare?: (val: {
@@ -452,11 +514,15 @@ describe("About-page section schemas", () => {
 
     it("prepares preview safely with fallbacks", () => {
       const preview = ctaSection.preview;
-      expect(preview?.prepare?.({ title: "Ready?", subtitle: "Get in touch" })).toEqual({
+      expect(
+        preview?.prepare?.({ title: "Ready?", subtitle: "Get in touch" }),
+      ).toEqual({
         title: "Ready?",
         subtitle: "Get in touch",
       });
-      expect(preview?.prepare?.({ title: undefined, subtitle: undefined })).toEqual({
+      expect(
+        preview?.prepare?.({ title: undefined, subtitle: undefined }),
+      ).toEqual({
         title: "Call to action",
         subtitle: "Call to action",
       });

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { AboutPageBuilder } from "@/page-builder/about";
-import { getAboutPage } from "@/page-builder/about/get-page";
-import { generateAboutMetadata } from "@/page-builder/about/metadata";
+import {
+  AboutPageBuilder,
+  generateAboutMetadata,
+  getAboutPage,
+} from "@/page-builder/about";
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateAboutMetadata();

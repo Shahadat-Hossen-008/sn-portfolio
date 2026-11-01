@@ -5,8 +5,8 @@ import type { ButtonVariant, IButtonProps } from "./interface";
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "inline-flex min-h-11 items-center justify-center rounded-full bg-button-gradient px-6 text-button text-primary-foreground shadow-button hero-button",
-  link: "inline-flex min-h-11 items-center text-button text-foreground underline decoration-1 underline-offset-4 hero-link",
+    "inline-flex min-h-11 items-center justify-center rounded-full bg-forest text-limestone no-underline hover:bg-soft-forest transition-colors duration-200 px-6 text-button shadow-sm hover:shadow-md",
+  link: "inline-flex min-h-11 items-center text-button text-foreground no-underline transition-colors duration-200",
   mint: "bento-cta-button group inline-flex min-h-12 items-center gap-2.5 rounded-full bg-mint px-6.5 py-3.5 font-sans text-button font-semibold leading-[1.2] text-forest no-underline focus-visible:outline-2 focus-visible:outline-mint focus-visible:outline-offset-3",
 };
 

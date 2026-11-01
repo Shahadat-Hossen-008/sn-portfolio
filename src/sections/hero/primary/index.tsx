@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import type { CSSProperties } from "react";
 
 import { Button } from "@/components/button";
@@ -17,6 +16,7 @@ export function PrimaryHero({
   showEyebrow,
   showPanel,
   nowBuildingTitle,
+  nowBuildingDescription,
   progress,
   facts,
   portraitImage,
@@ -26,37 +26,40 @@ export function PrimaryHero({
   return (
     <Section
       aria-labelledby="hero-heading"
-      className="flex min-h-[85svh] items-center overflow-hidden bg-page-gradient"
+      className="relative flex min-h-[85svh] flex-col justify-between overflow-hidden bg-background border-b border-foreground/10"
     >
-      <div className="mx-auto w-full max-w-page px-8 pt-32 pb-20 lg:pt-36 lg:pb-28">
-        <div className="grid gap-16 lg:grid-cols-[7fr_5fr] lg:items-center">
-          <div className="flex flex-col gap-7">
+      <div className="mx-auto w-full max-w-page px-6 pt-28 pb-12 sm:px-8 lg:px-12 lg:pt-36 lg:pb-16">
+        <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-14">
+          <div className="flex flex-col gap-6 sm:gap-7">
             {showEyebrow && (
-              <p className="hero-rise hero-rise-eyebrow flex items-center gap-3 font-mono text-label uppercase text-muted-foreground">
+              <p className="hero-rise hero-rise-eyebrow flex items-center gap-2.5 font-sans text-xs font-semibold tracking-[0.14em] uppercase text-muted-foreground">
                 <span
                   aria-hidden="true"
-                  className="status-dot size-2 shrink-0 rounded-full bg-primary"
-                />
+                  className="relative flex size-2.5 shrink-0 items-center justify-center"
+                >
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-status-active/30 duration-1000" />
+                  <span className="relative inline-flex size-2 rounded-full bg-status-active" />
+                </span>
                 <span>
                   {statusLabel}
                   {statusLabel && location && (
-                    <span aria-hidden="true" className="px-2">
+                    <span aria-hidden="true" className="px-1.5 opacity-60">
                       ·
                     </span>
                   )}
-                  [{location}]
+                  {location && `[${location}]`}
                 </span>
               </p>
             )}
 
             <h1
               id="hero-heading"
-              className="hero-rise hero-rise-headline font-display text-display font-normal text-foreground"
+              className="hero-rise hero-rise-headline font-display text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold text-foreground leading-[1.04] tracking-tight whitespace-pre-line max-w-xl"
             >
               {parts.length === 3 ? (
                 <>
                   {parts[0]}
-                  <em className="highlight-swipe italic px-1.5 hero-swipe">
+                  <em className="font-normal italic font-display">
                     {parts[1]}
                   </em>
                   {parts[2]}
@@ -67,20 +70,27 @@ export function PrimaryHero({
             </h1>
 
             {subline && (
-              <p className="hero-rise hero-rise-subline max-w-130 text-lead text-muted-foreground">
+              <p className="hero-rise hero-rise-subline max-w-xl font-sans text-base sm:text-lg lg:text-[1.1875rem] leading-relaxed text-muted-forest/85">
                 {subline}
               </p>
             )}
 
             {hasActions && (
-              <div className="hero-rise hero-rise-actions flex flex-wrap items-center gap-5">
+              <div className="hero-rise hero-rise-actions flex flex-wrap items-center gap-4 sm:gap-6 pt-1">
                 {primaryCta && (
                   <Button
                     href={primaryCta.href}
                     variant="primary"
                     external={primaryCta.external}
+                    className="gap-2 font-sans font-semibold text-sm no-underline bg-forest hover:bg-soft-forest text-limestone transition-colors duration-200"
                   >
-                    {primaryCta.label}
+                    <span>{primaryCta.label}</span>
+                    <span
+                      aria-hidden="true"
+                      className="text-base font-normal leading-none"
+                    >
+                      ›
+                    </span>
                   </Button>
                 )}
                 {secondaryCta && (
@@ -88,102 +98,127 @@ export function PrimaryHero({
                     href={secondaryCta.href}
                     variant="link"
                     external={secondaryCta.external}
+                    className="group relative inline-flex items-center gap-1.5 font-sans font-semibold text-sm text-foreground no-underline transition-colors duration-200 hover:text-muted-foreground"
                   >
-                    {secondaryCta.label}
+                    <span className="relative pb-0.5">
+                      {secondaryCta.label}
+                      <span
+                        aria-hidden="true"
+                        className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-foreground transition-all duration-300 ease-out group-hover:w-full"
+                      />
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="inline-block transition-transform duration-200 ease-out group-hover:translate-x-1"
+                    >
+                      {secondaryCta.external ? "↗" : "→"}
+                    </span>
                   </Button>
                 )}
               </div>
             )}
-
-            <div
-              aria-hidden="true"
-              className="hero-rise hero-rise-scroll flex items-center gap-3 font-mono text-label uppercase text-muted-foreground"
-            >
-              <span>01 — Scroll</span>
-              <span className="relative h-11 w-px overflow-hidden bg-fade-line">
-                <span className="hero-drip absolute inset-x-0 top-0 h-3 bg-foreground" />
-              </span>
-            </div>
           </div>
 
           {showPanel && (
-            <aside
-              aria-label="Current focus"
-              data-surface="forest"
-              className="hero-panel flex flex-col gap-6 rounded-panel bg-panel-gradient p-8 text-foreground shadow-panel ring-1 ring-foreground/15"
-            >
-              <div className="flex items-center justify-between gap-4">
-                <p className="flex items-center gap-3 font-mono text-label uppercase text-muted-foreground">
-                  <span
-                    aria-hidden="true"
-                    className="status-dot size-2 shrink-0 rounded-full bg-primary"
-                  />
-                  Now building
-                </p>
-
-                {portraitImage ? (
-                  <SanityImage
-                    image={portraitImage}
-                    alt={portraitAlt}
-                    width={52}
-                    height={52}
-                    className="size-13 rounded-full object-cover"
-                  />
-                ) : initials ? (
-                  <span
-                    aria-hidden="true"
-                    className="flex size-13 shrink-0 items-center justify-center rounded-full bg-progress-gradient font-display text-primary-foreground"
-                  >
-                    {initials}
+            <div className="lg:rotate-[1.5deg] lg:hover:rotate-0 transition-transform duration-500 ease-out">
+              <aside
+                aria-label="Current focus"
+                data-surface="forest"
+                className="hero-panel relative flex flex-col gap-6 rounded-panel bg-forest p-7 sm:p-9 text-limestone shadow-2xl shadow-forest/25 border border-forest-border/30"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="inline-flex items-center rounded-full border border-mint/30 bg-mint/10 px-3 py-1 font-sans text-[11px] font-semibold tracking-[0.14em] uppercase text-mint">
+                    Now building
                   </span>
-                ) : null}
-              </div>
 
-              {nowBuildingTitle && (
-                <p className="hero-rise hero-rise-panel-title font-display text-title text-foreground">
-                  {nowBuildingTitle}
-                </p>
-              )}
-
-              {progress !== null && (
-                <div className="flex flex-col gap-3">
-                  <p className="flex items-center justify-between font-mono text-label uppercase text-muted-foreground">
-                    <span>Build progress</span>
+                  {portraitImage ? (
+                    <SanityImage
+                      image={portraitImage}
+                      alt={portraitAlt}
+                      width={40}
+                      height={40}
+                      className="size-10 rounded-full object-cover border border-white/15"
+                    />
+                  ) : initials ? (
                     <span
-                      className="hero-count"
-                      style={{ "--n": String(progress) } as CSSProperties}
-                    />
-                  </p>
-                  <div
-                    aria-hidden="true"
-                    className="h-1.5 overflow-hidden rounded-full bg-foreground/15"
-                  >
-                    <div
-                      className="hero-fill h-full rounded-full bg-progress-gradient"
-                      style={
-                        {
-                          "--progress": `${progress}%`,
-                        } as CSSProperties
-                      }
-                    />
-                  </div>
+                      aria-hidden="true"
+                      className="flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 font-sans text-xs font-semibold text-limestone/90"
+                    >
+                      {initials}
+                    </span>
+                  ) : null}
                 </div>
-              )}
 
-              {facts.length > 0 && (
-                <dl className="hero-rise hero-rise-facts grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 border-t border-border/40 pt-5">
-                  {facts.map((fact, index) => (
-                    <Fragment key={`${fact.label}-${index}`}>
-                      <dt className="font-mono text-label text-muted-foreground">
-                        {fact.label}
-                      </dt>
-                      <dd className="text-foreground">{fact.value}</dd>
-                    </Fragment>
-                  ))}
-                </dl>
-              )}
-            </aside>
+                <div className="flex flex-col gap-2">
+                  {nowBuildingTitle && (
+                    <h2 className="hero-rise hero-rise-panel-title font-sans text-xl sm:text-2xl font-bold tracking-tight text-limestone">
+                      {nowBuildingTitle}
+                    </h2>
+                  )}
+
+                  {nowBuildingDescription && (
+                    <p className="font-sans text-xs sm:text-sm leading-relaxed text-muted-sage/85">
+                      {nowBuildingDescription}
+                    </p>
+                  )}
+                </div>
+
+                {progress !== null && (
+                  <div className="flex flex-col gap-2.5 pt-1">
+                    <div className="flex items-center justify-between font-sans text-[11px] font-semibold tracking-[0.12em] uppercase text-muted-sage/75">
+                      <span>Build progress</span>
+                      <span className="font-sans text-[11px] font-semibold text-muted-sage/90 tabular-nums">
+                        {progress}%
+                      </span>
+                    </div>
+                    <div
+                      aria-hidden="true"
+                      className="h-1.5 w-full overflow-hidden rounded-full bg-white/10"
+                    >
+                      <div
+                        className="hero-fill h-full rounded-full bg-mint"
+                        style={
+                          {
+                            "--progress": `${progress}%`,
+                          } as CSSProperties
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {facts.length > 0 && (
+                  <div className="hero-rise hero-rise-facts flex flex-col divide-y divide-white/10 border-t border-white/10 pt-3 mt-1">
+                    {facts.map((fact, index) => (
+                      <div
+                        key={`${fact.label}-${index}`}
+                        className="flex items-baseline justify-between gap-4 py-2.5 first:pt-1 last:pb-0"
+                      >
+                        <span className="shrink-0 font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.14em] uppercase text-muted-sage/70">
+                          {fact.label}
+                        </span>
+                        <span className="font-sans text-xs sm:text-[13px] font-semibold tracking-wide uppercase text-limestone/95 text-right">
+                          {fact.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </aside>
+            </div>
           )}
+        </div>
+
+        <div
+          aria-hidden="true"
+          className="hero-rise hero-rise-scroll mt-12 lg:mt-16 flex flex-col items-center justify-center gap-3 text-center"
+        >
+          <span className="font-sans text-[10px] font-semibold tracking-[0.22em] uppercase text-muted-foreground">
+            Scroll
+          </span>
+          <div className="relative h-12 w-px overflow-hidden bg-foreground/20">
+            <div className="hero-scroll-runner absolute inset-x-0 top-0 h-full w-full bg-linear-to-b from-transparent via-foreground to-transparent" />
+          </div>
         </div>
       </div>
     </Section>

@@ -9,7 +9,9 @@ export function splitHeadline(
   if (!emphasizedText) return [text];
 
   const start = text.indexOf(emphasizedText);
-  if (start < 0) return [text];
+  if (start < 0) {
+    return [text];
+  }
 
   const end = start + emphasizedText.length;
   return [text.slice(0, start), emphasizedText, text.slice(end)];

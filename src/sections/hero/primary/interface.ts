@@ -22,6 +22,7 @@ export interface IHeroProps {
   showEyebrow: boolean;
   showPanel: boolean;
   nowBuildingTitle: string;
+  nowBuildingDescription: string;
   progress: number | null;
   facts: IHeroFact[];
   portraitImage: CustomImage["imageFile"] | null;

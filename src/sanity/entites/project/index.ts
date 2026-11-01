@@ -12,36 +12,6 @@ const STATUS_OPTIONS = [
   { title: "In progress", value: "inProgress" },
 ];
 
-/** One trade-off made while building the project. */
-const decision = defineArrayMember({
-  name: "decision",
-  title: "Decision",
-  type: "object",
-  fields: [
-    defineField({
-      name: "title",
-      title: "Decision",
-      type: "string",
-      description: "The choice you made, in one line. Max 80 characters.",
-      validation: (rule) => rule.required().max(80),
-    }),
-    defineField({
-      name: "description",
-      title: "Why",
-      type: "text",
-      rows: 2,
-      description: "The trade-off behind it. Max 220 characters.",
-      validation: (rule) => rule.max(220),
-    }),
-  ],
-  preview: {
-    select: { title: "title", subtitle: "description" },
-    prepare: ({ title, subtitle }) => ({
-      title: title || "Decision",
-      subtitle,
-    }),
-  },
-});
 
 export const projectTemplate = defineType({
   name: "project",

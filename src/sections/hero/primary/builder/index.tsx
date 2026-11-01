@@ -49,18 +49,44 @@ function portraitSource(
   };
 }
 
+function resolveHeadlineParts(
+  headline?: string | null,
+  accent?: string | null,
+): string[] {
+  if (!headline) return [""];
+  if (!accent || !accent.trim()) return [headline];
+
+  // Try exact match first using shared splitHeadline
+  const exactParts = splitHeadline(headline, accent);
+  if (exactParts.length === 3) return exactParts;
+
+  // Case-insensitive fallback for editor-provided accent
+  const trimmed = accent.trim();
+  const start = headline.toLowerCase().indexOf(trimmed.toLowerCase());
+  if (start >= 0) {
+    return [
+      headline.slice(0, start),
+      headline.slice(start, start + trimmed.length),
+      headline.slice(start + trimmed.length),
+    ];
+  }
+
+  return [headline];
+}
+
 export function PrimaryHeroBuilder({ hero, fullName }: ISanityPrimaryHeroProps) {
   const statusLabel = hero.statusLabel?.trim() ?? "";
   const location = hero.location?.trim() ?? "";
   const subline = hero.subline?.trim() ?? "";
 
-  const parts = splitHeadline(hero.headline, hero.headlineAccent);
+  const parts = resolveHeadlineParts(hero.headline, hero.headlineAccent);
 
   const primaryCta = resolveCta(hero.primaryCta);
   const secondaryCta = resolveCta(hero.secondaryCta);
   const hasActions = Boolean(primaryCta || secondaryCta);
 
   const nowBuildingTitle = hero.nowBuilding?.title?.trim() ?? "";
+  const nowBuildingDescription = hero.nowBuilding?.description?.trim() ?? "";
   const rawProgress = hero.nowBuilding?.progress;
   const progress =
     typeof rawProgress === "number" && Number.isFinite(rawProgress)
@@ -93,6 +119,7 @@ export function PrimaryHeroBuilder({ hero, fullName }: ISanityPrimaryHeroProps) 
     showEyebrow,
     showPanel,
     nowBuildingTitle,
+    nowBuildingDescription,
     progress,
     facts,
     portraitImage: portrait ? portraitImage : null,

@@ -1,5 +1,14 @@
-import { BlogPageBuilder } from "@/page-builder/blog";
-import { getBlogPosts } from "@/page-builder/blog/get-page";
+import type { Metadata } from "next";
+
+import {
+  BlogPageBuilder,
+  generateBlogMetadata,
+  getBlogPosts,
+} from "@/page-builder/blog";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generateBlogMetadata();
+}
 
 export default async function Blog() {
   const { data: blogPosts } = await getBlogPosts();

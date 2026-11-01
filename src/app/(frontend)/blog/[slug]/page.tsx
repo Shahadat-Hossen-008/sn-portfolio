@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { BlogDetailsPageBuilder } from "@/page-builder/blog-details";
-import { getBlogPost } from "@/page-builder/blog-details/get-page";
-import type { IBlogPostPageProps } from "@/page-builder/blog-details/interface";
-import { generateBlogDetailsMetadata } from "@/page-builder/blog-details/metadata";
+import {
+  BlogDetailsPageBuilder,
+  generateBlogDetailsMetadata,
+  getBlogPost,
+  type IBlogPostPageProps,
+} from "@/page-builder/blog-details";
 
-export async function generateMetadata({
-  params,
-}: IBlogPostPageProps): Promise<Metadata> {
-  return generateBlogDetailsMetadata({ params });
+export async function generateMetadata(
+  props: IBlogPostPageProps,
+): Promise<Metadata> {
+  return generateBlogDetailsMetadata(props);
 }
 
 export default async function BlogPostPage({ params }: IBlogPostPageProps) {
   const { slug } = await params;
-  const { data: blog } = await getBlogPost(slug);
+  const { data: blogPost } = await getBlogPost(slug);
 
-  if (!blog) notFound();
+  if (!blogPost) {
+    notFound();
+  }
 
-  return <BlogDetailsPageBuilder blog={blog} />;
+  return <BlogDetailsPageBuilder post={blogPost} />;
 }
