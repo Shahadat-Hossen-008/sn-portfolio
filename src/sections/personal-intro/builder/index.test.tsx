@@ -144,4 +144,28 @@ describe("PersonalIntroSectionBuilder", () => {
     expect(html).toContain("Rust &amp; WebAssembly");
     expect(html).toContain("Frontend Architecture");
   });
+
+  it("safely handles non-string summary (e.g. Portable Text array) without throwing", () => {
+    const dataWithPT: PersonalIntroData = {
+      ...mockData,
+      work: {
+        eyebrow: "Work",
+        image: null,
+        project: {
+          ...mockData.work!.project!,
+          summary: [
+            {
+              _key: "block1",
+              _type: "block",
+              children: [{ _key: "s1", _type: "span", text: "Rich summary text" }],
+            },
+          ] as unknown as string,
+        },
+      },
+    };
+    const html = renderToStaticMarkup(
+      <PersonalIntroSectionBuilder data={dataWithPT} />,
+    );
+    expect(html).toContain("Rich summary text");
+  });
 });

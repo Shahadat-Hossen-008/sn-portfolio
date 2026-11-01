@@ -83,7 +83,7 @@ describe("structure()", () => {
     expect(
       pageSections?.v.child?.v.items?.map((item) => item.v.schemaType),
     ).toEqual([
-      "curiositySection",
+      "personalIntroSection",
       "aboutBuilderSection",
       "quoteSection",
       "processSection",
