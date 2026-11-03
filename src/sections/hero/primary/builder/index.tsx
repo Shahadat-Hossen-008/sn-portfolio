@@ -46,7 +46,9 @@ function portraitSource(
   return {
     _type: "image",
     asset: { _type: "reference", _ref: asset._id },
-  };
+    ...(imageFile.crop ? { crop: imageFile.crop } : {}),
+    ...(imageFile.hotspot ? { hotspot: imageFile.hotspot } : {}),
+  } as CustomImage["imageFile"];
 }
 
 function resolveHeadlineParts(
