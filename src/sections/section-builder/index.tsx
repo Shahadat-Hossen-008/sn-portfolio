@@ -1,114 +1,52 @@
-import { AboutBuilderSectionBuilder } from "@/sections/about-builder/builder";
 import { CtaSectionBuilder } from "@/sections/cta/builder";
-import {
-  PersonalIntroSectionBuilder,
-  hasPersonalIntroContent,
-} from "@/sections/personal-intro/builder";
+import { EngineeringPillarsSectionBuilder } from "@/sections/engineering-pillars/builder";
 import { ExperienceSectionBuilder } from "@/sections/experience/builder";
-import { ProcessSectionBuilder } from "@/sections/process/builder";
+import { PersonalIntroSectionBuilder } from "@/sections/personal-intro/builder";
+import { PhilosophySectionBuilder } from "@/sections/philosophy/builder";
 import { QuoteSectionBuilder } from "@/sections/quote/builder";
-import { assignSectionNumbers } from "./numbering";
-import type {
-  ISanitySectionBlock,
-  ISectionBuilderProps,
-} from "./interface";
+import { TechnicalFoundationSectionBuilder } from "@/sections/technical-foundation/builder";
+import type { ISectionBuilderProps } from "./interface";
 
 /**
- * Mirrors each section builder's own early-return condition so skipped blocks
- * do not consume a section number.
+ * Dynamic dispatcher for CMS `pageSections` blocks.
+ *
+ * Dispatches each block by `_type` to its corresponding section builder.
+ * Each section builder encapsulates its own validation rules and returns null
+ * if required content is missing or empty.
  */
-function shouldRenderSection(section: ISanitySectionBlock): boolean {
-  switch (section._type) {
-    case "personalIntroSection":
-      return (
-        Boolean(section.heading?.trim()) &&
-        hasPersonalIntroContent(section)
-      );
-    case "aboutBuilderSection":
-    case "processSection":
-    case "experienceSection":
-    case "ctaSection":
-      return Boolean(section.heading?.trim());
-    case "quoteSection":
-      return Boolean(section.quote?.trim());
-    default:
-      return false;
+export function SectionBuilder({ sections }: ISectionBuilderProps) {
+  if (!sections || sections.length === 0) {
+    return null;
   }
-}
-
-/**
- * Independent SectionBuilder for dynamic CMS `pageSections` blocks.
- *
- * Dispatches each buildable section block by `_type` to its corresponding
- * section builder while keeping standalone main sections (`about`,
- * `technology`, `projects`, `contact`) completely separate.
- *
- * Section numbers are computed here when numbered=true: the hero is 01 and
- * rendered sections are numbered from 02 in the order given; a skipped section
- * consumes no number. When numbered=false (e.g. on About page), no section
- * receives a number.
- */
-export function SectionBuilder({
-  sections,
-  numbered = true,
-}: ISectionBuilderProps) {
-  if (!sections || sections.length === 0) return null;
-
-  const renders = sections.map((section) => shouldRenderSection(section));
-  const numbers = numbered
-    ? assignSectionNumbers(renders)
-    : renders.map(() => null);
 
   return (
     <>
       {sections.map((section, index) => {
-        if (!renders[index]) return null;
-        const sectionNumber = numbers[index];
+        if (!section || !section._type) {
+          return null;
+        }
+
+        const key = section._id || `section-${index}`;
 
         switch (section._type) {
           case "personalIntroSection":
+            return <PersonalIntroSectionBuilder key={key} data={section} />;
+          case "engineeringPillars":
             return (
-              <PersonalIntroSectionBuilder
-                key={section._id}
-                data={section}
-              />
-            );
-          case "aboutBuilderSection":
-            return (
-              <AboutBuilderSectionBuilder
-                key={section._id}
-                data={section}
-                sectionNumber={sectionNumber}
-              />
+              <EngineeringPillarsSectionBuilder key={key} data={section} />
             );
           case "quoteSection":
+            return <QuoteSectionBuilder key={key} data={section} />;
+          case "technicalFoundation":
             return (
-              <QuoteSectionBuilder
-                key={section._id}
-                data={section}
-              />
+              <TechnicalFoundationSectionBuilder key={key} data={section} />
             );
-          case "processSection":
-            return (
-              <ProcessSectionBuilder
-                key={section._id}
-                data={section}
-              />
-            );
+          case "philosophySection":
+            return <PhilosophySectionBuilder key={key} data={section} />;
           case "experienceSection":
-            return (
-              <ExperienceSectionBuilder
-                key={section._id}
-                data={section}
-              />
-            );
+            return <ExperienceSectionBuilder key={key} data={section} />;
           case "ctaSection":
-            return (
-              <CtaSectionBuilder
-                key={section._id}
-                data={section}
-              />
-            );
+            return <CtaSectionBuilder key={key} data={section} />;
           default:
             return null;
         }
