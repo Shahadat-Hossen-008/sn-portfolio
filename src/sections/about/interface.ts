@@ -1,8 +1,6 @@
-import type { ABOUT_QUERYResult } from "@/sanity/types";
-
-type NonNullableAbout = NonNullable<ABOUT_QUERYResult>;
+import type { PortableTextBlock } from "next-sanity";
 
 export interface IAboutSectionProps {
-  description: NonNullableAbout["description"];
-  technologies: NonNullableAbout["technologies"];
+  description?: PortableTextBlock[] | null;
+  technologies?: Array<{ label?: string | null }> | null;
 }
