@@ -9,14 +9,13 @@ export const sectionHeaderFields = (options?: {
   introDescription?: string;
 }) => {
   const headingMax = options?.headingMax ?? 70;
-  const introMax = options?.introMax ?? 160;
   return [
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
       type: "string",
       description:
-        "Small label above the heading, e.g. “How the work moves”. Any section number is added automatically, so don't type it. Max 40 characters.",
+        "Small label above the heading, e.g. “How the work moves”. Max 40 characters.",
       validation: (rule) => rule.max(40),
     }),
     defineField({
@@ -43,16 +42,6 @@ export const sectionHeaderFields = (options?: {
             ? true
             : "Heading accent must appear in the heading with matching case.";
         }),
-    }),
-    defineField({
-      name: "intro",
-      title: "Intro",
-      type: "text",
-      rows: 3,
-      description:
-        options?.introDescription ??
-        `One or two sentences under the heading. Max ${introMax} characters.`,
-      validation: (rule) => rule.max(introMax),
     }),
   ];
 };
