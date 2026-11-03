@@ -1,5 +1,5 @@
 import { BsArrowRightCircle } from "react-icons/bs";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 import { link } from "@/sanity/_root/link";
 import { sectionHeaderFields } from "@/sanity/_root/section-header";
@@ -14,11 +14,17 @@ export const ctaSection = defineType({
   fields: [
     ...sectionHeaderFields({
       headingMax: 60,
-      introMax: 120,
       headingDescription:
         "The band's heading, shown large on the left, e.g. “Thoughtful teams, useful products.”. Max 60 characters.",
-      introDescription:
+    }),
+    defineField({
+      name: "intro",
+      title: "Intro",
+      type: "text",
+      rows: 3,
+      description:
         "The supporting sentence next to the button. Max 120 characters.",
+      validation: (rule) => rule.max(120),
     }),
     {
       ...link("cta"),
