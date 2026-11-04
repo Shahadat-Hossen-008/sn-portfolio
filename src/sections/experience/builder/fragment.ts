@@ -1,8 +1,6 @@
 /** Projection for the `experienceSection` block on pageSections. */
 export const experienceSectionFragment = /* groq */ `{
   eyebrow,
-  heading,
-  headingAccent,
   intro,
   roles[]{
     _key,
@@ -11,7 +9,16 @@ export const experienceSectionFragment = /* groq */ `{
     startDate,
     endDate,
     current,
+    description,
+    contribution,
+    impact,
+    featured,
     outcome,
+    "project": project->{
+      _id,
+      "title": projectTitle,
+      "slug": slug.current
+    },
     "tools": tools[]->{ _id, label }
   }
 }`;

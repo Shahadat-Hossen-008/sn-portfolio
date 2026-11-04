@@ -27,7 +27,7 @@ export function DisableDraftMode({ className }: IDisableDraftModeProps) {
       aria-live="polite"
       className={
         className ??
-        "fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] inline-flex items-center gap-3 rounded-full bg-forest/95 text-limestone border border-forest-border/40 px-4 py-2 text-xs font-sans font-medium shadow-panel backdrop-blur-md transition-all duration-200"
+        "fixed bottom-4 left-1/2 -translate-x-1/2 z-100 inline-flex items-center gap-3 rounded-full bg-forest/95 text-limestone border border-forest-border/40 px-4 py-2 text-xs font-sans font-medium shadow-panel backdrop-blur-md transition-all duration-200"
       }
     >
       <span
