@@ -53,8 +53,6 @@ const sampleAboutData: ABOUT_PAGE_QUERYResult = {
       _id: "exp-1",
       _type: "experienceSection",
       eyebrow: "Experience",
-      heading: "Where I've worked",
-      headingAccent: null,
       intro: "Intro",
       roles: [
         {
@@ -102,7 +100,8 @@ describe("AboutPage", () => {
     expect(html).toContain("Design and code with <em");
     expect(html).toContain("Design is how it works");
     expect(html).toContain("Tools follow the problem");
-    expect(html).toContain("Where I&#x27;ve worked");
+    expect(html).toContain("Experience");
+    expect(html).toContain("Engineer");
     expect(html).toContain("Thoughtful teams, useful products");
 
     // Numbered headings should NOT appear on the About page
