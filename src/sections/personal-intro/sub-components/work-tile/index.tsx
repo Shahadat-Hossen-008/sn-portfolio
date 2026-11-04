@@ -14,13 +14,23 @@ export function WorkTile({ work, featuredProject, rise = 2 }: IWorkTileProps) {
   const { title, summary, year, href, openInNewTab } = featuredProject;
 
   const rawImage = featuredProject.image;
-  const assetId = (rawImage?.imageFile?.asset as { _id?: string } | null)?._id;
+  const asset = rawImage?.imageFile?.asset as {
+    _id?: string;
+    _ref?: string;
+  } | null;
+  const assetId = asset?._id ?? asset?._ref;
   const imageSource: CustomImage["imageFile"] | null =
     hasSanityImage(rawImage) && assetId
-      ? {
+      ? ({
           _type: "image",
           asset: { _type: "reference", _ref: assetId },
-        }
+          ...(rawImage?.imageFile?.crop
+            ? { crop: rawImage.imageFile.crop }
+            : {}),
+          ...(rawImage?.imageFile?.hotspot
+            ? { hotspot: rawImage.imageFile.hotspot }
+            : {}),
+        } as CustomImage["imageFile"])
       : null;
 
   return (
@@ -76,7 +86,7 @@ export function WorkTile({ work, featuredProject, rise = 2 }: IWorkTileProps) {
           href={href}
           target={openInNewTab ? "_blank" : undefined}
           rel={openInNewTab ? "noopener noreferrer" : undefined}
-          className="group mt-1 inline-flex w-fit items-center gap-1.5 rounded-full border border-mint/40 bg-mint/10 px-4 py-1.5 font-sans text-xs font-bold tracking-[0.12em] uppercase text-mint no-underline transition-all duration-200 hover:border-mint hover:bg-mint hover:text-forest"
+          className="group mt-1 inline-flex w-fit items-center gap-1.5 rounded-full border border-mint/40 bg-mint/10 px-4 py-3 font-sans text-xs font-bold tracking-[0.12em] uppercase text-mint no-underline transition-all duration-200 hover:border-mint hover:bg-mint hover:text-forest"
         >
           <span>Case study</span>
           <span

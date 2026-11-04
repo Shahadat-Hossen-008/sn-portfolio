@@ -1,5 +1,5 @@
-import type { ABOUT_QUERYResult } from "@/sanity/types";
+import type { IAboutSectionProps } from "../interface";
 
 export interface ISanityAboutSectionProps {
-  about: ABOUT_QUERYResult;
+  about?: IAboutSectionProps | null;
 }

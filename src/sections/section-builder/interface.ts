@@ -5,7 +5,5 @@ export type ISanitySectionBlock = PageSection;
 
 export interface ISectionBuilderProps {
   /** `profile.sections`: the editor's ordered page sections. */
-  sections?: ISanitySectionBlock[] | null;
-  /** When false, no section receives a section number. Defaults to true. */
-  numbered?: boolean;
+  sections?: Array<ISanitySectionBlock | null> | null;
 }

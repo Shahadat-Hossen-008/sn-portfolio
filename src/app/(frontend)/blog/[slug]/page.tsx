@@ -22,5 +22,5 @@ export default async function BlogPostPage({ params }: IBlogPostPageProps) {
     notFound();
   }
 
-  return <BlogDetailsPageBuilder post={blogPost} />;
+  return <BlogDetailsPageBuilder blog={blogPost} />;
 }

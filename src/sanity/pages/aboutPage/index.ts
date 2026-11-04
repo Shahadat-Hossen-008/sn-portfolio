@@ -1,7 +1,10 @@
-import { seo, seoGroup } from "@/sanity/_root/seo";
 import { InfoOutlineIcon } from "@sanity/icons";
-import { defineField, defineType } from "sanity";
 import { SiSanity } from "react-icons/si";
+import { defineField, defineType } from "sanity";
+
+import { seo, seoGroup } from "@/sanity/_root/seo";
+import { aboutIntroField } from "./about-intro";
+
 export const about = defineType({
   name: "aboutPage",
   title: "About Page",
@@ -18,12 +21,10 @@ export const about = defineType({
   ],
   fields: [
     seo({ group: "seo", slugOptions: { isFixed: true, prefix: "about" } }),
-    defineField({
-      name: "pageIntro",
-      title: "Page Intro",
-      type: "pageIntroSection",
+    {
+      ...aboutIntroField,
       group: "content",
-    }),
+    },
     defineField({
       name: "pageSections",
       title: "Page Sections",

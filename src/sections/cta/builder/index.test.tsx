@@ -53,7 +53,7 @@ describe("CtaSectionBuilder", () => {
     expect(html).toContain('target="_blank"');
     expect(html).toContain('rel="noopener noreferrer"');
     expect(html).toContain("Get in touch");
-    expect(html).toContain('<span aria-hidden="true">→</span>');
+    expect(html).toContain("<svg");
     expect(html).not.toContain('href="#"');
   });
 

@@ -20,10 +20,11 @@ const sampleAboutData: ABOUT_PAGE_QUERYResult = {
     redirect: null,
     keywords: null,
   },
-  pageIntro: {
+  aboutIntro: {
     eyebrow: "About me",
     heading: "Design and code with purpose",
     headingAccent: "purpose",
+    portrait: null,
     intro: "Intro lead text",
     body: "Intro body text",
   },
@@ -36,18 +37,15 @@ const sampleAboutData: ABOUT_PAGE_QUERYResult = {
       note: "Steve Jobs",
     },
     {
-      _id: "proc-1",
-      _type: "processSection",
-      eyebrow: "Process",
-      heading: "Tools follow the problem",
-      headingAccent: null,
-      intro: "Intro",
-      steps: [
+      _id: "tf-1",
+      _type: "technicalFoundation",
+      eyebrow: "TECHNICAL FOUNDATION",
+      statement: "Tools follow the problem",
+      columns: [
         {
-          _key: "s1",
-          label: "Understand",
-          heading: "Step heading",
-          tools: [{ _id: "t1", label: "Figma" }],
+          _key: "c1",
+          title: "FRONTEND",
+          skills: ["Figma", "React"],
         },
       ],
     },
@@ -55,8 +53,6 @@ const sampleAboutData: ABOUT_PAGE_QUERYResult = {
       _id: "exp-1",
       _type: "experienceSection",
       eyebrow: "Experience",
-      heading: "Where I've worked",
-      headingAccent: null,
       intro: "Intro",
       roles: [
         {
@@ -104,7 +100,8 @@ describe("AboutPage", () => {
     expect(html).toContain("Design and code with <em");
     expect(html).toContain("Design is how it works");
     expect(html).toContain("Tools follow the problem");
-    expect(html).toContain("Where I&#x27;ve worked");
+    expect(html).toContain("Experience");
+    expect(html).toContain("Engineer");
     expect(html).toContain("Thoughtful teams, useful products");
 
     // Numbered headings should NOT appear on the About page

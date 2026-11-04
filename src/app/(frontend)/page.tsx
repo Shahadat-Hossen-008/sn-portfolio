@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import {
   MyProfilePageBuilder,
   generateMyProfileMetadata,
-  getHomePage,
+  getProfile,
 } from "@/page-builder/my-profile";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -11,7 +12,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const data = await getHomePage();
+  const { data: profile } = await getProfile();
 
-  return <MyProfilePageBuilder data={data} />;
+  if (!profile) {
+    notFound();
+  }
+
+  return <MyProfilePageBuilder profile={profile} />;
 }

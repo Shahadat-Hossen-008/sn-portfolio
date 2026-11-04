@@ -13,7 +13,6 @@ import author from "../entites/author";
 import blogPost from "../entites/blogPost";
 import { projectTemplate } from "../entites/project";
 // Hoisted objects
-import { PageIntroSection } from "../_root/page-intro-section";
 import portableText, {
   decisionCardItem,
   decisionCards,
@@ -35,9 +34,10 @@ import technologies from "../buildableSection/technologies";
 import richText from "../buildableSection/richText";
 import carouselTech from "../buildableSection/carouselTech";
 import { personalIntroSection } from "../buildableSection/personalIntro";
-import { aboutBuilderSection } from "../buildableSection/aboutBuilderSection";
+import { engineeringPillars } from "../buildableSection/engineeringPillars";
 import { quoteSection } from "../buildableSection/quoteSection";
-import { processSection } from "../buildableSection/processSection";
+import { technicalFoundation } from "../buildableSection/technicalFoundation";
+import { philosophySection } from "../buildableSection/philosophySection";
 import { experienceSection } from "../buildableSection/experienceSection";
 import { ctaSection } from "../buildableSection/ctaSection";
 // Pages
@@ -64,9 +64,10 @@ export const entities: DocumentDefinition[] = [
 
 export const sections: DocumentDefinition[] = [
   personalIntroSection,
-  aboutBuilderSection,
+  engineeringPillars,
   quoteSection,
-  processSection,
+  technicalFoundation,
+  philosophySection,
   experienceSection,
   ctaSection,
   richText,
@@ -75,7 +76,6 @@ export const sections: DocumentDefinition[] = [
 ];
 
 export const hoistedObjects: SchemaTypeDefinition[] = [
-  PageIntroSection,
   portableText,
   editorialSection,
   decisionCards,

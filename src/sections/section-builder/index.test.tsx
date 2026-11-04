@@ -4,16 +4,17 @@ import { describe, expect, it } from "vitest";
 import type { ISanitySectionBlock } from "./interface";
 import { SectionBuilder } from "./index";
 
-const about = (id: string, heading: string): ISanitySectionBlock => ({
+const pillar = (id: string, statement: string): ISanitySectionBlock => ({
   _id: id,
-  _type: "aboutBuilderSection",
-  eyebrow: "About the builder",
-  heading,
-  headingAccent: null,
-  intro: null,
-  columns: null,
-  facts: null,
-  cta: null,
+  _type: "engineeringPillars",
+  columns: [
+    {
+      _key: `col-${id}`,
+      label: `01 / ${statement}`,
+      statement,
+      items: ["Item 1"],
+    },
+  ],
 });
 
 const emptyCuriosity = {
@@ -35,23 +36,31 @@ describe("SectionBuilder", () => {
     expect(renderToStaticMarkup(<SectionBuilder sections={null} />)).toBe("");
   });
 
-  it("renders the sections the editor added, numbered from 02", () => {
+  it("renders the sections the editor added in order", () => {
     const html = renderToStaticMarkup(
-      <SectionBuilder sections={[about("a", "First"), about("b", "Second")]} />,
+      <SectionBuilder sections={[pillar("a", "First"), pillar("b", "Second")]} />,
     );
 
     expect(html.indexOf("First")).toBeLessThan(html.indexOf("Second"));
-    expect(html).toContain("02 — About the builder");
-    expect(html).toContain("03 — About the builder");
   });
 
-  it("does not let an empty section consume a number", () => {
+  it("safely skips null, undefined, or malformed sections without throwing", () => {
     const html = renderToStaticMarkup(
-      <SectionBuilder sections={[emptyCuriosity, about("a", "Only")]} />,
+      <SectionBuilder
+        sections={[null, undefined, {} as never, pillar("a", "Survives")]}
+      />,
+    );
+
+    expect(html).toContain("Survives");
+  });
+
+  it("does not let an empty section render", () => {
+    const html = renderToStaticMarkup(
+      <SectionBuilder sections={[emptyCuriosity, pillar("a", "Only")]} />,
     );
 
     expect(html).not.toContain("Curious heading");
-    expect(html).toContain("02 — About the builder");
+    expect(html).toContain("Only");
   });
 
   it("ignores section types it has no component for", () => {
@@ -59,13 +68,12 @@ describe("SectionBuilder", () => {
       <SectionBuilder
         sections={[
           { _id: "r", _type: "richTextSection" } as ISanitySectionBlock,
-          about("a", "Kept"),
+          pillar("a", "Kept"),
         ]}
       />,
     );
 
     expect(html).toContain("Kept");
-    expect(html).toContain("02 — About the builder");
   });
 
   it("renders About page section types in Studio order", () => {
@@ -78,18 +86,15 @@ describe("SectionBuilder", () => {
         note: "Quote note",
       },
       {
-        _id: "proc",
-        _type: "processSection",
-        eyebrow: "Process eyebrow",
-        heading: "Process heading",
-        headingAccent: null,
-        intro: null,
-        steps: [
+        _id: "tf",
+        _type: "technicalFoundation",
+        eyebrow: "TECHNICAL FOUNDATION",
+        statement: "Technical foundation statement",
+        columns: [
           {
-            _key: "s1",
-            label: "Understand",
-            heading: "Step one heading",
-            tools: null,
+            _key: "c1",
+            title: "FRONTEND",
+            skills: ["React"],
           },
         ],
       },
@@ -97,8 +102,6 @@ describe("SectionBuilder", () => {
         _id: "exp",
         _type: "experienceSection",
         eyebrow: "Experience eyebrow",
-        heading: "Experience heading",
-        headingAccent: null,
         intro: null,
         roles: [
           {
@@ -125,31 +128,28 @@ describe("SectionBuilder", () => {
     ];
 
     const html = renderToStaticMarkup(
-      <SectionBuilder sections={sections} numbered={false} />,
+      <SectionBuilder sections={sections} />,
     );
 
     const posQuote = html.indexOf("Quote statement");
-    const posProc = html.indexOf("Process heading");
-    const posExp = html.indexOf("Experience heading");
+    const posTf = html.indexOf("Technical foundation statement");
+    const posExp = html.indexOf("Experience eyebrow");
     const posCta = html.indexOf("CTA heading");
 
     expect(posQuote).toBeGreaterThan(-1);
-    expect(posProc).toBeGreaterThan(posQuote);
-    expect(posExp).toBeGreaterThan(posProc);
+    expect(posTf).toBeGreaterThan(posQuote);
+    expect(posExp).toBeGreaterThan(posTf);
     expect(posCta).toBeGreaterThan(posExp);
   });
 
-  it("gives no section numbers when numbered=false", () => {
+  it("renders multiple sections in order without numbers", () => {
     const html = renderToStaticMarkup(
       <SectionBuilder
-        sections={[about("a", "First"), about("b", "Second")]}
-        numbered={false}
+        sections={[pillar("a", "First"), pillar("b", "Second")]}
       />,
     );
 
     expect(html).toContain("First");
     expect(html).toContain("Second");
-    expect(html).not.toContain("02 —");
-    expect(html).not.toContain("03 —");
   });
 });

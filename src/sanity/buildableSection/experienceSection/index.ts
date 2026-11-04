@@ -1,7 +1,6 @@
 import { BsBriefcase } from "react-icons/bs";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { sectionHeaderFields } from "@/sanity/_root/section-header";
 import { countLabel, periodYears } from "@/sanity/lib/preview";
 
 type RoleValue = { startDate?: string; current?: boolean };
@@ -12,12 +11,32 @@ export const experienceSection = defineType({
   type: "document",
   icon: BsBriefcase,
   description:
-    "Your work history: role, company, dates, outcome and tools. Shown as a list on the right, beside a heading.",
+    "Your work history: role, company, dates, contribution, impact, and tools. Shown as a clean timeline beside the section eyebrow.",
   fields: [
-    ...sectionHeaderFields({
-      introMax: 180,
-      introDescription:
-        "One or two sentences under the heading, shown in the left column. Max 180 characters.",
+    defineField({
+      name: "title",
+      title: "Section Reference Title (CMS only)",
+      type: "string",
+      description:
+        "Optional internal title for this document in the Studio sidebar, e.g. “Professional Experience”.",
+      validation: (rule) => rule.max(60),
+    }),
+    defineField({
+      name: "eyebrow",
+      title: "Eyebrow / Section Label",
+      type: "string",
+      initialValue: "EXPERIENCE",
+      description: "The section tag on the left column, e.g. “EXPERIENCE”.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "intro",
+      title: "Intro (Optional)",
+      type: "text",
+      rows: 3,
+      description:
+        "Optional one or two sentences shown in the left column. Max 180 characters.",
+      validation: (rule) => rule.max(180),
     }),
     defineField({
       name: "roles",
@@ -80,12 +99,54 @@ export const experienceSection = defineType({
                 }),
             }),
             defineField({
-              name: "outcome",
-              title: "Outcome",
+              name: "description",
+              title: "Role Context",
+              type: "string",
+              description:
+                "One concise sentence describing the role, scope, or context. Max 160 characters.",
+              validation: (rule) => rule.max(160),
+            }),
+            defineField({
+              name: "contribution",
+              title: "Contribution",
               type: "text",
               rows: 3,
               description:
-                "One sentence about what you owned and the result. Max 150 characters so each role stays about the same height.",
+                "What you personally built, improved, solved, or delivered. Focus on action and engineering approach. Max 240 characters.",
+              validation: (rule) => rule.max(240),
+            }),
+            defineField({
+              name: "impact",
+              title: "Impact",
+              type: "text",
+              rows: 3,
+              description:
+                "Why that contribution mattered: what became better, faster, safer, clearer, or more maintainable. Max 240 characters.",
+              validation: (rule) => rule.max(240),
+            }),
+            defineField({
+              name: "featured",
+              title: "Featured Role",
+              type: "boolean",
+              initialValue: false,
+              description:
+                "Emphasize this milestone with subtle visual priority for recruiters.",
+            }),
+            defineField({
+              name: "project",
+              title: "Related Project / Case Study",
+              type: "reference",
+              to: [{ type: "project" }],
+              description:
+                "Optional reference to a deep-dive case study or project.",
+            }),
+            defineField({
+              name: "outcome",
+              title: "Outcome (Legacy)",
+              type: "text",
+              rows: 3,
+              description:
+                "Legacy summary field preserved for backward compatibility. Use Contribution & Impact for new entries. Max 150 characters.",
               validation: (rule) => rule.max(150),
             }),
             defineField({
@@ -123,9 +184,9 @@ export const experienceSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "heading", roles: "roles" },
-    prepare: ({ title, roles }) => ({
-      title: title || "Experience",
+    select: { title: "title", eyebrow: "eyebrow", roles: "roles" },
+    prepare: ({ title, eyebrow, roles }) => ({
+      title: title || eyebrow || "Experience",
       subtitle: countLabel(roles?.length, "role"),
     }),
   },

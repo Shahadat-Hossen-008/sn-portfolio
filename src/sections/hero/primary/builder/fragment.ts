@@ -25,7 +25,9 @@ export const PRIMARY_HERO_FRAGMENT = /* groq */ `
     },
     portrait {
       imageFile {
-        asset->{_id, url, metadata{dimensions{width, height}}}
+        asset->{_id, url, metadata{dimensions{width, height}}},
+        crop,
+        hotspot
       },
       altText
     },

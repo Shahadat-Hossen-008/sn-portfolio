@@ -1,9 +1,10 @@
-import { aboutBuilderSectionFragment } from "@/sections/about-builder/builder/fragment";
 import { ctaSectionFragment } from "@/sections/cta/builder/fragment";
-import { personalIntroSectionFragment } from "@/sections/personal-intro/builder/fragment";
+import { engineeringPillarsFragment } from "@/sections/engineering-pillars/builder/fragment";
 import { experienceSectionFragment } from "@/sections/experience/builder/fragment";
-import { processSectionFragment } from "@/sections/process/builder/fragment";
+import { personalIntroSectionFragment } from "@/sections/personal-intro/builder/fragment";
+import { philosophySectionFragment } from "@/sections/philosophy/builder/fragment";
 import { quoteSectionFragment } from "@/sections/quote/builder/fragment";
+import { technicalFoundationFragment } from "@/sections/technical-foundation/builder/fragment";
 
 /**
  * The ordered `pageSections` array, dereferenced. Each block carries its
@@ -16,9 +17,10 @@ export const PAGE_SECTIONS_FRAGMENT = /* groq */ `
     _id,
     _type,
     _type == "personalIntroSection" => ${personalIntroSectionFragment},
-    _type == "aboutBuilderSection" => ${aboutBuilderSectionFragment},
+    _type == "engineeringPillars" => ${engineeringPillarsFragment},
+    _type == "technicalFoundation" => ${technicalFoundationFragment},
+    _type == "philosophySection" => ${philosophySectionFragment},
     _type == "quoteSection" => ${quoteSectionFragment},
-    _type == "processSection" => ${processSectionFragment},
     _type == "experienceSection" => ${experienceSectionFragment},
     _type == "ctaSection" => ${ctaSectionFragment}
   }

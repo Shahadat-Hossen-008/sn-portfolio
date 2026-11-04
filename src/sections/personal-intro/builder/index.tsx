@@ -1,5 +1,6 @@
 import { toPlainText } from "@portabletext/react";
 import { isExternalHref, resolveLink } from "@/lib/sanity/links";
+import { hasSanityImage } from "@/sanity/lib/images";
 import { PersonalIntroSection } from "../index";
 import type {
   ICapability,
@@ -97,12 +98,18 @@ function getFeaturedProject(
     cleanText(project.liveLink) ||
     "/projects";
 
+  const image = hasSanityImage(data?.work?.image)
+    ? data.work.image
+    : hasSanityImage(project.image)
+      ? project.image
+      : null;
+
   return {
     _id: project._id,
     title,
     year: cleanText(project.year),
     summary: cleanText(project.summary),
-    image: data?.work?.image || project.image || null,
+    image,
     href,
     openInNewTab: isExternalHref(href),
   };
