@@ -9,8 +9,6 @@ const base: NonNullableExperienceSection = {
   _id: "exp-1",
   _type: "experienceSection",
   eyebrow: "Career",
-  heading: "Crafting web experiences across teams",
-  headingAccent: "teams",
   intro: "A summary of past engineering roles.",
   roles: [
     {
@@ -50,24 +48,17 @@ const render = (data: Partial<NonNullableExperienceSection> = {}) =>
   renderToStaticMarkup(<ExperienceSectionBuilder data={{ ...base, ...data }} />);
 
 describe("ExperienceSectionBuilder", () => {
-  it("renders heading with accent inside em and eyebrow", () => {
+  it("renders eyebrow and intro", () => {
     const html = render();
 
-    expect(html).toContain('id="experience-heading"');
-    expect(html).toContain("across <em");
+    expect(html).toContain('id="experience-eyebrow"');
     expect(html).toContain("Career</p>");
+    expect(html).toContain("A summary of past engineering roles.");
   });
 
-  it("renders plain text when accent is null", () => {
-    const html = render({ headingAccent: null });
-
-    expect(html).toContain("Crafting web experiences across teams</h2>");
-    expect(html).not.toContain("<em");
-  });
-
-  it("returns null when heading is empty or whitespace", () => {
-    expect(render({ heading: "" })).toBe("");
-    expect(render({ heading: "   " })).toBe("");
+  it("returns null when roles array has no valid roles", () => {
+    expect(render({ roles: [] })).toBe("");
+    expect(render({ roles: [{ _key: "x", role: "", company: "" }] })).toBe("");
   });
 
   it("formats periods: Jan 2024 — Present for current, Jun 2022 — Dec 2023 for past", () => {
@@ -100,10 +91,71 @@ describe("ExperienceSectionBuilder", () => {
     expect(html).not.toContain("Role 5");
   });
 
-  it("omits ul when roles array is empty", () => {
-    const html = render({ roles: [] });
+  it("renders role title and company in Urbanist font-sans", () => {
+    const html = render();
 
-    expect(html).not.toContain("<ul");
+    expect(html).toContain("Senior Frontend Engineer</h3>");
+    expect(html).toContain("· Acme Corp</span>");
+    expect(html).not.toContain("font-display text-xl");
+  });
+
+  it("renders contribution, impact, description, and project link when provided", () => {
+    const customRole = [
+      {
+        _key: "r-rich",
+        role: "Staff Engineer",
+        company: "Venture Tech",
+        startDate: "2023-01-01",
+        endDate: null,
+        current: true,
+        description: "Spearheaded core platform modernization.",
+        contribution: "Architected distributed caching and edge routing.",
+        impact: "Cut p99 latency by 45% across 200k daily requests.",
+        featured: true,
+        project: {
+          _id: "p1",
+          title: "Platform Modernization",
+          slug: "platform-modernization",
+        },
+        tools: [{ _id: "t1", label: "TypeScript" }],
+      },
+    ];
+
+    const html = render({ roles: customRole });
+
+    expect(html).toContain("Staff Engineer");
+    expect(html).toContain("Venture Tech");
+    expect(html).toContain("Spearheaded core platform modernization.");
+    expect(html).toContain("Contribution");
+    expect(html).toContain("Architected distributed caching and edge routing.");
+    expect(html).toContain("Impact &amp; Result");
+    expect(html).toContain("Cut p99 latency by 45% across 200k daily requests.");
+    expect(html).toContain("Key Milestone");
+    expect(html).toContain('href="/project/platform-modernization"');
+    expect(html).toContain("Case Study: Platform Modernization");
+    expect(html).toContain("TypeScript");
+  });
+
+  it("gracefully falls back to outcome when impact and contribution are absent", () => {
+    const fallbackRole = [
+      {
+        _key: "r-legacy",
+        role: "Frontend Engineer",
+        company: "Legacy Labs",
+        startDate: "2021-01-01",
+        endDate: "2022-01-01",
+        current: false,
+        outcome: "Delivered responsive design overhaul on schedule.",
+        tools: [],
+      },
+    ];
+
+    const html = render({ roles: fallbackRole });
+
+    expect(html).toContain("Key Outcome");
+    expect(html).toContain("Delivered responsive design overhaul on schedule.");
+    expect(html).not.toContain("Contribution");
+    expect(html).not.toContain("href=\"/project/");
   });
 
   it("is a server component (no \"use client\")", () => {

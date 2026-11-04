@@ -102,8 +102,6 @@ describe("SectionBuilder", () => {
         _id: "exp",
         _type: "experienceSection",
         eyebrow: "Experience eyebrow",
-        heading: "Experience heading",
-        headingAccent: null,
         intro: null,
         roles: [
           {
@@ -135,7 +133,7 @@ describe("SectionBuilder", () => {
 
     const posQuote = html.indexOf("Quote statement");
     const posTf = html.indexOf("Technical foundation statement");
-    const posExp = html.indexOf("Experience heading");
+    const posExp = html.indexOf("Experience eyebrow");
     const posCta = html.indexOf("CTA heading");
 
     expect(posQuote).toBeGreaterThan(-1);

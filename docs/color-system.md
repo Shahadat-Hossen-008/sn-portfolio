@@ -17,6 +17,7 @@ is light; forest sections opt into the inverted semantic tokens.
 | `forest-border` | `#748575` | Borders on dark surfaces |
 | `mint` | `#5EEAA8` | Restrained accents on dark surfaces |
 | `lime` | `#B6F09C` | Optional secondary accent on dark surfaces |
+| `status-active` | `#0D5738` | Active status indicator on light surfaces (6.24:1 contrast) |
 
 ## Semantic tokens
 

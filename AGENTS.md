@@ -66,7 +66,7 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 1. **`src/fragments/`** — Shared root GROQ projections (`LINK_REFERENCE_FRAGMENT`, `PORTABLE_TEXT_PROJECTION`, `SEO_FIELDS_FRAGMENT`), re-exported via `src/fragments/index.ts`.
 2. **`src/layout/`** — `LayoutBuilder` (`index.tsx`, `interface.ts`, `query.ts` with `LAYOUT_QUERY` & `SITE_SETTINGS_QUERY`), `header/`, and `footer/` (each with `builder/index.tsx`, `builder/interface.ts`, `builder/fragment.ts`).
 3. **`src/sections/hero/`** — `HeroBuilder` (`index.tsx`, `interface.ts`, `fragment.ts`) and `primary/` (`PrimaryHero` + `builder/`).
-4. **`src/page-builder/`** — Page-specific data and composition modules. For example, `about/` owns the About page query, its projection fragment, request-cached loader, metadata, and composition; the matching route delegates to this module.
+4. **`src/page-builder/`** — Standardized page modules with concern-grouped subfolders (`data/` for queries & loaders, `metadata/` for SEO, `view/` for presentation & props, and a unified `index.ts` barrel entry point). Public routes delegate data loading, metadata, and composition to their matching module.
 5. **`src/sections/`** — Two distinct concepts:
    - `section-builder/` (`index.tsx`, `interface.ts`, `fragment.ts` `PAGE_SECTIONS_FRAGMENT`) — Independent dynamic dispatcher for CMS `pageSections` blocks (`curiositySection`).
    - Standalone main sections (`curiosity/`, `about/`, `technology/`, `projects/`, `contact/`, `blogs/blog-card/`, `blogs/blog-details/`), each with `index.tsx` (pure UI), `interface.ts` (`I...Props`), `builder/` (`index.tsx`, `interface.ts` `ISanity...Props`, `fragment.ts`), and optional `sub-components/<part>/`.
@@ -76,7 +76,7 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 
 | Folder | Contents |
 |---|---|
-| `_root/` | Shared schema primitives: `media/` (`customImage`), `portableText/`, `sections/` (`pageSections` reference array), `seo/` (+`slug/`), `link/`, `technology-item/`, `section-header/`, and inline `page-intro-section/` |
+| `_root/` | Shared schema primitives: `media/` (`customImage`), `portableText/`, `sections/` (`pageSections` reference array), `seo/` (+`slug/`), `link/`, `technology-item/`, `section-header/` |
 | `global/` | Pinned singletons: `siteSettings/` (SEO / analytics), `layout/` (identity / header / footer) |
 | `entites/` | Referenced content records: `author`, `blogPost`, `project` (note folder spelling `entites`) |
 | `pages/` | Pinned singleton pages: `profilePage` (`myProfilePage`), `aboutPage`, `blogPage`, `projectPage` |
@@ -96,7 +96,7 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
 - **Routes delegate, page builders fetch and compose, UI components render**: Public routes delegate data loading, metadata, and composition to their matching `src/page-builder/<page>/` module. Page-builder modules own page-specific root queries, projection fragments, cached loaders, and page composition; shared UI and section builders **never** import `sanityFetch` or `client`.
 - **Client/Server boundary**: Only interactive leaves use `"use client"` (`layout/header/index.tsx`, `sections/contact/sub-components/form/index.tsx`, `sections/projects/index.tsx`, `sections/technology/index.tsx`, `components/youtube/index.tsx`). `app/actions/sendEmail.ts` uses `"use server"`. Everything else is RSC.
 - **Studio sidebar (`src/sanity/structure.ts`)**: Composes **[pinned singletons: Site Settings, Layout]** → **Pages** → **Page Sections** (flat list of reusable section documents) → **Entities** → **Miscellaneous**.
-- **Reference-based `pageSections`**: Sections (`curiositySection`, `richTextSection`, `technologySection`, `technologyCarousel`) are `type: "document"` created under **Page Sections**. Pages reference them via `pageSections` (`type: "reference"`), and `PAGE_SECTIONS_FRAGMENT` returns the ordered array `"sections": pageSections[]->{ _id, _type, _type == "..." => {...fragment} }`, and `SectionBuilder` renders each block by `_type` in Studio order (numbers computed from rendered sections). Adding a section = one fragment line + one `case`.
+- **Reference-based `pageSections`**: Sections (`curiositySection`, `richTextSection`, `technologySection`, `technologyCarousel`) are `type: "document"` created under **Page Sections**. Pages reference them via `pageSections` (`type: "reference"`), and `PAGE_SECTIONS_FRAGMENT` returns the ordered array `"sections": pageSections[]->{ _id, _type, _type == "..." => {...fragment} }`, and `SectionBuilder` renders each block by `_type` in Studio order. Adding a section = one fragment line + one `case`.
 - **Page-specific openings**: Content that belongs only at the top of a page should be modeled as an inline object on that page singleton, before its reorderable `pageSections`. Use `pageSections` references for reusable or editor-reorderable content.
 
 ### 3.4 Global Singletons (`siteSettings` & `layout`)
@@ -137,6 +137,11 @@ Frontend modules use co-located `index.tsx` and `interface.ts` files (no global 
    - **Removal condition**: delete the wrapper and its `sanity.config.ts` wiring only after upgrading to **`sanity >= 6.14.1`**. Upstream fix landed in `6.9.2` (PR sanity-io/sanity#13924), but `6.9.2`–`6.14.0` shipped a Portable Text data-loss regression; `6.14.1` is the first safe target.
    - **Before deleting**, manually verify in Studio: (a) upload an image inside Portable Text and confirm the block dialog stays open, (b) open `editorialSection` and type in its fields without focus jumping, (c) nested dialogs (table rows/cells, card items) keep focus. The wrapper has two guards — the single-segment `onPathFocus` guard maps to #13924; the `selection`-payload guard is defensive and is **not** guaranteed fixed by that PR.
    - The wrapper reads non-public props (`member.open`, `member.item.members`, `field.members`, `onPathFocus` payloads); re-verify after any Sanity major upgrade.
+7. **Non-String Values in Text Fields (`TypeError: value.trim is not a function`)**: In Sanity datasets, fields like `summary`, `projectDescription`, or `problemStatement` can hold Portable Text block arrays (`[{ _type: "block", ... }]`) or objects from older schemas. Never write `value && value.trim()`: in JavaScript, arrays and objects are truthy, causing a fatal runtime crash when `.trim()` is called on an array. Always guard with `typeof value === "string"` or safely extract text using `toPlainText()` from `@portabletext/react`.
+8. **Network Resilience & Connection Deduplication (`UND_ERR_CONNECT_TIMEOUT`)**:
+   - Node.js `undici` enforces a 10s connection timeout. Avoid opening redundant parallel TLS sockets: page metadata loaders (`buildPageMetadata`) must reuse `getLayoutSettings()` so React `cache()` deduplicates the request rather than firing separate duplicate queries for `LAYOUT_QUERY` and `SITE_SETTINGS_QUERY`.
+   - Data loaders (`getLayoutSettings`, `getProfile`, `getHomePage`, `getAboutPage`, etc.) must guard `sanityFetch` in `try / catch` returning `{ data: null }` on network failure. Consumers (`LayoutBuilder`, `buildMetadata`) are already built to handle `null` safely, preventing transient CDN drops from causing a fatal 500 crash.
+   - Do not query unused data (e.g. `LATEST_PROJECTS_QUERY`): home route composition only requires `profile` for `HeroBuilder` and `SectionBuilder`.
 
 ---
 

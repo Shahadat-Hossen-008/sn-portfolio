@@ -394,7 +394,10 @@ describe("About-page section schemas", () => {
   });
 
   describe("experienceSection", () => {
-    it("enforces limits on intro, roles, role, company, startDate, outcome, and tools", () => {
+    it("enforces limits on eyebrow, intro, roles, role, company, startDate, outcome, and tools", () => {
+      const eyebrowField = experienceSection.fields.find(
+        (f) => f.name === "eyebrow",
+      );
       const introField = experienceSection.fields.find(
         (f) => f.name === "intro",
       );
@@ -404,6 +407,10 @@ describe("About-page section schemas", () => {
         validation?: unknown;
         of?: Array<{ fields?: Array<{ name: string; validation?: unknown }> }>;
       };
+
+      const eyebrowRule = createMockRule();
+      (eyebrowField?.validation as ValidationFn | undefined)?.(eyebrowRule);
+      expect(eyebrowRule.required).toHaveBeenCalled();
 
       const introRule = createMockRule();
       (introField?.validation as ValidationFn | undefined)?.(introRule);
@@ -417,6 +424,9 @@ describe("About-page section schemas", () => {
       const roleField = roleFields.find((f) => f.name === "role");
       const companyField = roleFields.find((f) => f.name === "company");
       const startDateField = roleFields.find((f) => f.name === "startDate");
+      const descField = roleFields.find((f) => f.name === "description");
+      const contribField = roleFields.find((f) => f.name === "contribution");
+      const impactField = roleFields.find((f) => f.name === "impact");
       const outcomeField = roleFields.find((f) => f.name === "outcome");
       const toolsField = roleFields.find((f) => f.name === "tools");
 
@@ -433,6 +443,18 @@ describe("About-page section schemas", () => {
       const startDateRule = createMockRule();
       (startDateField?.validation as ValidationFn | undefined)?.(startDateRule);
       expect(startDateRule.required).toHaveBeenCalled();
+
+      const descRule = createMockRule();
+      (descField?.validation as ValidationFn | undefined)?.(descRule);
+      expect(descRule.max).toHaveBeenCalledWith(160);
+
+      const contribRule = createMockRule();
+      (contribField?.validation as ValidationFn | undefined)?.(contribRule);
+      expect(contribRule.max).toHaveBeenCalledWith(240);
+
+      const impactRule = createMockRule();
+      (impactField?.validation as ValidationFn | undefined)?.(impactRule);
+      expect(impactRule.max).toHaveBeenCalledWith(240);
 
       const outcomeRule = createMockRule();
       (outcomeField?.validation as ValidationFn | undefined)?.(outcomeRule);
