@@ -1,10 +1,12 @@
 import { cache } from "react";
 
 import { sanityFetch } from "@/sanity/lib/live";
-import type { IMyProfilePageData } from "../view/interface";
 import { PROFILE_QUERY } from "./query";
 
-/** The profile singleton is shared by the home route and metadata generation. */
+/**
+ * Deduplicates the Profile page query across route rendering and metadata.
+ * Mirrors the getAboutPage pattern.
+ */
 export const getProfile = cache(async () => {
   try {
     return await sanityFetch({ query: PROFILE_QUERY });
@@ -14,8 +16,5 @@ export const getProfile = cache(async () => {
   }
 });
 
-/** Fetch home-page content. Reuses getProfile for request-scoped caching. */
-export const getHomePage = cache(async (): Promise<IMyProfilePageData> => {
-  const profileResult = await getProfile();
-  return { profile: profileResult.data };
-});
+/** Backward-compatibility alias for getProfile. */
+export const getHomePage = getProfile;

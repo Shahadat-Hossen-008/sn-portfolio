@@ -6,5 +6,7 @@ export interface IMyProfilePageData {
 }
 
 export interface IMyProfilePageBuilderProps {
-  data: IMyProfilePageData;
+  profile?: PROFILE_QUERYResult;
+  /** Backward compatibility when passed as { data: { profile } } */
+  data?: IMyProfilePageData;
 }
