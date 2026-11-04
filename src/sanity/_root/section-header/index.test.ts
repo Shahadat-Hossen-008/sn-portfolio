@@ -24,14 +24,13 @@ const createMockRule = () => {
 type ValidationFn = (rule: unknown) => unknown;
 
 describe("sectionHeaderFields", () => {
-  it("creates the four expected fields with default limits and descriptions", () => {
+  it("creates the three expected fields with default limits and descriptions", () => {
     const fields = sectionHeaderFields();
     const names = fields.map((f) => f.name);
-    expect(names).toEqual(["eyebrow", "heading", "headingAccent", "intro"]);
+    expect(names).toEqual(["eyebrow", "heading", "headingAccent"]);
 
     const eyebrow = fields.find((f) => f.name === "eyebrow");
     const heading = fields.find((f) => f.name === "heading");
-    const intro = fields.find((f) => f.name === "intro");
 
     const eyebrowRule = createMockRule();
     (eyebrow?.validation as ValidationFn | undefined)?.(eyebrowRule.rule);
@@ -42,33 +41,20 @@ describe("sectionHeaderFields", () => {
     expect(headingRule.rule.required).toHaveBeenCalled();
     expect(headingRule.rule.max).toHaveBeenCalledWith(70);
     expect(heading?.description).toContain("Max 70 characters.");
-
-    const introRule = createMockRule();
-    (intro?.validation as ValidationFn | undefined)?.(introRule.rule);
-    expect(introRule.rule.max).toHaveBeenCalledWith(160);
-    expect(intro?.description).toContain("Max 160 characters.");
   });
 
   it("applies option overrides to limits and descriptions", () => {
     const fields = sectionHeaderFields({
       headingMax: 50,
-      introMax: 120,
       headingDescription: "Custom heading description",
-      introDescription: "Custom intro description",
     });
 
     const heading = fields.find((f) => f.name === "heading");
-    const intro = fields.find((f) => f.name === "intro");
 
     const headingRule = createMockRule();
     (heading?.validation as ValidationFn | undefined)?.(headingRule.rule);
     expect(headingRule.rule.max).toHaveBeenCalledWith(50);
     expect(heading?.description).toBe("Custom heading description");
-
-    const introRule = createMockRule();
-    (intro?.validation as ValidationFn | undefined)?.(introRule.rule);
-    expect(introRule.rule.max).toHaveBeenCalledWith(120);
-    expect(intro?.description).toBe("Custom intro description");
   });
 
   it("validates headingAccent matching case and handles empty values", () => {

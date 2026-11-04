@@ -14,10 +14,15 @@ export const experienceSection = defineType({
   description:
     "Your work history: role, company, dates, outcome and tools. Shown as a list on the right, beside a heading.",
   fields: [
-    ...sectionHeaderFields({
-      introMax: 180,
-      introDescription:
+    ...sectionHeaderFields(),
+    defineField({
+      name: "intro",
+      title: "Intro",
+      type: "text",
+      rows: 3,
+      description:
         "One or two sentences under the heading, shown in the left column. Max 180 characters.",
+      validation: (rule) => rule.max(180),
     }),
     defineField({
       name: "roles",

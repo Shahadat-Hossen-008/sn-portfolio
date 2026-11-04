@@ -20,10 +20,11 @@ const sampleAboutData: ABOUT_PAGE_QUERYResult = {
     redirect: null,
     keywords: null,
   },
-  pageIntro: {
+  aboutIntro: {
     eyebrow: "About me",
     heading: "Design and code with purpose",
     headingAccent: "purpose",
+    portrait: null,
     intro: "Intro lead text",
     body: "Intro body text",
   },
@@ -36,18 +37,15 @@ const sampleAboutData: ABOUT_PAGE_QUERYResult = {
       note: "Steve Jobs",
     },
     {
-      _id: "proc-1",
-      _type: "processSection",
-      eyebrow: "Process",
-      heading: "Tools follow the problem",
-      headingAccent: null,
-      intro: "Intro",
-      steps: [
+      _id: "tf-1",
+      _type: "technicalFoundation",
+      eyebrow: "TECHNICAL FOUNDATION",
+      statement: "Tools follow the problem",
+      columns: [
         {
-          _key: "s1",
-          label: "Understand",
-          heading: "Step heading",
-          tools: [{ _id: "t1", label: "Figma" }],
+          _key: "c1",
+          title: "FRONTEND",
+          skills: ["Figma", "React"],
         },
       ],
     },

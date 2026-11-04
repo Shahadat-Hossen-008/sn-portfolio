@@ -3,12 +3,14 @@ import { describe, expect, it, vi } from "vitest";
 import { pageSection } from "@/sanity/_root/sections";
 import { ctaSection } from "@/sanity/buildableSection/ctaSection";
 import { experienceSection } from "@/sanity/buildableSection/experienceSection";
-import { processSection } from "@/sanity/buildableSection/processSection";
+import { philosophySection } from "@/sanity/buildableSection/philosophySection";
 import { quoteSection } from "@/sanity/buildableSection/quoteSection";
+import { technicalFoundation } from "@/sanity/buildableSection/technicalFoundation";
 import { sections } from "@/sanity/schemaTypes";
 
 type MockRule = {
   max: ReturnType<typeof vi.fn>;
+  min: ReturnType<typeof vi.fn>;
   required: ReturnType<typeof vi.fn>;
   unique: ReturnType<typeof vi.fn>;
   custom: ReturnType<typeof vi.fn>;
@@ -20,6 +22,7 @@ type ValidationFn = (rule: unknown) => unknown;
 const createMockRule = (): MockRule => {
   const mockRule: MockRule = {
     max: vi.fn().mockReturnThis(),
+    min: vi.fn().mockReturnThis(),
     required: vi.fn().mockReturnThis(),
     unique: vi.fn().mockReturnThis(),
     custom: vi.fn().mockReturnThis(),
@@ -46,7 +49,8 @@ const captureCustomValidator = (validationFn: unknown) => {
 describe("About-page section schemas", () => {
   const newSections = [
     quoteSection,
-    processSection,
+    technicalFoundation,
+    philosophySection,
     experienceSection,
     ctaSection,
   ];
@@ -58,14 +62,15 @@ describe("About-page section schemas", () => {
     }
 
     const sectionNames = sections.map((s) => s.name);
-    const aboutBuilderIndex = sectionNames.indexOf("aboutBuilderSection");
-    expect(aboutBuilderIndex).toBeGreaterThan(-1);
+    const pillarsIndex = sectionNames.indexOf("engineeringPillars");
+    expect(pillarsIndex).toBeGreaterThan(-1);
 
     expect(
-      sectionNames.slice(aboutBuilderIndex + 1, aboutBuilderIndex + 5),
+      sectionNames.slice(pillarsIndex + 1, pillarsIndex + 6),
     ).toEqual([
       "quoteSection",
-      "processSection",
+      "technicalFoundation",
+      "philosophySection",
       "experienceSection",
       "ctaSection",
     ]);
@@ -94,9 +99,10 @@ describe("About-page section schemas", () => {
     expect(profileGroup?.title).toBe("About me");
     expect(profileGroup?.of).toEqual([
       "personalIntroSection",
-      "aboutBuilderSection",
+      "engineeringPillars",
       "quoteSection",
-      "processSection",
+      "technicalFoundation",
+      "philosophySection",
       "experienceSection",
     ]);
 
@@ -214,81 +220,175 @@ describe("About-page section schemas", () => {
     });
   });
 
-  describe("processSection", () => {
-    it("enforces limits on heading, intro, steps, step label, step heading, and tools", () => {
-      const headingField = processSection.fields.find(
-        (f) => f.name === "heading",
+  describe("technicalFoundation", () => {
+    it("enforces limits on eyebrow, statement, and columns", () => {
+      const eyebrowField = technicalFoundation.fields.find(
+        (f) => f.name === "eyebrow",
       );
-      const introField = processSection.fields.find((f) => f.name === "intro");
-      const stepsField = processSection.fields.find(
-        (f) => f.name === "steps",
+      const statementField = technicalFoundation.fields.find(
+        (f) => f.name === "statement",
+      );
+      const columnsField = technicalFoundation.fields.find(
+        (f) => f.name === "columns",
       ) as {
         validation?: unknown;
         of?: Array<{ fields?: Array<{ name: string; validation?: unknown }> }>;
       };
 
-      const headingRule = createMockRule();
-      (headingField?.validation as ValidationFn | undefined)?.(headingRule);
-      expect(headingRule.required).toHaveBeenCalled();
-      expect(headingRule.max).toHaveBeenCalledWith(50);
+      const eyebrowRule = createMockRule();
+      (eyebrowField?.validation as ValidationFn | undefined)?.(eyebrowRule);
+      expect(eyebrowRule.required).toHaveBeenCalled();
 
-      const introRule = createMockRule();
-      (introField?.validation as ValidationFn | undefined)?.(introRule);
-      expect(introRule.max).toHaveBeenCalledWith(120);
+      const statementRule = createMockRule();
+      (statementField?.validation as ValidationFn | undefined)?.(statementRule);
+      expect(statementRule.required).toHaveBeenCalled();
+      expect(statementRule.max).toHaveBeenCalledWith(400);
 
-      const stepsRule = createMockRule();
-      (stepsField?.validation as ValidationFn | undefined)?.(stepsRule);
-      expect(stepsRule.max).toHaveBeenCalledWith(5);
+      const columnsRule = createMockRule();
+      (columnsField?.validation as ValidationFn | undefined)?.(columnsRule);
+      expect(columnsRule.max).toHaveBeenCalledWith(4);
 
-      const stepFields = stepsField?.of?.[0]?.fields ?? [];
-      const labelField = stepFields.find((f) => f.name === "label");
-      const stepHeadingField = stepFields.find((f) => f.name === "heading");
-      const toolsField = stepFields.find((f) => f.name === "tools");
+      const columnFields = columnsField?.of?.[0]?.fields ?? [];
+      const titleField = columnFields.find((f) => f.name === "title");
+      const skillsField = columnFields.find((f) => f.name === "skills");
 
-      const labelRule = createMockRule();
-      (labelField?.validation as ValidationFn | undefined)?.(labelRule);
-      expect(labelRule.required).toHaveBeenCalled();
-      expect(labelRule.max).toHaveBeenCalledWith(16);
+      const titleRule = createMockRule();
+      (titleField?.validation as ValidationFn | undefined)?.(titleRule);
+      expect(titleRule.required).toHaveBeenCalled();
+      expect(titleRule.max).toHaveBeenCalledWith(30);
 
-      const stepHeadingRule = createMockRule();
-      (stepHeadingField?.validation as ValidationFn | undefined)?.(
-        stepHeadingRule,
-      );
-      expect(stepHeadingRule.required).toHaveBeenCalled();
-      expect(stepHeadingRule.max).toHaveBeenCalledWith(40);
+      const skillsRule = createMockRule();
+      (skillsField?.validation as ValidationFn | undefined)?.(skillsRule);
+      expect(skillsRule.required).toHaveBeenCalled();
+      expect(skillsRule.min).toHaveBeenCalledWith(1);
 
-      const toolsRule = createMockRule();
-      (toolsField?.validation as ValidationFn | undefined)?.(toolsRule);
-      expect(toolsRule.max).toHaveBeenCalledWith(4);
-      expect(toolsRule.unique).toHaveBeenCalled();
+      const skillFields =
+        (
+          skillsField as {
+            of?: Array<{
+              fields?: Array<{ name: string; validation?: unknown }>;
+            }>;
+          }
+        )?.of?.[0]?.fields ?? [];
+      const techField = skillFields.find((f) => f.name === "tech");
+      const contextField = skillFields.find((f) => f.name === "context");
+
+      const techRule = createMockRule();
+      (techField?.validation as ValidationFn | undefined)?.(techRule);
+      expect(techRule.required).toHaveBeenCalled();
+
+      const contextRule = createMockRule();
+      (contextField?.validation as ValidationFn | undefined)?.(contextRule);
+      expect(contextRule.max).toHaveBeenCalledWith(30);
     });
 
-    it("prepares preview with 0, 1, and 3 steps without crashing", () => {
-      const preview = processSection.preview;
+    it("prepares preview with title and statement without crashing", () => {
+      const preview = technicalFoundation.preview;
       const prepare = preview?.prepare as (val: {
         title?: string;
-        steps?: unknown[];
+        statement?: string;
+        columns?: unknown[];
       }) => {
         title: string;
         subtitle: string;
       };
 
-      expect(prepare({ title: "My Process", steps: [] })).toEqual({
-        title: "My Process",
-        subtitle: "0 steps",
-      });
-      expect(prepare({ title: "My Process", steps: [{ _key: "1" }] })).toEqual({
-        title: "My Process",
-        subtitle: "1 step",
+      expect(
+        prepare({
+          title: "Technical Foundation",
+          statement: "Overview of tech stack",
+          columns: [],
+        }),
+      ).toEqual({
+        title: "Technical Foundation",
+        subtitle: "Overview of tech stack",
       });
       expect(
         prepare({
           title: undefined,
-          steps: [{ _key: "1" }, { _key: "2" }, { _key: "3" }],
+          statement: undefined,
+          columns: [{ _key: "1" }],
         }),
       ).toEqual({
-        title: "Process",
-        subtitle: "3 steps",
+        title: "Technical Foundation",
+        subtitle: "1 column",
+      });
+    });
+  });
+
+  describe("philosophySection", () => {
+    it("enforces validation on title, eyebrow, and items", () => {
+      const titleField = philosophySection.fields.find((f) => f.name === "title");
+      const eyebrowField = philosophySection.fields.find((f) => f.name === "eyebrow");
+      const itemsField = philosophySection.fields.find((f) => f.name === "items") as {
+        validation?: unknown;
+        of?: Array<{ fields?: Array<{ name: string; validation?: unknown }> }>;
+      };
+
+      const titleRule = createMockRule();
+      (titleField?.validation as ValidationFn | undefined)?.(titleRule);
+      expect(titleRule.max).toHaveBeenCalledWith(60);
+
+      const eyebrowRule = createMockRule();
+      (eyebrowField?.validation as ValidationFn | undefined)?.(eyebrowRule);
+      expect(eyebrowRule.required).toHaveBeenCalled();
+
+      const itemsRule = createMockRule();
+      (itemsField?.validation as ValidationFn | undefined)?.(itemsRule);
+      expect(itemsRule.required).toHaveBeenCalled();
+      expect(itemsRule.min).toHaveBeenCalledWith(1);
+      expect(itemsRule.max).toHaveBeenCalledWith(6);
+
+      const itemFields = itemsField?.of?.[0]?.fields ?? [];
+      const pTitle = itemFields.find((f) => f.name === "title");
+      const pDesc = itemFields.find((f) => f.name === "description");
+      const pTag = itemFields.find((f) => f.name === "tag");
+
+      const pTitleRule = createMockRule();
+      (pTitle?.validation as ValidationFn | undefined)?.(pTitleRule);
+      expect(pTitleRule.required).toHaveBeenCalled();
+      expect(pTitleRule.max).toHaveBeenCalledWith(40);
+
+      const pDescRule = createMockRule();
+      (pDesc?.validation as ValidationFn | undefined)?.(pDescRule);
+      expect(pDescRule.required).toHaveBeenCalled();
+      expect(pDescRule.max).toHaveBeenCalledWith(400);
+
+      const pTagRule = createMockRule();
+      (pTag?.validation as ValidationFn | undefined)?.(pTagRule);
+      expect(pTagRule.max).toHaveBeenCalledWith(30);
+    });
+
+    it("prepares preview with title, eyebrow, and count of items", () => {
+      const preview = philosophySection.preview;
+      const prepare = preview?.prepare as (val: {
+        title?: string;
+        eyebrow?: string;
+        items?: unknown[];
+      }) => {
+        title: string;
+        subtitle: string;
+      };
+
+      expect(
+        prepare({
+          title: "My Philosophy",
+          eyebrow: "PHILOSOPHY",
+          items: [{}, {}],
+        }),
+      ).toEqual({
+        title: "My Philosophy",
+        subtitle: "2 principles",
+      });
+      expect(
+        prepare({
+          title: undefined,
+          eyebrow: "PHILOSOPHY",
+          items: [{}],
+        }),
+      ).toEqual({
+        title: "PHILOSOPHY",
+        subtitle: "1 principle",
       });
     });
   });

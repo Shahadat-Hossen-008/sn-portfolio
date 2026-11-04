@@ -84,9 +84,10 @@ describe("structure()", () => {
       pageSections?.v.child?.v.items?.map((item) => item.v.schemaType),
     ).toEqual([
       "personalIntroSection",
-      "aboutBuilderSection",
+      "engineeringPillars",
       "quoteSection",
-      "processSection",
+      "technicalFoundation",
+      "philosophySection",
       "experienceSection",
       "ctaSection",
       "richTextSection",
