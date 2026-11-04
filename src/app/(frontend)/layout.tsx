@@ -3,8 +3,9 @@ import type { Metadata, Viewport } from "next";
 import { LayoutBuilder } from "@/layout";
 import { getLayoutSettings } from "@/layout/get-layout";
 import { buildMetadata } from "@/lib/metadata";
-import {draftMode} from 'next/headers'
-import {VisualEditing} from 'next-sanity/visual-editing'
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { DisableDraftMode } from "@/components/disable-draft-mode";
 export const viewport: Viewport = { themeColor: "#e2dbc9" };
 
 /**
@@ -34,7 +35,12 @@ export default async function FrontendLayout({
       <LayoutBuilder layout={layout} siteSettings={siteSettings}>
       {children}
     </LayoutBuilder>
-    {isEnabled && <VisualEditing />}
+      {isEnabled && (
+        <>
+          <DisableDraftMode />
+          <VisualEditing />
+        </>
+      )}
     </>
   );
 }
