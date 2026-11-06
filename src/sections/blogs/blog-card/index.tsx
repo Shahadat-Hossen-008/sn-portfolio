@@ -16,7 +16,7 @@ export function BlogCard({
   return (
     <Link
       href={`/blog/${slug}`}
-      className="p-4 bg-background/80 transition duration-300 underline-offset-2 hover:underline"
+      className="group block p-4 bg-background/80 transition duration-300"
     >
       <div className="flex items-start gap-5">
         {mainImage?.imageFile && (
@@ -33,7 +33,9 @@ export function BlogCard({
         )}
 
         <div className="flex-1 flex flex-col gap-4">
-          <h2 className="text-2xl font-bold mb-2">{blogTitle}</h2>
+          <h2 className="text-2xl font-bold mb-2">
+            <span className="link-hover-underline">{blogTitle}</span>
+          </h2>
           {publishedDate && (
             <p className="text-muted-foreground text-sm">
               Published on {publishedDate}

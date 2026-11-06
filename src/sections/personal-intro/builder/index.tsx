@@ -93,13 +93,14 @@ function getFeaturedProject(
       : null;
 
   const href =
-    (slug ? `/project/${slug}` : null) ||
+    (slug ? `/projects/${slug}` : null) ||
     caseStudyHref ||
     cleanText(project.liveLink) ||
     "/projects";
 
-  const image = hasSanityImage(data?.work?.image)
-    ? data.work.image
+  const workImage = data?.work?.image;
+  const image = hasSanityImage(workImage)
+    ? workImage
     : hasSanityImage(project.image)
       ? project.image
       : null;
@@ -109,7 +110,7 @@ function getFeaturedProject(
     title,
     year: cleanText(project.year),
     summary: cleanText(project.summary),
-    image,
+    image: image ?? null,
     href,
     openInNewTab: isExternalHref(href),
   };

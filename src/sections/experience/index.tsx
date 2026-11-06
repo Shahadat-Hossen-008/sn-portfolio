@@ -131,15 +131,18 @@ export function ExperienceSection({
 
                           {role.project?.slug && (
                             <Link
-                              href={`/project/${role.project.slug}`}
-                              className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-foreground hover:text-foreground/80 hover:underline transition-colors ml-auto"
+                              href={`/projects/${role.project.slug}`}
+                              className="group inline-flex items-center gap-1 font-sans text-xs font-semibold text-foreground hover:text-foreground/80 transition-colors ml-auto"
                             >
-                              <span>
+                              <span className="link-hover-underline">
                                 {role.project.title
                                   ? `Case Study: ${role.project.title}`
                                   : "View case study"}
                               </span>
-                              <span aria-hidden="true" className="text-xs">
+                              <span
+                                aria-hidden="true"
+                                className="text-xs transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                              >
                                 ↗
                               </span>
                             </Link>

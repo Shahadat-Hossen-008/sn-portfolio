@@ -142,6 +142,19 @@
 @utility highlight-swipe {
   background: var(--gradient-highlight) 0 88% / 100% 34% no-repeat;
 }
+@utility link-hover-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1.5px;
+  text-decoration: none;
+  transition: background-size 300ms var(--ease-soft);
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1.5px;
+  }
+}
 
 @layer components {
   /* Curiosity grid */
@@ -600,8 +613,7 @@
   }
 
   [data-frontend-root] a {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+    text-decoration: none;
   }
 
   [data-frontend-root] ::selection {
