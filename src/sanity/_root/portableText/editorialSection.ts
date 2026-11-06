@@ -42,17 +42,10 @@ export const editorialSection = defineType({
       initialValue: true,
     }),
     defineField({
-      name: "heading",
-      title: "Section Heading",
-      description:
-        "Lead display heading at the top of the right column (e.g. 'Publishing tools should not get in the way of reading.').",
-      type: "string",
-    }),
-    defineField({
       name: "body",
       title: "Narrative Body",
       description:
-        "Rich text paragraphs, bullet points, and links for this editorial section.",
+        "Rich text paragraphs, headings, bullet points, quotes, and links for this editorial section.",
       type: "array",
       of: [defineArrayMember(block)],
       validation: (rule) =>
@@ -62,13 +55,12 @@ export const editorialSection = defineType({
   preview: {
     select: {
       label: "label",
-      heading: "heading",
       layout: "layout",
       body: "body",
     },
-    prepare({ label, heading, layout, body }) {
+    prepare({ label, layout, body }) {
       const fallbackText = body ? toPlainText(body).slice(0, 50) : "";
-      const title = heading || label || fallbackText || "Editorial Section";
+      const title = label || fallbackText || "Editorial Section";
       const modeLabel =
         layout === "straightforward" ? "Straightforward" : "Two-Column";
       const subtitle = label

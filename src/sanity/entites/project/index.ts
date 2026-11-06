@@ -12,7 +12,6 @@ const STATUS_OPTIONS = [
   { title: "In progress", value: "inProgress" },
 ];
 
-
 export const projectTemplate = defineType({
   name: "project",
   type: "document",
@@ -34,7 +33,7 @@ export const projectTemplate = defineType({
     },
   ],
   fields: [
-    // SEO only. The top level `slug` below drives `/project/[slug]`.
+    // SEO only. The top level `slug` below drives `/projects/[slug]`.
     seo({ group: "seo", includeSlug: false, optional: true }),
 
     defineField({
@@ -45,7 +44,7 @@ export const projectTemplate = defineType({
       validation: (rule) => rule.required().error("Please provide the title."),
     }),
     {
-      ...slug({ source: "projectTitle", isFixed: false, prefix: "project" }),
+      ...slug({ source: "projectTitle", isFixed: false, prefix: "projects" }),
       group: "overview",
     },
     defineField({
@@ -72,6 +71,24 @@ export const projectTemplate = defineType({
       group: "overview",
       description: "Your role. Max 100 characters.",
       validation: (rule) => rule.max(100),
+    }),
+    defineField({
+      name: "client",
+      title: "Client / Organization (Optional)",
+      type: "string",
+      group: "overview",
+      description:
+        "e.g. Acme Corp or Open Source. Shown in the project details ribbon.",
+      validation: (rule) => rule.max(60),
+    }),
+    defineField({
+      name: "duration",
+      title: "Duration (Optional)",
+      type: "string",
+      group: "timeline",
+      description:
+        "e.g. “6 Months” or “Q1 2024”. If empty, dates from the timeline will be used.",
+      validation: (rule) => rule.max(40),
     }),
     defineField({
       name: "projectImage",
@@ -108,16 +125,6 @@ export const projectTemplate = defineType({
       description:
         "The 3–4 line summary on the showcase card. Max 300 characters.",
       validation: (rule) => rule.max(300),
-    }),
-    defineField({
-      name: "problemStatement",
-      title: "Problem (short)",
-      type: "text",
-      rows: 3,
-      group: "summary",
-      description:
-        "The 2–3 line problem summary on the showcase card. Use Case study for the long version. Max 200 characters.",
-      validation: (rule) => rule.max(200),
     }),
 
     defineField({

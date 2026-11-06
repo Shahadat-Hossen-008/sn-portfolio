@@ -1,4 +1,5 @@
-import { HeadingComponent } from "./renderComponents";
+import { HighlightIcon } from "@sanity/icons";
+import { HeadingComponent, HighlightDecorator } from "./renderComponents";
 import { link } from "@/sanity/_root/link";
 
 export const block = {
@@ -53,6 +54,12 @@ export const block = {
       {
         title: "Underline",
         value: "underline",
+      },
+      {
+        title: "Highlight",
+        value: "highlight",
+        icon: HighlightIcon,
+        component: HighlightDecorator,
       },
     ],
     annotations: [link("linkUrl")],
