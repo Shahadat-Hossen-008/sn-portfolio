@@ -22,6 +22,8 @@ export const ROUTES_BY_TYPE = {
   myProfilePage: () => "/",
   aboutPage: () => "/about",
   projectPage: () => "/projects",
+  project: (slug?: string | null) =>
+    slug ? `/projects/${encodeURIComponent(slug)}` : null,
   blogPost: (slug?: string | null) =>
     slug ? `/blog/${encodeURIComponent(slug)}` : null,
 } as const;
