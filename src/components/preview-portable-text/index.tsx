@@ -19,6 +19,9 @@ export const previewPortableTextComponents = {
     mermaidDiagram: () => null,
   },
   marks: {
+    highlight: ({ children }: IPreviewPortableTextMarkProps) => {
+      return <span>{children}</span>;
+    },
     linkUrl: ({ children }: IPreviewPortableTextMarkProps) => {
       return <span className="text-muted-foreground">{children}</span>;
     },

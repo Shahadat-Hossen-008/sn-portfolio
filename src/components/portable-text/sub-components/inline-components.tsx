@@ -38,19 +38,19 @@ export function isSanityLink(value: unknown): value is SanityLink {
 export const inlinePortableTextComponents: IPortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h3 className="font-display text-title font-normal text-foreground mt-6 mb-3">
+      <h3 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mt-6 mb-3">
         {children}
       </h3>
     ),
     h2: ({ children }) => (
-      <h3 className="font-display text-title font-normal text-foreground mt-6 mb-3">
+      <h3 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mt-6 mb-3">
         {children}
       </h3>
     ),
     h3: ({ children }) => (
-      <h4 className="font-display text-lead font-medium text-foreground mt-5 mb-2">
+      <h3 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mt-5 mb-2">
         {children}
-      </h4>
+      </h3>
     ),
     normal: ({ children }) => (
       <p className="text-base leading-[1.65] text-muted-foreground mb-4 last:mb-0">
@@ -58,12 +58,20 @@ export const inlinePortableTextComponents: IPortableTextComponents = {
       </p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-4 border-l-2 border-primary/40 pl-4 italic text-foreground/80">
+      <blockquote className="my-6 rounded-2xl bg-surface border-l-2 border-mint p-6 sm:p-8 text-foreground text-base sm:text-lg leading-relaxed shadow-sm">
         {children}
       </blockquote>
     ),
   },
   marks: {
+    strong: ({ children }) => (
+      <strong className="font-bold text-foreground">{children}</strong>
+    ),
+    highlight: ({ children }) => (
+      <span className="rounded bg-mint/35 px-1.5 py-0.5 font-medium text-foreground box-decoration-clone">
+        {children}
+      </span>
+    ),
     linkUrl: ({ value, children }) => {
       if (!isSanityLink(value)) return <span>{children}</span>;
 
@@ -77,7 +85,7 @@ export const inlinePortableTextComponents: IPortableTextComponents = {
           href={href}
           target={openInNewTab ? "_blank" : undefined}
           rel={openInNewTab ? "noopener noreferrer" : undefined}
-          className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+          className="link-hover-underline font-medium text-foreground transition-opacity hover:opacity-85"
         >
           {children}
         </a>

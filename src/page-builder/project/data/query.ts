@@ -1,5 +1,5 @@
 import { defineQuery } from "next-sanity";
-import { SEO_FIELDS_FRAGMENT } from "@/fragments";
+import { SECTION_HEADING_FRAGMENT, SEO_FIELDS_FRAGMENT } from "@/fragments";
 import { PROJECT_SECTION_FRAGMENT } from "@/sections/projects/builder/fragment";
 import { PAGE_SECTIONS_FRAGMENT } from "@/sections/section-builder/fragment";
 
@@ -7,6 +7,7 @@ import { PAGE_SECTIONS_FRAGMENT } from "@/sections/section-builder/fragment";
 export const PROJECT_PAGE_QUERY = defineQuery(
   `*[_type == "projectPage"][0]{
     ${SEO_FIELDS_FRAGMENT},
+    ${SECTION_HEADING_FRAGMENT},
     "projects": select(
       defined(projects) && count(projects) > 0 =>
         projects[]->{ ${PROJECT_SECTION_FRAGMENT} },

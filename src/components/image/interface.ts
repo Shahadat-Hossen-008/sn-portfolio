@@ -1,13 +1,13 @@
-import type { CustomImage } from "@/sanity/types";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 /**
  * Props for the Sanity image renderer in `components/image`.
  *
- * Derived from the generated `customImage` object type, which is what every
- * call site passes.
+ * Accepts any valid Sanity image source (raw schema object, dereferenced projection,
+ * or asset reference) compatible with `urlFor`.
  */
 export interface ISanityImageProps {
-  image: CustomImage["imageFile"];
+  image: SanityImageSource;
   width?: number | null;
   height?: number | null;
   alt?: string;

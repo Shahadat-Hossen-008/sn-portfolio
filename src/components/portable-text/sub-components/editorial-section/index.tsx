@@ -34,7 +34,7 @@ export function EditorialSectionBlock({
 
   if (layout === "straightforward") {
     return (
-      <section className="my-12 border-t border-foreground/20 pt-10">
+      <section className="my-10">
         <div className="flex max-w-3xl flex-col gap-4">
           {formattedLabel && (
             <p className="font-mono text-label uppercase text-muted-foreground">
@@ -42,12 +42,12 @@ export function EditorialSectionBlock({
             </p>
           )}
           {hasHeading && (
-            <h2 className="font-display text-title font-normal text-balance text-foreground">
+            <h2 className="font-display text-2xl sm:text-3xl font-semibold text-balance text-foreground">
               {heading}
             </h2>
           )}
           {hasBody && (
-            <div className="mt-1">
+            <div className="mt-1 [&>*:first-child]:mt-0">
               <PortableText
                 value={body}
                 components={inlinePortableTextComponents}
@@ -60,7 +60,7 @@ export function EditorialSectionBlock({
   }
 
   return (
-    <section className="my-12 border-t border-foreground/20 pt-10">
+    <section className="my-10">
       <div className="grid grid-cols-1 gap-8 bento:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] bento:gap-16">
         <div>
           {formattedLabel && (
@@ -69,14 +69,14 @@ export function EditorialSectionBlock({
             </p>
           )}
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 [&>*:first-child]:mt-0">
           {hasHeading && (
-            <h2 className="font-display text-title font-normal text-balance text-foreground">
+            <h2 className="font-display text-2xl sm:text-3xl font-semibold text-balance text-foreground">
               {heading}
             </h2>
           )}
           {hasBody && (
-            <div>
+            <div className="[&>*:first-child]:mt-0">
               <PortableText
                 value={body}
                 components={inlinePortableTextComponents}

@@ -1,32 +1,16 @@
-import { LINK_REFERENCE_FRAGMENT } from "@/fragments";
+import { CUSTOM_IMAGE_FRAGMENT } from "@/fragments";
 
 export const PROJECT_SECTION_FRAGMENT = /* groq */ `
   _id,
   projectTitle,
-  projectType,
-  status,
-  role,
+  "slug": slug.current,
   projectDescription,
-  problemStatement,
   start,
   end,
   liveLink,
   githubUrl,
-  projectImage,
-  caseStudy {
-    label,
-    type,
-    url,
-    openInNewTab,
-    isDisabled,
-    ${LINK_REFERENCE_FRAGMENT}
+  projectImage {
+    ${CUSTOM_IMAGE_FRAGMENT}
   },
   "stack": stack[]->{ _id, label }
-`;
-
-export const LATEST_PROJECTS_FRAGMENT = /* groq */ `
-  _id,
-  "title": projectTitle,
-  date,
-  "technologies": stack[]->{_id, "name": label}
 `;
