@@ -110,6 +110,11 @@ export type HeroSection = {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "project";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "blogPost";
     };
     url?: string;
@@ -134,6 +139,11 @@ export type HeroSection = {
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "projectPage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "project";
     } | {
       _ref: string;
       _type: "reference";
@@ -246,6 +256,11 @@ export type TechnologyItem = {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "project";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "blogPost";
     };
     url?: string;
@@ -296,6 +311,11 @@ export type PortableTableCell = {
         _type: "reference";
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "projectPage";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
       } | {
         _ref: string;
         _type: "reference";
@@ -363,7 +383,6 @@ export type EditorialSection = {
   layout: "twoColumn" | "straightforward";
   label?: string;
   autoNumber?: boolean;
-  heading?: string;
   body: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -391,6 +410,11 @@ export type EditorialSection = {
         _type: "reference";
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "projectPage";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
       } | {
         _ref: string;
         _type: "reference";
@@ -436,6 +460,11 @@ export type PortableText = Array<{
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "projectPage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "project";
     } | {
       _ref: string;
       _type: "reference";
@@ -530,6 +559,11 @@ export type CtaSection = {
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "projectPage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "project";
     } | {
       _ref: string;
       _type: "reference";
@@ -698,6 +732,11 @@ export type PersonalIntroSection = {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "blogPost";
       };
       url?: string;
@@ -751,6 +790,11 @@ export type PersonalIntroSection = {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "blogPost";
       };
       url?: string;
@@ -758,81 +802,6 @@ export type PersonalIntroSection = {
       isDisabled?: boolean;
     };
   };
-};
-
-export type Project = {
-  _id: string;
-  _type: "project";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  seo?: {
-    title?: string;
-    description?: string;
-    openGraph?: {
-      title?: string;
-      description?: string;
-      image?: CustomImage;
-    };
-    robots?: {
-      disableIndex?: boolean;
-      disableFollow?: boolean;
-      disableImageIndex?: boolean;
-      disableSnippet?: boolean;
-    };
-    canonicalUrl?: string;
-    redirect?: string;
-    keywords?: Array<string>;
-  };
-  projectTitle: string;
-  slug?: Slug;
-  projectType?: string;
-  status: "shipped" | "inProgress";
-  role?: string;
-  projectImage: CustomImage;
-  stack?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "techTag";
-  }>;
-  date?: string;
-  projectDescription?: string;
-  problemStatement?: string;
-  caseStudy?: PortableText;
-  start: string;
-  end?: string;
-  caseStudyLink?: {
-    label: string;
-    type: "internal" | "external";
-    reference?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "myProfilePage";
-    } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "aboutPage";
-    } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "projectPage";
-    } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "blogPost";
-    };
-    url?: string;
-    openInNewTab?: boolean;
-    isDisabled?: boolean;
-  };
-  liveLink?: string;
-  githubUrl?: string;
 };
 
 export type Layout = {
@@ -888,6 +857,11 @@ export type Layout = {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "blogPost";
       };
       url?: string;
@@ -914,6 +888,11 @@ export type Layout = {
         _type: "reference";
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "projectPage";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
       } | {
         _ref: string;
         _type: "reference";
@@ -948,6 +927,11 @@ export type Layout = {
         _type: "reference";
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "projectPage";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
       } | {
         _ref: string;
         _type: "reference";
@@ -1007,6 +991,87 @@ export type MyProfilePage = {
     media?: unknown;
     _type: "file";
   };
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: {
+    title?: string;
+    description?: string;
+    openGraph?: {
+      title?: string;
+      description?: string;
+      image?: CustomImage;
+    };
+    robots?: {
+      disableIndex?: boolean;
+      disableFollow?: boolean;
+      disableImageIndex?: boolean;
+      disableSnippet?: boolean;
+    };
+    canonicalUrl?: string;
+    redirect?: string;
+    keywords?: Array<string>;
+  };
+  projectTitle: string;
+  slug?: Slug;
+  projectType?: string;
+  status: "shipped" | "inProgress";
+  role?: string;
+  client?: string;
+  duration?: string;
+  projectImage: CustomImage;
+  stack?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "techTag";
+  }>;
+  date?: string;
+  projectDescription?: string;
+  caseStudy?: PortableText;
+  start: string;
+  end?: string;
+  caseStudyLink?: {
+    label: string;
+    type: "internal" | "external";
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "myProfilePage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "aboutPage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "projectPage";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "project";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    };
+    url?: string;
+    openInNewTab?: boolean;
+    isDisabled?: boolean;
+  };
+  liveLink?: string;
+  githubUrl?: string;
 };
 
 export type BlogPost = {
@@ -1073,6 +1138,9 @@ export type ProjectPage = {
     redirect?: string;
     keywords?: Array<string>;
   };
+  eyebrow?: string;
+  heading: string;
+  headingAccent?: string;
   projects?: Array<{
     _ref: string;
     _type: "reference";
@@ -1270,7 +1338,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = BlogTag | BlogPage | CustomImage | Slug | HeroSection | PageSections | TechnologyItem | MermaidDiagram | PortableTableRow | PortableTableCell | PortableTableHeader | PortableTable | OutcomeStateItem | OutcomeState | DecisionCardItem | DecisionCards | EditorialSection | PortableText | TechnologyCarousel | TechnologySection | RichTextSection | CtaSection | ExperienceSection | PhilosophySection | TechnicalFoundation | TechTag | QuoteSection | EngineeringPillars | PersonalIntroSection | Project | Layout | MyProfilePage | BlogPost | ProjectPage | AboutPage | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = BlogTag | BlogPage | CustomImage | Slug | HeroSection | PageSections | TechnologyItem | MermaidDiagram | PortableTableRow | PortableTableCell | PortableTableHeader | PortableTable | OutcomeStateItem | OutcomeState | DecisionCardItem | DecisionCards | EditorialSection | PortableText | TechnologyCarousel | TechnologySection | RichTextSection | CtaSection | ExperienceSection | PhilosophySection | TechnicalFoundation | TechTag | QuoteSection | EngineeringPillars | PersonalIntroSection | Layout | MyProfilePage | Project | BlogPost | ProjectPage | AboutPage | Author | SanityImageCrop | SanityImageHotspot | SiteSettings | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/layout/query.ts
 // Variable: LAYOUT_QUERY
@@ -1330,6 +1398,9 @@ export type LAYOUT_QUERYResult = {
         _type: "myProfilePage";
         slug: string | null;
       } | {
+        _type: "project";
+        slug: string | null;
+      } | {
         _type: "projectPage";
         slug: string | null;
       } | null;
@@ -1348,6 +1419,9 @@ export type LAYOUT_QUERYResult = {
         slug: string;
       } | {
         _type: "myProfilePage";
+        slug: string | null;
+      } | {
+        _type: "project";
         slug: string | null;
       } | {
         _type: "projectPage";
@@ -1376,6 +1450,9 @@ export type LAYOUT_QUERYResult = {
         slug: string;
       } | {
         _type: "myProfilePage";
+        slug: string | null;
+      } | {
+        _type: "project";
         slug: string | null;
       } | {
         _type: "projectPage";
@@ -1418,7 +1495,7 @@ export type SITE_SETTINGS_QUERYResult = {
 
 // Source: ./src/page-builder/about/data/query.ts
 // Variable: ABOUT_PAGE_QUERY
-// Query: *[_type == "aboutPage" && _id == "aboutPage"][0]{        seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  },        aboutIntro {      eyebrow,  heading,  headingAccent,    portrait {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    },    intro,    body  },        "sections": pageSections[]->{    _id,    _type,    _type == "personalIntroSection" => {  heading,  capabilities {    eyebrow,    items[]{ _key, title, description }  },  personalIntro {    eyebrow,    title,    bio,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  },  work {    eyebrow,    project->{      _id,      "title": projectTitle,      "year": string::split(date, "-")[0],      "summary": coalesce(problemStatement, projectDescription),      "image": projectImage {          imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl      },      "slug": slug.current,      liveLink,      caseStudyLink { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }    },    image {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    }  },  learning {    eyebrow,    title,    status  },  beyondCode {    eyebrow,    statement,    interests  },  availability {    eyebrow,    statusLabel,    status,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  }},    _type == "engineeringPillars" => {  title,  columns[]{    _key,    label,    statement,    items  }},    _type == "technicalFoundation" => {  eyebrow,  statement,  columns[]{    _key,    title,    skills[]{      _key,      context,      "label": tech->label    }  }},    _type == "philosophySection" => {  eyebrow,  "items": items[]{    _key,    title,    description,    tag  }},    _type == "quoteSection" => {  quote,  quoteAccent,  note},    _type == "experienceSection" => {  eyebrow,  intro,  roles[]{    _key,    role,    company,    startDate,    endDate,    current,    description,    contribution,    impact,    featured,    outcome,    "project": project->{      _id,      "title": projectTitle,      "slug": slug.current    },    "tools": tools[]->{ _id, label }  }},    _type == "ctaSection" => {  eyebrow,  heading,  headingAccent,  intro,  cta {    label,    type,    url,    openInNewTab,    isDisabled,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  }}  }  }
+// Query: *[_type == "aboutPage" && _id == "aboutPage"][0]{        seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  },        aboutIntro {      eyebrow,  heading,  headingAccent,    portrait {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    },    intro,    body  },        "sections": pageSections[]->{    _id,    _type,    _type == "personalIntroSection" => {  heading,  capabilities {    eyebrow,    items[]{ _key, title, description }  },  personalIntro {    eyebrow,    title,    bio,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  },  work {    eyebrow,    project->{      _id,      "title": projectTitle,      "year": string::split(date, "-")[0],      "summary": projectDescription,      "image": projectImage {          imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl      },      "slug": slug.current,      liveLink,      caseStudyLink { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }    },    image {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    }  },  learning {    eyebrow,    title,    status  },  beyondCode {    eyebrow,    statement,    interests  },  availability {    eyebrow,    statusLabel,    status,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  }},    _type == "engineeringPillars" => {  title,  columns[]{    _key,    label,    statement,    items  }},    _type == "technicalFoundation" => {  eyebrow,  statement,  columns[]{    _key,    title,    skills[]{      _key,      context,      "label": tech->label    }  }},    _type == "philosophySection" => {  eyebrow,  "items": items[]{    _key,    title,    description,    tag  }},    _type == "quoteSection" => {  quote,  quoteAccent,  note},    _type == "experienceSection" => {  eyebrow,  intro,  roles[]{    _key,    role,    company,    startDate,    endDate,    current,    description,    contribution,    impact,    featured,    outcome,    "project": project->{      _id,      "title": projectTitle,      "slug": slug.current    },    "tools": tools[]->{ _id, label }  }},    _type == "ctaSection" => {  eyebrow,  heading,  headingAccent,  intro,  cta {    label,    type,    url,    openInNewTab,    isDisabled,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  }}  }  }
 export type ABOUT_PAGE_QUERYResult = {
   seo: {
     title: string;
@@ -1501,6 +1578,9 @@ export type ABOUT_PAGE_QUERYResult = {
         _type: "myProfilePage";
         slug: string | null;
       } | {
+        _type: "project";
+        slug: string | null;
+      } | {
         _type: "projectPage";
         slug: string | null;
       } | null;
@@ -1574,6 +1654,9 @@ export type ABOUT_PAGE_QUERYResult = {
           _type: "myProfilePage";
           slug: string | null;
         } | {
+          _type: "project";
+          slug: string | null;
+        } | {
           _type: "projectPage";
           slug: string | null;
         } | null;
@@ -1621,6 +1704,9 @@ export type ABOUT_PAGE_QUERYResult = {
             slug: string;
           } | {
             _type: "myProfilePage";
+            slug: string | null;
+          } | {
+            _type: "project";
             slug: string | null;
           } | {
             _type: "projectPage";
@@ -1676,6 +1762,9 @@ export type ABOUT_PAGE_QUERYResult = {
           slug: string;
         } | {
           _type: "myProfilePage";
+          slug: string | null;
+        } | {
+          _type: "project";
           slug: string | null;
         } | {
           _type: "projectPage";
@@ -1762,6 +1851,9 @@ export type SINGLE_BLOG_POST_QUERYResult = {
         _type: "myProfilePage";
         slug: string | null;
       } | {
+        _type: "project";
+        slug: string | null;
+      } | {
         _type: "projectPage";
         slug: string | null;
       } | null;
@@ -1814,7 +1906,6 @@ export type SINGLE_BLOG_POST_QUERYResult = {
     layout: "straightforward" | "twoColumn";
     label?: string;
     autoNumber?: boolean;
-    heading?: string;
     body: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -1835,6 +1926,9 @@ export type SINGLE_BLOG_POST_QUERYResult = {
           slug: string;
         } | {
           _type: "myProfilePage";
+          slug: string | null;
+        } | {
+          _type: "project";
           slug: string | null;
         } | {
           _type: "projectPage";
@@ -1898,6 +1992,9 @@ export type SINGLE_BLOG_POST_QUERYResult = {
               slug: string;
             } | {
               _type: "myProfilePage";
+              slug: string | null;
+            } | {
+              _type: "project";
               slug: string | null;
             } | {
               _type: "projectPage";
@@ -1993,6 +2090,9 @@ export type BLOG_POSTS_QUERYResult = Array<{
         _type: "myProfilePage";
         slug: string | null;
       } | {
+        _type: "project";
+        slug: string | null;
+      } | {
         _type: "projectPage";
         slug: string | null;
       } | null;
@@ -2045,7 +2145,6 @@ export type BLOG_POSTS_QUERYResult = Array<{
     layout: "straightforward" | "twoColumn";
     label?: string;
     autoNumber?: boolean;
-    heading?: string;
     body: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -2066,6 +2165,9 @@ export type BLOG_POSTS_QUERYResult = Array<{
           slug: string;
         } | {
           _type: "myProfilePage";
+          slug: string | null;
+        } | {
+          _type: "project";
           slug: string | null;
         } | {
           _type: "projectPage";
@@ -2131,6 +2233,9 @@ export type BLOG_POSTS_QUERYResult = Array<{
               _type: "myProfilePage";
               slug: string | null;
             } | {
+              _type: "project";
+              slug: string | null;
+            } | {
               _type: "projectPage";
               slug: string | null;
             } | null;
@@ -2157,7 +2262,7 @@ export type BLOG_POSTS_QUERYResult = Array<{
 
 // Source: ./src/page-builder/my-profile/data/query.ts
 // Variable: PROFILE_QUERY
-// Query: *[_type == "myProfilePage"][0]{    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  },    "fullName": autherInfo->fullName,    hero {    statusLabel,    location,    headline,    headlineAccent,    subline,    primaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    secondaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    portrait {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}},        crop,        hotspot      },      altText    },    nowBuilding { title, description, progress },    facts[]{ label, value }  },    "sections": pageSections[]->{    _id,    _type,    _type == "personalIntroSection" => {  heading,  capabilities {    eyebrow,    items[]{ _key, title, description }  },  personalIntro {    eyebrow,    title,    bio,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  },  work {    eyebrow,    project->{      _id,      "title": projectTitle,      "year": string::split(date, "-")[0],      "summary": coalesce(problemStatement, projectDescription),      "image": projectImage {          imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl      },      "slug": slug.current,      liveLink,      caseStudyLink { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }    },    image {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    }  },  learning {    eyebrow,    title,    status  },  beyondCode {    eyebrow,    statement,    interests  },  availability {    eyebrow,    statusLabel,    status,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  }},    _type == "engineeringPillars" => {  title,  columns[]{    _key,    label,    statement,    items  }},    _type == "technicalFoundation" => {  eyebrow,  statement,  columns[]{    _key,    title,    skills[]{      _key,      context,      "label": tech->label    }  }},    _type == "philosophySection" => {  eyebrow,  "items": items[]{    _key,    title,    description,    tag  }},    _type == "quoteSection" => {  quote,  quoteAccent,  note},    _type == "experienceSection" => {  eyebrow,  intro,  roles[]{    _key,    role,    company,    startDate,    endDate,    current,    description,    contribution,    impact,    featured,    outcome,    "project": project->{      _id,      "title": projectTitle,      "slug": slug.current    },    "tools": tools[]->{ _id, label }  }},    _type == "ctaSection" => {  eyebrow,  heading,  headingAccent,  intro,  cta {    label,    type,    url,    openInNewTab,    isDisabled,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  }}  }}
+// Query: *[_type == "myProfilePage"][0]{    seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  },    "fullName": autherInfo->fullName,    hero {    statusLabel,    location,    headline,    headlineAccent,    subline,    primaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    secondaryCta {      label,      type,      url,      openInNewTab,      isDisabled,        "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }    },    portrait {      imageFile {        asset->{_id, url, metadata{dimensions{width, height}}},        crop,        hotspot      },      altText    },    nowBuilding { title, description, progress },    facts[]{ label, value }  },    "sections": pageSections[]->{    _id,    _type,    _type == "personalIntroSection" => {  heading,  capabilities {    eyebrow,    items[]{ _key, title, description }  },  personalIntro {    eyebrow,    title,    bio,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  },  work {    eyebrow,    project->{      _id,      "title": projectTitle,      "year": string::split(date, "-")[0],      "summary": projectDescription,      "image": projectImage {          imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl      },      "slug": slug.current,      liveLink,      caseStudyLink { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }    },    image {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    }  },  learning {    eyebrow,    title,    status  },  beyondCode {    eyebrow,    statement,    interests  },  availability {    eyebrow,    statusLabel,    status,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  }},    _type == "engineeringPillars" => {  title,  columns[]{    _key,    label,    statement,    items  }},    _type == "technicalFoundation" => {  eyebrow,  statement,  columns[]{    _key,    title,    skills[]{      _key,      context,      "label": tech->label    }  }},    _type == "philosophySection" => {  eyebrow,  "items": items[]{    _key,    title,    description,    tag  }},    _type == "quoteSection" => {  quote,  quoteAccent,  note},    _type == "experienceSection" => {  eyebrow,  intro,  roles[]{    _key,    role,    company,    startDate,    endDate,    current,    description,    contribution,    impact,    featured,    outcome,    "project": project->{      _id,      "title": projectTitle,      "slug": slug.current    },    "tools": tools[]->{ _id, label }  }},    _type == "ctaSection" => {  eyebrow,  heading,  headingAccent,  intro,  cta {    label,    type,    url,    openInNewTab,    isDisabled,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  }}  }}
 export type PROFILE_QUERYResult = {
   seo: {
     title: string;
@@ -2214,6 +2319,9 @@ export type PROFILE_QUERYResult = {
         _type: "myProfilePage";
         slug: string | null;
       } | {
+        _type: "project";
+        slug: string | null;
+      } | {
         _type: "projectPage";
         slug: string | null;
       } | null;
@@ -2232,6 +2340,9 @@ export type PROFILE_QUERYResult = {
         slug: string;
       } | {
         _type: "myProfilePage";
+        slug: string | null;
+      } | {
+        _type: "project";
         slug: string | null;
       } | {
         _type: "projectPage";
@@ -2288,6 +2399,9 @@ export type PROFILE_QUERYResult = {
         _type: "myProfilePage";
         slug: string | null;
       } | {
+        _type: "project";
+        slug: string | null;
+      } | {
         _type: "projectPage";
         slug: string | null;
       } | null;
@@ -2361,6 +2475,9 @@ export type PROFILE_QUERYResult = {
           _type: "myProfilePage";
           slug: string | null;
         } | {
+          _type: "project";
+          slug: string | null;
+        } | {
           _type: "projectPage";
           slug: string | null;
         } | null;
@@ -2408,6 +2525,9 @@ export type PROFILE_QUERYResult = {
             slug: string;
           } | {
             _type: "myProfilePage";
+            slug: string | null;
+          } | {
+            _type: "project";
             slug: string | null;
           } | {
             _type: "projectPage";
@@ -2463,6 +2583,9 @@ export type PROFILE_QUERYResult = {
           slug: string;
         } | {
           _type: "myProfilePage";
+          slug: string | null;
+        } | {
+          _type: "project";
           slug: string | null;
         } | {
           _type: "projectPage";
@@ -2512,9 +2635,274 @@ export type PROFILE_QUERYResult = {
   }> | null;
 } | null;
 
+// Source: ./src/page-builder/project-details/data/query.ts
+// Variable: SINGLE_PROJECT_QUERY
+// Query: *[_type == "project" && slug.current == $slug][0]{    _id,    _createdAt,    projectTitle,    "slug": slug.current,    projectType,    status,    role,    duration,    client,    projectDescription,    start,    end,    liveLink,    githubUrl,    projectImage {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    },    "stack": stack[]->{ _id, label },    "caseStudy": caseStudy[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }},  _type == "editorialSection" => {    ...,    body[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}}  },  _type == "portableTable" => {    ...,    rows[]{      ...,      cells[]{        ...,        content[]{  ...,  markDefs[]{...,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }}}      }    }  }},      seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  }  }
+export type SINGLE_PROJECT_QUERYResult = {
+  _id: string;
+  _createdAt: string;
+  projectTitle: string;
+  slug: string | null;
+  projectType: string | null;
+  status: "inProgress" | "shipped";
+  role: string | null;
+  duration: string | null;
+  client: string | null;
+  projectDescription: string | null;
+  start: string;
+  end: string | null;
+  liveLink: string | null;
+  githubUrl: string | null;
+  projectImage: {
+    imageFile: {
+      asset: {
+        _id: string;
+        url: string | null;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+          } | null;
+        } | null;
+      } | null;
+      crop: SanityImageCrop | null;
+      hotspot: SanityImageHotspot | null;
+    } | null;
+    altText: string;
+    isClickable: boolean | null;
+    linkUrl: string | null;
+  };
+  stack: Array<{
+    _id: string;
+    label: string;
+  }> | null;
+  caseStudy: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      label: string;
+      type: "external" | "internal";
+      reference: {
+        _type: "aboutPage";
+        slug: string | null;
+      } | {
+        _type: "blogPost";
+        slug: string;
+      } | {
+        _type: "myProfilePage";
+        slug: string | null;
+      } | {
+        _type: "project";
+        slug: string | null;
+      } | {
+        _type: "projectPage";
+        slug: string | null;
+      } | null;
+      url?: string;
+      openInNewTab?: boolean;
+      isDisabled?: boolean;
+      _type: "linkUrl";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "customImage";
+    imageFile?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    altText: string;
+    isClickable?: boolean;
+    linkUrl?: string;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "decisionCards";
+    cards: Array<{
+      _key: string;
+    } & DecisionCardItem>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "editorialSection";
+    layout: "straightforward" | "twoColumn";
+    label?: string;
+    autoNumber?: boolean;
+    body: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        label: string;
+        type: "external" | "internal";
+        reference: {
+          _type: "aboutPage";
+          slug: string | null;
+        } | {
+          _type: "blogPost";
+          slug: string;
+        } | {
+          _type: "myProfilePage";
+          slug: string | null;
+        } | {
+          _type: "project";
+          slug: string | null;
+        } | {
+          _type: "projectPage";
+          slug: string | null;
+        } | null;
+        url?: string;
+        openInNewTab?: boolean;
+        isDisabled?: boolean;
+        _type: "linkUrl";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "mermaidDiagram";
+    caption?: string;
+    code: string;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "outcomeState";
+    heading?: string;
+    stats: Array<{
+      _key: string;
+    } & OutcomeStateItem>;
+    markDefs: null;
+  } | {
+    _key: string;
+    _type: "portableTable";
+    caption?: string;
+    columnHeaders: Array<{
+      _key: string;
+    } & PortableTableHeader>;
+    rows: Array<{
+      _key: string;
+      _type: "portableTableRow";
+      cells: Array<{
+        _key: string;
+        _type: "portableTableCell";
+        content: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs: Array<{
+            label: string;
+            type: "external" | "internal";
+            reference: {
+              _type: "aboutPage";
+              slug: string | null;
+            } | {
+              _type: "blogPost";
+              slug: string;
+            } | {
+              _type: "myProfilePage";
+              slug: string | null;
+            } | {
+              _type: "project";
+              slug: string | null;
+            } | {
+              _type: "projectPage";
+              slug: string | null;
+            } | null;
+            url?: string;
+            openInNewTab?: boolean;
+            isDisabled?: boolean;
+            _type: "linkUrl";
+            _key: string;
+          }> | null;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }> | null;
+      }>;
+    }>;
+    markDefs: null;
+  } | {
+    url: string;
+    _type: "youtube";
+    _key: string;
+    markDefs: null;
+  }> | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    openGraph: {
+      title: string | null;
+      description: string | null;
+      image: {
+        imageFile: {
+          asset: {
+            _id: string;
+            url: string | null;
+            metadata: {
+              dimensions: {
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+        altText: string;
+      } | null;
+    } | null;
+    robots: {
+      disableIndex: boolean | null;
+      disableFollow: boolean | null;
+      disableImageIndex: boolean | null;
+      disableSnippet: boolean | null;
+    } | null;
+    canonicalUrl: string | null;
+    redirect: string | null;
+    keywords: Array<string> | null;
+  } | null;
+} | null;
+
 // Source: ./src/page-builder/project/data/query.ts
 // Variable: PROJECT_PAGE_QUERY
-// Query: *[_type == "projectPage"][0]{      seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  },    "projects": select(      defined(projects) && count(projects) > 0 =>        projects[]->{   _id,  projectTitle,  projectType,  status,  role,  projectDescription,  problemStatement,  start,  end,  liveLink,  githubUrl,  projectImage,  caseStudy {    label,    type,    url,    openInNewTab,    isDisabled,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  },  "stack": stack[]->{ _id, label } },      *[_type == "project"] | order(date desc, _createdAt desc)[]{          _id,  projectTitle,  projectType,  status,  role,  projectDescription,  problemStatement,  start,  end,  liveLink,  githubUrl,  projectImage,  caseStudy {    label,    type,    url,    openInNewTab,    isDisabled,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  },  "stack": stack[]->{ _id, label }      }    ),      "sections": pageSections[]->{    _id,    _type,    _type == "personalIntroSection" => {  heading,  capabilities {    eyebrow,    items[]{ _key, title, description }  },  personalIntro {    eyebrow,    title,    bio,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  },  work {    eyebrow,    project->{      _id,      "title": projectTitle,      "year": string::split(date, "-")[0],      "summary": coalesce(problemStatement, projectDescription),      "image": projectImage {          imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl      },      "slug": slug.current,      liveLink,      caseStudyLink { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }    },    image {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    }  },  learning {    eyebrow,    title,    status  },  beyondCode {    eyebrow,    statement,    interests  },  availability {    eyebrow,    statusLabel,    status,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  }},    _type == "engineeringPillars" => {  title,  columns[]{    _key,    label,    statement,    items  }},    _type == "technicalFoundation" => {  eyebrow,  statement,  columns[]{    _key,    title,    skills[]{      _key,      context,      "label": tech->label    }  }},    _type == "philosophySection" => {  eyebrow,  "items": items[]{    _key,    title,    description,    tag  }},    _type == "quoteSection" => {  quote,  quoteAccent,  note},    _type == "experienceSection" => {  eyebrow,  intro,  roles[]{    _key,    role,    company,    startDate,    endDate,    current,    description,    contribution,    impact,    featured,    outcome,    "project": project->{      _id,      "title": projectTitle,      "slug": slug.current    },    "tools": tools[]->{ _id, label }  }},    _type == "ctaSection" => {  eyebrow,  heading,  headingAccent,  intro,  cta {    label,    type,    url,    openInNewTab,    isDisabled,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  }}  }    }
+// Query: *[_type == "projectPage"][0]{      seo {    title,    description,    openGraph {      title,      description,      image {        imageFile {          asset->{_id, url, metadata{dimensions{width, height}}}        },        altText      }    },    robots {      disableIndex,      disableFollow,      disableImageIndex,      disableSnippet    },    canonicalUrl,    redirect,    keywords  },      eyebrow,  heading,  headingAccent,    "projects": select(      defined(projects) && count(projects) > 0 =>        projects[]->{   _id,  projectTitle,  "slug": slug.current,  projectDescription,  start,  end,  liveLink,  githubUrl,  projectImage {      imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl  },  "stack": stack[]->{ _id, label } },      *[_type == "project"] | order(date desc, _createdAt desc)[]{          _id,  projectTitle,  "slug": slug.current,  projectDescription,  start,  end,  liveLink,  githubUrl,  projectImage {      imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl  },  "stack": stack[]->{ _id, label }      }    ),      "sections": pageSections[]->{    _id,    _type,    _type == "personalIntroSection" => {  heading,  capabilities {    eyebrow,    items[]{ _key, title, description }  },  personalIntro {    eyebrow,    title,    bio,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  },  work {    eyebrow,    project->{      _id,      "title": projectTitle,      "year": string::split(date, "-")[0],      "summary": projectDescription,      "image": projectImage {          imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl      },      "slug": slug.current,      liveLink,      caseStudyLink { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }    },    image {        imageFile {      asset->{    _id,    url,    metadata {      dimensions {        width,        height      }    }  },  crop,  hotspot  },  altText,  isClickable,  linkUrl    }  },  learning {    eyebrow,    title,    status  },  beyondCode {    eyebrow,    statement,    interests  },  availability {    eyebrow,    statusLabel,    status,    cta { label, type, url, openInNewTab, isDisabled,   "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) } }  }},    _type == "engineeringPillars" => {  title,  columns[]{    _key,    label,    statement,    items  }},    _type == "technicalFoundation" => {  eyebrow,  statement,  columns[]{    _key,    title,    skills[]{      _key,      context,      "label": tech->label    }  }},    _type == "philosophySection" => {  eyebrow,  "items": items[]{    _key,    title,    description,    tag  }},    _type == "quoteSection" => {  quote,  quoteAccent,  note},    _type == "experienceSection" => {  eyebrow,  intro,  roles[]{    _key,    role,    company,    startDate,    endDate,    current,    description,    contribution,    impact,    featured,    outcome,    "project": project->{      _id,      "title": projectTitle,      "slug": slug.current    },    "tools": tools[]->{ _id, label }  }},    _type == "ctaSection" => {  eyebrow,  heading,  headingAccent,  intro,  cta {    label,    type,    url,    openInNewTab,    isDisabled,      "reference": reference->{ _type, "slug": coalesce(seo.slug.current, slug.current) }  }}  }    }
 export type PROJECT_PAGE_QUERYResult = {
   seo: {
     title: string;
@@ -2548,20 +2936,37 @@ export type PROJECT_PAGE_QUERYResult = {
     redirect: string | null;
     keywords: Array<string> | null;
   };
+  eyebrow: string | null;
+  heading: string;
+  headingAccent: string | null;
   projects: Array<{
     _id: string;
     projectTitle: string;
-    projectType: string | null;
-    status: "inProgress" | "shipped";
-    role: string | null;
+    slug: string | null;
     projectDescription: string | null;
-    problemStatement: string | null;
     start: string;
     end: string | null;
     liveLink: string | null;
     githubUrl: string | null;
-    projectImage: CustomImage;
-    caseStudy: null;
+    projectImage: {
+      imageFile: {
+        asset: {
+          _id: string;
+          url: string | null;
+          metadata: {
+            dimensions: {
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
+        crop: SanityImageCrop | null;
+        hotspot: SanityImageHotspot | null;
+      } | null;
+      altText: string;
+      isClickable: boolean | null;
+      linkUrl: string | null;
+    };
     stack: Array<{
       _id: string;
       label: string;
@@ -2588,6 +2993,9 @@ export type PROJECT_PAGE_QUERYResult = {
         slug: string;
       } | {
         _type: "myProfilePage";
+        slug: string | null;
+      } | {
+        _type: "project";
         slug: string | null;
       } | {
         _type: "projectPage";
@@ -2663,6 +3071,9 @@ export type PROJECT_PAGE_QUERYResult = {
           _type: "myProfilePage";
           slug: string | null;
         } | {
+          _type: "project";
+          slug: string | null;
+        } | {
           _type: "projectPage";
           slug: string | null;
         } | null;
@@ -2710,6 +3121,9 @@ export type PROJECT_PAGE_QUERYResult = {
             slug: string;
           } | {
             _type: "myProfilePage";
+            slug: string | null;
+          } | {
+            _type: "project";
             slug: string | null;
           } | {
             _type: "projectPage";
@@ -2765,6 +3179,9 @@ export type PROJECT_PAGE_QUERYResult = {
           slug: string;
         } | {
           _type: "myProfilePage";
+          slug: string | null;
+        } | {
+          _type: "project";
           slug: string | null;
         } | {
           _type: "projectPage";
@@ -2820,10 +3237,11 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"layout\"][0]{\n  identity {\n    siteTitle,\n    siteDescription,\n    logo {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    favicon {\n      asset->{_id, url, metadata{dimensions{width, height}}}\n    },\n    socialLinks[]{\n      network,\n      label,\n      url\n    }\n  },\n  \n  header {\n    links[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    cta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    showSocialLinks\n  }\n,\n  \n  footer {\n    mainContent,\n    email,\n    phone,\n    base,\n    columns[]{\n      _key,\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    }\n  }\n\n}": LAYOUT_QUERYResult;
     "*[_type == \"siteSettings\"][0]{\n  seo {\n    titleTemplate,\n    defaultOgImage {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}}\n      },\n      altText\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    }\n  },\n  analytics {\n    googleTagManagerID\n  }\n}": SITE_SETTINGS_QUERYResult;
-    "*[_type == \"aboutPage\" && _id == \"aboutPage\"][0]{\n      \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n,\n      \n  aboutIntro {\n    \n  eyebrow,\n  heading,\n  headingAccent\n,\n    portrait {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    },\n    intro,\n    body\n  }\n,\n      \n  \"sections\": pageSections[]->{\n    _id,\n    _type,\n    _type == \"personalIntroSection\" => {\n  heading,\n  capabilities {\n    eyebrow,\n    items[]{ _key, title, description }\n  },\n  personalIntro {\n    eyebrow,\n    title,\n    bio,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  },\n  work {\n    eyebrow,\n    project->{\n      _id,\n      \"title\": projectTitle,\n      \"year\": string::split(date, \"-\")[0],\n      \"summary\": coalesce(problemStatement, projectDescription),\n      \"image\": projectImage {\n        \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n      },\n      \"slug\": slug.current,\n      liveLink,\n      caseStudyLink { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n    },\n    image {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    }\n  },\n  learning {\n    eyebrow,\n    title,\n    status\n  },\n  beyondCode {\n    eyebrow,\n    statement,\n    interests\n  },\n  availability {\n    eyebrow,\n    statusLabel,\n    status,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  }\n},\n    _type == \"engineeringPillars\" => {\n  title,\n  columns[]{\n    _key,\n    label,\n    statement,\n    items\n  }\n},\n    _type == \"technicalFoundation\" => {\n  eyebrow,\n  statement,\n  columns[]{\n    _key,\n    title,\n    skills[]{\n      _key,\n      context,\n      \"label\": tech->label\n    }\n  }\n},\n    _type == \"philosophySection\" => {\n  eyebrow,\n  \"items\": items[]{\n    _key,\n    title,\n    description,\n    tag\n  }\n},\n    _type == \"quoteSection\" => {\n  quote,\n  quoteAccent,\n  note\n},\n    _type == \"experienceSection\" => {\n  eyebrow,\n  intro,\n  roles[]{\n    _key,\n    role,\n    company,\n    startDate,\n    endDate,\n    current,\n    description,\n    contribution,\n    impact,\n    featured,\n    outcome,\n    \"project\": project->{\n      _id,\n      \"title\": projectTitle,\n      \"slug\": slug.current\n    },\n    \"tools\": tools[]->{ _id, label }\n  }\n},\n    _type == \"ctaSection\" => {\n  eyebrow,\n  heading,\n  headingAccent,\n  intro,\n  cta {\n    label,\n    type,\n    url,\n    openInNewTab,\n    isDisabled,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  }\n}\n  }\n\n  }": ABOUT_PAGE_QUERYResult;
+    "*[_type == \"aboutPage\" && _id == \"aboutPage\"][0]{\n      \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n,\n      \n  aboutIntro {\n    \n  eyebrow,\n  heading,\n  headingAccent\n,\n    portrait {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    },\n    intro,\n    body\n  }\n,\n      \n  \"sections\": pageSections[]->{\n    _id,\n    _type,\n    _type == \"personalIntroSection\" => {\n  heading,\n  capabilities {\n    eyebrow,\n    items[]{ _key, title, description }\n  },\n  personalIntro {\n    eyebrow,\n    title,\n    bio,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  },\n  work {\n    eyebrow,\n    project->{\n      _id,\n      \"title\": projectTitle,\n      \"year\": string::split(date, \"-\")[0],\n      \"summary\": projectDescription,\n      \"image\": projectImage {\n        \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n      },\n      \"slug\": slug.current,\n      liveLink,\n      caseStudyLink { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n    },\n    image {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    }\n  },\n  learning {\n    eyebrow,\n    title,\n    status\n  },\n  beyondCode {\n    eyebrow,\n    statement,\n    interests\n  },\n  availability {\n    eyebrow,\n    statusLabel,\n    status,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  }\n},\n    _type == \"engineeringPillars\" => {\n  title,\n  columns[]{\n    _key,\n    label,\n    statement,\n    items\n  }\n},\n    _type == \"technicalFoundation\" => {\n  eyebrow,\n  statement,\n  columns[]{\n    _key,\n    title,\n    skills[]{\n      _key,\n      context,\n      \"label\": tech->label\n    }\n  }\n},\n    _type == \"philosophySection\" => {\n  eyebrow,\n  \"items\": items[]{\n    _key,\n    title,\n    description,\n    tag\n  }\n},\n    _type == \"quoteSection\" => {\n  quote,\n  quoteAccent,\n  note\n},\n    _type == \"experienceSection\" => {\n  eyebrow,\n  intro,\n  roles[]{\n    _key,\n    role,\n    company,\n    startDate,\n    endDate,\n    current,\n    description,\n    contribution,\n    impact,\n    featured,\n    outcome,\n    \"project\": project->{\n      _id,\n      \"title\": projectTitle,\n      \"slug\": slug.current\n    },\n    \"tools\": tools[]->{ _id, label }\n  }\n},\n    _type == \"ctaSection\" => {\n  eyebrow,\n  heading,\n  headingAccent,\n  intro,\n  cta {\n    label,\n    type,\n    url,\n    openInNewTab,\n    isDisabled,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  }\n}\n  }\n\n  }": ABOUT_PAGE_QUERYResult;
     "*[_type == \"blogPost\" && slug.current == $slug][0]{\n  \n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  \"blogContent\": blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n},\n  _type == \"editorialSection\" => {\n    ...,\n    body[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n  },\n  _type == \"portableTable\" => {\n    ...,\n    rows[]{\n      ...,\n      cells[]{\n        ...,\n        content[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n      }\n    }\n  }\n}\n,\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n}": SINGLE_BLOG_POST_QUERYResult;
     "*[_type == \"blogPost\"]{\n  \n  _id,\n  _createdAt,\n  blogTitle,\n  slug,\n  mainImage,\n  categories[]->{_id, title},\n  author,\n  publishedAt,\n  \"blogContent\": blogContent[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n},\n  _type == \"editorialSection\" => {\n    ...,\n    body[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n  },\n  _type == \"portableTable\" => {\n    ...,\n    rows[]{\n      ...,\n      cells[]{\n        ...,\n        content[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n      }\n    }\n  }\n}\n\n}": BLOG_POSTS_QUERYResult;
-    "*[_type == \"myProfilePage\"][0]{\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n,\n  \n  \"fullName\": autherInfo->fullName,\n  \n  hero {\n    statusLabel,\n    location,\n    headline,\n    headlineAccent,\n    subline,\n    primaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    secondaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    portrait {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}},\n        crop,\n        hotspot\n      },\n      altText\n    },\n    nowBuilding { title, description, progress },\n    facts[]{ label, value }\n  }\n\n,\n  \n  \"sections\": pageSections[]->{\n    _id,\n    _type,\n    _type == \"personalIntroSection\" => {\n  heading,\n  capabilities {\n    eyebrow,\n    items[]{ _key, title, description }\n  },\n  personalIntro {\n    eyebrow,\n    title,\n    bio,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  },\n  work {\n    eyebrow,\n    project->{\n      _id,\n      \"title\": projectTitle,\n      \"year\": string::split(date, \"-\")[0],\n      \"summary\": coalesce(problemStatement, projectDescription),\n      \"image\": projectImage {\n        \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n      },\n      \"slug\": slug.current,\n      liveLink,\n      caseStudyLink { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n    },\n    image {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    }\n  },\n  learning {\n    eyebrow,\n    title,\n    status\n  },\n  beyondCode {\n    eyebrow,\n    statement,\n    interests\n  },\n  availability {\n    eyebrow,\n    statusLabel,\n    status,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  }\n},\n    _type == \"engineeringPillars\" => {\n  title,\n  columns[]{\n    _key,\n    label,\n    statement,\n    items\n  }\n},\n    _type == \"technicalFoundation\" => {\n  eyebrow,\n  statement,\n  columns[]{\n    _key,\n    title,\n    skills[]{\n      _key,\n      context,\n      \"label\": tech->label\n    }\n  }\n},\n    _type == \"philosophySection\" => {\n  eyebrow,\n  \"items\": items[]{\n    _key,\n    title,\n    description,\n    tag\n  }\n},\n    _type == \"quoteSection\" => {\n  quote,\n  quoteAccent,\n  note\n},\n    _type == \"experienceSection\" => {\n  eyebrow,\n  intro,\n  roles[]{\n    _key,\n    role,\n    company,\n    startDate,\n    endDate,\n    current,\n    description,\n    contribution,\n    impact,\n    featured,\n    outcome,\n    \"project\": project->{\n      _id,\n      \"title\": projectTitle,\n      \"slug\": slug.current\n    },\n    \"tools\": tools[]->{ _id, label }\n  }\n},\n    _type == \"ctaSection\" => {\n  eyebrow,\n  heading,\n  headingAccent,\n  intro,\n  cta {\n    label,\n    type,\n    url,\n    openInNewTab,\n    isDisabled,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  }\n}\n  }\n\n}": PROFILE_QUERYResult;
-    "*[_type == \"projectPage\"][0]{\n    \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n,\n    \"projects\": select(\n      defined(projects) && count(projects) > 0 =>\n        projects[]->{ \n  _id,\n  projectTitle,\n  projectType,\n  status,\n  role,\n  projectDescription,\n  problemStatement,\n  start,\n  end,\n  liveLink,\n  githubUrl,\n  projectImage,\n  caseStudy {\n    label,\n    type,\n    url,\n    openInNewTab,\n    isDisabled,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  },\n  \"stack\": stack[]->{ _id, label }\n },\n      *[_type == \"project\"] | order(date desc, _createdAt desc)[]{\n        \n  _id,\n  projectTitle,\n  projectType,\n  status,\n  role,\n  projectDescription,\n  problemStatement,\n  start,\n  end,\n  liveLink,\n  githubUrl,\n  projectImage,\n  caseStudy {\n    label,\n    type,\n    url,\n    openInNewTab,\n    isDisabled,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  },\n  \"stack\": stack[]->{ _id, label }\n\n      }\n    ),\n    \n  \"sections\": pageSections[]->{\n    _id,\n    _type,\n    _type == \"personalIntroSection\" => {\n  heading,\n  capabilities {\n    eyebrow,\n    items[]{ _key, title, description }\n  },\n  personalIntro {\n    eyebrow,\n    title,\n    bio,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  },\n  work {\n    eyebrow,\n    project->{\n      _id,\n      \"title\": projectTitle,\n      \"year\": string::split(date, \"-\")[0],\n      \"summary\": coalesce(problemStatement, projectDescription),\n      \"image\": projectImage {\n        \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n      },\n      \"slug\": slug.current,\n      liveLink,\n      caseStudyLink { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n    },\n    image {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    }\n  },\n  learning {\n    eyebrow,\n    title,\n    status\n  },\n  beyondCode {\n    eyebrow,\n    statement,\n    interests\n  },\n  availability {\n    eyebrow,\n    statusLabel,\n    status,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  }\n},\n    _type == \"engineeringPillars\" => {\n  title,\n  columns[]{\n    _key,\n    label,\n    statement,\n    items\n  }\n},\n    _type == \"technicalFoundation\" => {\n  eyebrow,\n  statement,\n  columns[]{\n    _key,\n    title,\n    skills[]{\n      _key,\n      context,\n      \"label\": tech->label\n    }\n  }\n},\n    _type == \"philosophySection\" => {\n  eyebrow,\n  \"items\": items[]{\n    _key,\n    title,\n    description,\n    tag\n  }\n},\n    _type == \"quoteSection\" => {\n  quote,\n  quoteAccent,\n  note\n},\n    _type == \"experienceSection\" => {\n  eyebrow,\n  intro,\n  roles[]{\n    _key,\n    role,\n    company,\n    startDate,\n    endDate,\n    current,\n    description,\n    contribution,\n    impact,\n    featured,\n    outcome,\n    \"project\": project->{\n      _id,\n      \"title\": projectTitle,\n      \"slug\": slug.current\n    },\n    \"tools\": tools[]->{ _id, label }\n  }\n},\n    _type == \"ctaSection\" => {\n  eyebrow,\n  heading,\n  headingAccent,\n  intro,\n  cta {\n    label,\n    type,\n    url,\n    openInNewTab,\n    isDisabled,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  }\n}\n  }\n\n    }": PROJECT_PAGE_QUERYResult;
+    "*[_type == \"myProfilePage\"][0]{\n  \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n,\n  \n  \"fullName\": autherInfo->fullName,\n  \n  hero {\n    statusLabel,\n    location,\n    headline,\n    headlineAccent,\n    subline,\n    primaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    secondaryCta {\n      label,\n      type,\n      url,\n      openInNewTab,\n      isDisabled,\n      \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n    },\n    portrait {\n      imageFile {\n        asset->{_id, url, metadata{dimensions{width, height}}},\n        crop,\n        hotspot\n      },\n      altText\n    },\n    nowBuilding { title, description, progress },\n    facts[]{ label, value }\n  }\n\n,\n  \n  \"sections\": pageSections[]->{\n    _id,\n    _type,\n    _type == \"personalIntroSection\" => {\n  heading,\n  capabilities {\n    eyebrow,\n    items[]{ _key, title, description }\n  },\n  personalIntro {\n    eyebrow,\n    title,\n    bio,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  },\n  work {\n    eyebrow,\n    project->{\n      _id,\n      \"title\": projectTitle,\n      \"year\": string::split(date, \"-\")[0],\n      \"summary\": projectDescription,\n      \"image\": projectImage {\n        \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n      },\n      \"slug\": slug.current,\n      liveLink,\n      caseStudyLink { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n    },\n    image {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    }\n  },\n  learning {\n    eyebrow,\n    title,\n    status\n  },\n  beyondCode {\n    eyebrow,\n    statement,\n    interests\n  },\n  availability {\n    eyebrow,\n    statusLabel,\n    status,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  }\n},\n    _type == \"engineeringPillars\" => {\n  title,\n  columns[]{\n    _key,\n    label,\n    statement,\n    items\n  }\n},\n    _type == \"technicalFoundation\" => {\n  eyebrow,\n  statement,\n  columns[]{\n    _key,\n    title,\n    skills[]{\n      _key,\n      context,\n      \"label\": tech->label\n    }\n  }\n},\n    _type == \"philosophySection\" => {\n  eyebrow,\n  \"items\": items[]{\n    _key,\n    title,\n    description,\n    tag\n  }\n},\n    _type == \"quoteSection\" => {\n  quote,\n  quoteAccent,\n  note\n},\n    _type == \"experienceSection\" => {\n  eyebrow,\n  intro,\n  roles[]{\n    _key,\n    role,\n    company,\n    startDate,\n    endDate,\n    current,\n    description,\n    contribution,\n    impact,\n    featured,\n    outcome,\n    \"project\": project->{\n      _id,\n      \"title\": projectTitle,\n      \"slug\": slug.current\n    },\n    \"tools\": tools[]->{ _id, label }\n  }\n},\n    _type == \"ctaSection\" => {\n  eyebrow,\n  heading,\n  headingAccent,\n  intro,\n  cta {\n    label,\n    type,\n    url,\n    openInNewTab,\n    isDisabled,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  }\n}\n  }\n\n}": PROFILE_QUERYResult;
+    "\n  *[_type == \"project\" && slug.current == $slug][0]{\n    _id,\n    _createdAt,\n    projectTitle,\n    \"slug\": slug.current,\n    projectType,\n    status,\n    role,\n    duration,\n    client,\n    projectDescription,\n    start,\n    end,\n    liveLink,\n    githubUrl,\n    projectImage {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    },\n    \"stack\": stack[]->{ _id, label },\n    \"caseStudy\": caseStudy[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n},\n  _type == \"editorialSection\" => {\n    ...,\n    body[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n  },\n  _type == \"portableTable\" => {\n    ...,\n    rows[]{\n      ...,\n      cells[]{\n        ...,\n        content[]{\n  ...,\n  markDefs[]{..., \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n}\n}\n      }\n    }\n  }\n},\n    \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n\n  }\n": SINGLE_PROJECT_QUERYResult;
+    "*[_type == \"projectPage\"][0]{\n    \n  seo {\n    title,\n    description,\n    openGraph {\n      title,\n      description,\n      image {\n        imageFile {\n          asset->{_id, url, metadata{dimensions{width, height}}}\n        },\n        altText\n      }\n    },\n    robots {\n      disableIndex,\n      disableFollow,\n      disableImageIndex,\n      disableSnippet\n    },\n    canonicalUrl,\n    redirect,\n    keywords\n  }\n,\n    \n  eyebrow,\n  heading,\n  headingAccent\n,\n    \"projects\": select(\n      defined(projects) && count(projects) > 0 =>\n        projects[]->{ \n  _id,\n  projectTitle,\n  \"slug\": slug.current,\n  projectDescription,\n  start,\n  end,\n  liveLink,\n  githubUrl,\n  projectImage {\n    \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n  },\n  \"stack\": stack[]->{ _id, label }\n },\n      *[_type == \"project\"] | order(date desc, _createdAt desc)[]{\n        \n  _id,\n  projectTitle,\n  \"slug\": slug.current,\n  projectDescription,\n  start,\n  end,\n  liveLink,\n  githubUrl,\n  projectImage {\n    \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n  },\n  \"stack\": stack[]->{ _id, label }\n\n      }\n    ),\n    \n  \"sections\": pageSections[]->{\n    _id,\n    _type,\n    _type == \"personalIntroSection\" => {\n  heading,\n  capabilities {\n    eyebrow,\n    items[]{ _key, title, description }\n  },\n  personalIntro {\n    eyebrow,\n    title,\n    bio,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  },\n  work {\n    eyebrow,\n    project->{\n      _id,\n      \"title\": projectTitle,\n      \"year\": string::split(date, \"-\")[0],\n      \"summary\": projectDescription,\n      \"image\": projectImage {\n        \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n      },\n      \"slug\": slug.current,\n      liveLink,\n      caseStudyLink { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n    },\n    image {\n      \n  imageFile {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      dimensions {\n        width,\n        height\n      }\n    }\n  },\n  crop,\n  hotspot\n\n  },\n  altText,\n  isClickable,\n  linkUrl\n\n    }\n  },\n  learning {\n    eyebrow,\n    title,\n    status\n  },\n  beyondCode {\n    eyebrow,\n    statement,\n    interests\n  },\n  availability {\n    eyebrow,\n    statusLabel,\n    status,\n    cta { label, type, url, openInNewTab, isDisabled, \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n }\n  }\n},\n    _type == \"engineeringPillars\" => {\n  title,\n  columns[]{\n    _key,\n    label,\n    statement,\n    items\n  }\n},\n    _type == \"technicalFoundation\" => {\n  eyebrow,\n  statement,\n  columns[]{\n    _key,\n    title,\n    skills[]{\n      _key,\n      context,\n      \"label\": tech->label\n    }\n  }\n},\n    _type == \"philosophySection\" => {\n  eyebrow,\n  \"items\": items[]{\n    _key,\n    title,\n    description,\n    tag\n  }\n},\n    _type == \"quoteSection\" => {\n  quote,\n  quoteAccent,\n  note\n},\n    _type == \"experienceSection\" => {\n  eyebrow,\n  intro,\n  roles[]{\n    _key,\n    role,\n    company,\n    startDate,\n    endDate,\n    current,\n    description,\n    contribution,\n    impact,\n    featured,\n    outcome,\n    \"project\": project->{\n      _id,\n      \"title\": projectTitle,\n      \"slug\": slug.current\n    },\n    \"tools\": tools[]->{ _id, label }\n  }\n},\n    _type == \"ctaSection\" => {\n  eyebrow,\n  heading,\n  headingAccent,\n  intro,\n  cta {\n    label,\n    type,\n    url,\n    openInNewTab,\n    isDisabled,\n    \n  \"reference\": reference->{ _type, \"slug\": coalesce(seo.slug.current, slug.current) }\n\n  }\n}\n  }\n\n    }": PROJECT_PAGE_QUERYResult;
   }
 }
