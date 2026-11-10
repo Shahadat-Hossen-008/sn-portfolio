@@ -14,7 +14,7 @@ export function TechnicalFoundationSection({
       aria-label={eyebrow || "Technical Foundation"}
       className="bg-background text-foreground"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8">
         {/* Subtle hairline top border perfectly aligned with Header pill left/right bounds */}
         <div className="border-t border-foreground/15 pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-20 lg:pb-28">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16">
@@ -30,7 +30,7 @@ export function TechnicalFoundationSection({
             {/* Right Column: Lead Statement + Category Columns */}
             <div className="md:col-span-8 lg:col-span-9 flex flex-col">
               {statement && (
-                <p className="font-sans text-lg sm:text-xl font-normal leading-[1.6] text-foreground">
+                <p className="font-sans text-lg sm:text-xl font-normal leading-[1.6] text-foreground max-w-reading">
                   {statement}
                 </p>
               )}

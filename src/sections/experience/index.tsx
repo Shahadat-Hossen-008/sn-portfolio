@@ -16,7 +16,7 @@ export function ExperienceSection({
       aria-labelledby="experience-eyebrow"
       className="bg-background text-foreground"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8">
         <div className="border-t border-foreground/15 pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-20 lg:pb-28">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16">
             {/* Left Column: Eyebrow Label & Optional Intro matching Philosophy & Technical Foundation */}
@@ -81,14 +81,14 @@ export function ExperienceSection({
 
                       {/* Role Context / Description */}
                       {role.description && (
-                        <p className="font-sans text-sm sm:text-base font-normal leading-relaxed text-muted-foreground">
+                        <p className="font-sans text-sm sm:text-base font-normal leading-relaxed text-muted-foreground max-w-reading">
                           {role.description}
                         </p>
                       )}
 
                       {/* Contribution: What was built, approached, or delivered */}
                       {role.contribution && (
-                        <div className="mt-1 flex flex-col gap-1">
+                        <div className="mt-1 flex flex-col gap-1 max-w-reading">
                           <span className="font-sans text-sm sm:text-base font-semibold uppercase tracking-wider text-muted-foreground/80">
                             Contribution
                           </span>
@@ -100,7 +100,7 @@ export function ExperienceSection({
 
                       {/* Impact / Result (Soft Limestone surface tint, subtle forest border) */}
                       {impactText && (
-                        <div className="mt-1 rounded-lg border-l-2 border-foreground/30 bg-surface/75 px-4 py-3">
+                        <div className="mt-1 rounded-lg border-l-2 border-foreground/30 bg-surface/75 px-4 py-3 max-w-reading">
                           <span className="block font-sans text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/80 mb-1">
                             {role.impact ? "Impact & Result" : "Key Outcome"}
                           </span>

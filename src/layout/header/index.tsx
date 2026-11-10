@@ -46,7 +46,7 @@ export function Header({
   }, [isMenuOpen]);
 
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-20 py-4 lg:py-8 fixed left-0 right-0 top-0 z-100">
+    <section className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8 py-4 lg:py-8 fixed left-0 right-0 top-0 z-100">
       <div
         className="grid grid-cols-2 lg:grid-cols-3
           items-center border border-foreground/15 rounded-full p-2 bg-background/80"

@@ -13,13 +13,15 @@ export function ContactSection({
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translatex-1/2 -translatey-1/2 w-96 h-96 bg-primary/10 opacity-30 rounded-full blur-3xl" />
       </div>
-      <div className="max-w-5xl mx-auto px-4 lg:px-20 py-4">
-        <h2 className="text-3xl md:text-5xl pb-6 text-center">{heading}</h2>
-        <p className="text-base text-foreground text-center pb-6">
-          {subline}
-        </p>
-        <div className="bg-foreground/5 border border-foreground/10 rounded-2xl p-8">
-          <ContactForm />
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8 py-4">
+        <div className="mx-auto w-full max-w-contact">
+          <h2 className="text-3xl md:text-5xl pb-6 text-center">{heading}</h2>
+          <p className="text-base text-foreground text-center pb-6">
+            {subline}
+          </p>
+          <div className="bg-foreground/5 border border-foreground/10 rounded-2xl p-6 sm:p-8">
+            <ContactForm />
+          </div>
         </div>
       </div>
     </section>

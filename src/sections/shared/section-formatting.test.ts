@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  cleanText,
   cleanTools,
   formatMonthYear,
   formatPeriod,
@@ -8,6 +9,28 @@ import {
 } from "./section-formatting";
 
 describe("aboutSections helpers", () => {
+  describe("cleanText", () => {
+    it("trims non-empty strings and returns null for empty or whitespace strings", () => {
+      expect(cleanText("  Hello World  ")).toBe("Hello World");
+      expect(cleanText("")).toBeNull();
+      expect(cleanText("   ")).toBeNull();
+      expect(cleanText(null)).toBeNull();
+      expect(cleanText(undefined)).toBeNull();
+    });
+
+    it("extracts plain text from Portable Text block arrays", () => {
+      const blocks = [
+        {
+          _key: "b1",
+          _type: "block",
+          children: [{ _key: "s1", _type: "span", text: "  Portable summary  " }],
+        },
+      ];
+      expect(cleanText(blocks)).toBe("Portable summary");
+      expect(cleanText([])).toBeNull();
+    });
+  });
+
   describe("formatStepLabel", () => {
     it("formats 0-based index 0 as 01", () => {
       expect(formatStepLabel(0, "Understand")).toBe("01 — Understand");
