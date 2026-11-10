@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import { isSupportedReactPlayerUrl } from "@/sanity/_root/portableText/iframe/videoUrl";
 import { urlFor } from "@/sanity/lib/image";
-import { resolveLink } from "@/lib/sanity/links";
 import { YouTube } from "@/components/youtube";
 import { MermaidDiagram } from "@/components/mermaid-diagram";
 import { PortableTable } from "@/components/portable-table";
@@ -17,9 +16,30 @@ import { DecisionCardsBlock } from "./sub-components/decision-cards";
 import type { IDecisionCardItem } from "./sub-components/decision-cards/interface";
 import { OutcomeStateBlock } from "./sub-components/outcome-state";
 import type { IOutcomeStateItem } from "./sub-components/outcome-state/interface";
-import { isRecord, isSanityLink } from "./sub-components/inline-components";
+import {
+  editorialBlockComponents,
+  editorialListComponents,
+  editorialMarkComponents,
+  isRecord,
+  renderEditorialCodeOrMermaid,
+} from "./sub-components/inline-components";
 import { assignEditorialSectionNumbers } from "./numbering";
-import type { IPortableTextComponents } from "./interface";
+import type {
+  ICustomPortableTextProps,
+  IPortableTextComponents,
+  IPortableTextTypedObject,
+} from "./interface";
+
+/**
+ * Shared class string for the complete Rich Text Editorial renderer wrapper.
+ *
+ * Respects the available width of its parent container without imposing an
+ * independent maximum width or auto-margin centering:
+ * - `w-full`: 100% of available parent width
+ * - `min-w-0`: prevents flex/grid children from forcing parent expansion
+ */
+export const EDITORIAL_RENDERER_CLASS =
+  "w-full min-w-0 [&>*:first-child]:mt-0";
 
 function isSanityImageSource(value: unknown): value is SanityImageSource {
   if (!isRecord(value) || !isRecord(value.asset)) return false;
@@ -35,12 +55,7 @@ function portableTextImageUrl(value: unknown): string | null {
   if (!isRecord(value) || !isSanityImageSource(value.imageFile)) return null;
 
   try {
-    return urlFor(value.imageFile)
-      .width(600)
-      .height(400)
-      .quality(80)
-      .auto("format")
-      .url();
+    return urlFor(value.imageFile).width(1200).quality(85).auto("format").url();
   } catch {
     return null;
   }
@@ -52,15 +67,26 @@ function renderPortableTextImage(value: unknown) {
 
   const alt =
     isRecord(value) && typeof value.altText === "string" ? value.altText : "";
+  const caption =
+    isRecord(value) && typeof value.caption === "string" && value.caption.trim()
+      ? value.caption.trim()
+      : null;
 
   return (
-    <Image
-      className="rounded-lg h-auto my-10 mx-auto"
-      src={src}
-      alt={alt}
-      width={600}
-      height={400}
-    />
+    <figure className="my-8 w-full min-w-0">
+      <Image
+        className="w-full h-auto rounded-xl border border-foreground/10 object-cover"
+        src={src}
+        alt={alt}
+        width={1200}
+        height={750}
+      />
+      {caption && (
+        <figcaption className="mt-2.5 font-mono text-xs text-muted-foreground">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
   );
 }
 
@@ -87,33 +113,7 @@ export function createPortableTextComponents(
       portableImage: ({ value }) => renderPortableTextImage(value),
       portableTextImage: ({ value }) => renderPortableTextImage(value),
 
-      code: ({ value }) => {
-        if (!isRecord(value) || typeof value.code !== "string") return null;
-
-        const filename =
-          typeof value.filename === "string" ? value.filename : null;
-        const language =
-          typeof value.language === "string" ? value.language : undefined;
-
-        if (language === "mermaid") {
-          return <MermaidDiagram code={value.code} caption={filename} />;
-        }
-
-        return (
-          <figure className="my-8 overflow-hidden rounded-xl border border-limestone/15 bg-soft-forest text-limestone shadow-sm">
-            {filename && (
-              <figcaption className="border-b border-limestone/10 bg-forest/40 px-4 py-2 font-mono text-xs uppercase tracking-wider text-muted-sage">
-                {filename}
-              </figcaption>
-            )}
-            <pre className="overflow-x-auto p-4 font-mono text-sm leading-relaxed text-limestone">
-              <code className={language ? `language-${language}` : undefined}>
-                {value.code}
-              </code>
-            </pre>
-          </figure>
-        );
-      },
+      code: ({ value }) => renderEditorialCodeOrMermaid(value),
 
       mermaidDiagram: ({ value }) => {
         if (!isRecord(value) || typeof value.code !== "string") return null;
@@ -137,7 +137,9 @@ export function createPortableTextComponents(
         return (
           <EditorialSectionBlock
             layout={
-              typeof value.layout === "string" ? value.layout : "twoColumn"
+              typeof value.layout === "string"
+                ? value.layout
+                : "straightforward"
             }
             label={typeof value.label === "string" ? value.label : undefined}
             autoNumber={
@@ -197,89 +199,40 @@ export function createPortableTextComponents(
       },
     },
 
-    block: {
-      h1: ({ children }) => (
-        <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mt-8 mb-4">
-          {children}
-        </h2>
-      ),
-      h2: ({ children }) => (
-        <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground mt-6 mb-3">
-          {children}
-        </h2>
-      ),
-      h3: ({ children }) => (
-        <h3 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mt-5 mb-2">
-          {children}
-        </h3>
-      ),
-      normal: ({ children }) => (
-        <p className="text-base leading-relaxed mb-4 text-muted-foreground last:mb-0">
-          {children}
-        </p>
-      ),
-      blockquote: ({ children }) => (
-        <blockquote className="my-8 rounded-2xl bg-surface border-l-2 border-mint p-6 sm:p-8 text-foreground text-base sm:text-lg leading-relaxed shadow-sm">
-          {children}
-        </blockquote>
-      ),
-    },
-
-    marks: {
-      strong: ({ children }) => (
-        <strong className="font-bold text-foreground">{children}</strong>
-      ),
-      highlight: ({ children }) => (
-        <span className="rounded bg-mint/35 px-1.5 py-0.5 font-medium text-foreground box-decoration-clone">
-          {children}
-        </span>
-      ),
-      linkUrl: ({ value, children }) => {
-        if (!isSanityLink(value)) return <span>{children}</span>;
-
-        const href = resolveLink(value);
-        if (!href) return <span>{children}</span>;
-
-        const openInNewTab = value.openInNewTab === true;
-
-        return (
-          <a
-            href={href}
-            target={openInNewTab ? "_blank" : undefined}
-            rel={openInNewTab ? "noopener noreferrer" : undefined}
-            className="link-hover-underline font-medium text-foreground transition-opacity hover:opacity-85"
-          >
-            {children}
-          </a>
-        );
-      },
-    },
-
-    list: {
-      bullet: ({ children }) => (
-        <ul className="list-disc ml-6 mb-4 text-muted-foreground">
-          {children}
-        </ul>
-      ),
-      number: ({ children }) => (
-        <ol className="list-decimal ml-6 mb-4 text-muted-foreground">
-          {children}
-        </ol>
-      ),
-    },
+    block: editorialBlockComponents,
+    marks: editorialMarkComponents,
+    list: editorialListComponents,
   };
 }
 
 export const portableTextComponents: IPortableTextComponents =
   createPortableTextComponents();
 
-export function CustomPortableText({
-  value,
-  components = portableTextComponents,
-}: {
-  value?: PortableTextBlock[] | null;
-  components?: IPortableTextComponents;
-}) {
-  if (!value) return null;
-  return <PortableText value={value} components={components} />;
+/**
+ * Shared Rich Text Editorial renderer wrapper.
+ *
+ * Respects the full available width of its parent container (`w-full min-w-0`)
+ * without imposing an independent `max-w-reading` (768px) or `mx-auto` constraint.
+ */
+export function CustomPortableText<
+  B extends IPortableTextTypedObject = PortableTextBlock,
+>({ value, components, className }: ICustomPortableTextProps<B>) {
+  if (!value || (Array.isArray(value) && value.length === 0)) return null;
+
+  const resolvedComponents =
+    components ??
+    createPortableTextComponents(Array.isArray(value) ? value : [value]);
+
+  return (
+    <div
+      data-editorial-renderer="true"
+      className={
+        className
+          ? `${EDITORIAL_RENDERER_CLASS} ${className}`
+          : EDITORIAL_RENDERER_CLASS
+      }
+    >
+      <PortableText value={value} components={resolvedComponents} />
+    </div>
+  );
 }

@@ -14,7 +14,7 @@ export function OutcomeStateBlock({ heading, stats }: IOutcomeStateProps) {
   }
 
   return (
-    <div className="my-8">
+    <div className="my-8 w-full min-w-0">
       {heading?.trim() && (
         <h3 className="mb-4 font-display text-title font-normal text-foreground">
           {heading.trim()}
