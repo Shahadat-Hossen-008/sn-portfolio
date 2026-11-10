@@ -1,5 +1,5 @@
-import type { TECH_QUERYResult } from "@/sanity/types";
+import type { TechnologyItem } from "../interface";
 
 export interface ISanityTechnologySectionProps {
-  technology: TECH_QUERYResult;
+  technology: TechnologyItem[];
 }

@@ -13,7 +13,7 @@ export function PhilosophySection({
       aria-labelledby="philosophy-eyebrow"
       className="bg-background text-foreground"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8">
         {/* Subtle hairline top border perfectly aligned with Header pill bounds */}
         <div className="border-t border-foreground/15 pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-20 lg:pb-28">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16">

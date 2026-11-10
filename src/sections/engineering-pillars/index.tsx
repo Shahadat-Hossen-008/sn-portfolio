@@ -10,7 +10,7 @@ export function EngineeringPillarsSection({ columns }: IEngineeringPillarsProps)
       aria-label="Engineering Pillars"
       className="bg-background text-foreground py-16 lg:py-24"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {columns.map((col, index) => (
             <div

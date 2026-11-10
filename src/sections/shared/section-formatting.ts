@@ -1,11 +1,33 @@
 /**
- * Pure helpers for page-section formatting (steps, dates, periods and tool tags).
+ * Pure helpers for page-section formatting (steps, dates, periods, text sanitization, and tool tags).
  * Zero GROQ, zero React.
  */
+import { toPlainText } from "@portabletext/react";
 
 export interface CleanTool {
   _id: string;
   label: string;
+}
+
+/**
+ * Normalizes text input by trimming whitespace.
+ * Safely guards against non-string values (e.g. legacy Portable Text block arrays).
+ * Returns null if the value is missing, empty, or unparseable.
+ */
+export function cleanText(value: unknown): string | null {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+  if (Array.isArray(value) && value.length > 0) {
+    try {
+      const text = toPlainText(value).trim();
+      return text.length > 0 ? text : null;
+    } catch {
+      return null;
+    }
+  }
+  return null;
 }
 
 /**

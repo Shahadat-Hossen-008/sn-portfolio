@@ -17,7 +17,7 @@ export function MermaidDiagram({ code, caption }: IMermaidDiagramProps) {
 
   if (error) {
     return (
-      <div className="my-8 overflow-hidden rounded-row border border-border/50 bg-surface">
+      <div className="my-8 w-full min-w-0 overflow-hidden rounded-row border border-border/50 bg-surface">
         <div className="flex items-center gap-2 border-b border-border/35 bg-foreground/5 px-4 py-2">
           <span className="font-mono text-label uppercase text-foreground">
             Diagram Syntax Error
@@ -35,7 +35,7 @@ export function MermaidDiagram({ code, caption }: IMermaidDiagramProps) {
       <div
         aria-busy="true"
         aria-label="Loading diagram"
-        className="my-8 overflow-hidden rounded-row border border-border/40 bg-surface animate-pulse"
+        className="my-8 w-full min-w-0 overflow-hidden rounded-row border border-border/40 bg-surface animate-pulse"
       >
         <div className="h-48 bg-background/60" />
       </div>
@@ -44,7 +44,7 @@ export function MermaidDiagram({ code, caption }: IMermaidDiagramProps) {
 
   return (
     <>
-      <figure className="my-8 overflow-hidden rounded-row border border-border/40 bg-background">
+      <figure className="my-8 w-full min-w-0 overflow-hidden rounded-row border border-border/40 bg-background">
         <div className="flex items-center justify-between border-b border-border/35 bg-surface px-4 py-2">
           <figcaption className="font-mono text-label uppercase text-muted-foreground">
             {caption?.trim() || "Architecture Diagram"}

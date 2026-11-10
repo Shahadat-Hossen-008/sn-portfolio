@@ -1,7 +1,5 @@
-import { PortableText } from "next-sanity";
-
 import { RadialGradientBackground } from "@/components/background";
-import { portableTextComponents } from "@/components/portable-text";
+import { CustomPortableText } from "@/components/portable-text";
 import type { IAboutSectionProps } from "./interface";
 
 export function AboutSection({
@@ -11,19 +9,16 @@ export function AboutSection({
   return (
     <section id="about" className="relative py-20">
       <RadialGradientBackground variant="about" />
-      <div className="container mx-auto text-foreground leading-tight tracking-[0.02em] flex flex-col gap-8 md:gap-12 overflow-hidden bg-background px-4 sm:px-6 lg:px-20 py-10">
+      <div className="mx-auto w-full max-w-page text-foreground leading-tight tracking-[0.02em] flex flex-col gap-8 md:gap-12 overflow-hidden bg-background px-4 sm:px-6 lg:px-8 py-10">
         <h2 className="text-3xl md:text-5xl text-foreground leading-tight tracking-[0.02em]">
           About
         </h2>
         <div className="flex flex-col md:flex-row gap-20 justify-between">
-          <div className="flex-2">
+          <div className="flex-2 min-w-0">
             <div className="flex flex-col gap-3 pt-5">
               {description && (
                 <div className="text-base text-foreground/70">
-                  <PortableText
-                    value={description}
-                    components={portableTextComponents}
-                  />
+                  <CustomPortableText value={description} />
                 </div>
               )}
             </div>

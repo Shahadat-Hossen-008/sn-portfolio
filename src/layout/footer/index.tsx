@@ -21,7 +21,7 @@ export function Footer({
 }: IFooterProps) {
   return (
     <Section as="footer" tone="forest" className="border-t border-border">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20 py-16 lg:py-20">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
           {hasBrand && (
             <div className="flex flex-col items-start gap-6 max-w-sm">

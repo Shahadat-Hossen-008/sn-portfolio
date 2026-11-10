@@ -26,9 +26,9 @@ export function PrimaryHero({
   return (
     <Section
       aria-labelledby="hero-heading"
-      className="relative flex min-h-[85svh] flex-col justify-between overflow-hidden bg-background border-b border-foreground/10"
+      className="relative flex min-h-[85svh] flex-col justify-between overflow-hidden bg-background"
     >
-      <div className="mx-auto w-full max-w-page px-6 pt-28 pb-12 sm:px-8 lg:px-12 lg:pt-36 lg:pb-16">
+      <div className="mx-auto w-full max-w-page px-4 pt-28 pb-12 sm:px-6 lg:px-8 lg:pt-36 lg:pb-16">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-14">
           <div className="flex flex-col gap-6 sm:gap-7">
             {showEyebrow && (

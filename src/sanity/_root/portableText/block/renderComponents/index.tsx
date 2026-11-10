@@ -31,3 +31,18 @@ export const HeadingComponent = ({
     </Text>
   );
 };
+
+export const HighlightDecorator = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => (
+  <span
+    style={{
+      backgroundColor: "rgba(94, 234, 168, 0.45)",
+      color: "inherit",
+    }}
+  >
+    {children}
+  </span>
+);

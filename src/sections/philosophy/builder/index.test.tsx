@@ -64,7 +64,7 @@ describe("PhilosophySectionBuilder", () => {
     const html = render();
 
     expect(html).toContain("border-t border-foreground/15");
-    expect(html).toContain("container mx-auto px-4 sm:px-6 lg:px-20");
+    expect(html).toContain("mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8");
   });
 
   it("renders accessible section label and surface card container styling", () => {

@@ -16,7 +16,7 @@ export function DecisionCardsBlock({ cards }: IDecisionCardsProps) {
   return (
     <div
       data-surface="forest"
-      className="my-10 grid grid-cols-1 gap-6 bg-transparent! text-foreground bento:grid-cols-3"
+      className="my-10 w-full min-w-0 grid grid-cols-1 gap-6 bg-transparent! text-foreground bento:grid-cols-3"
     >
       {validCards.map((card, index) => {
         const eyebrow = card.eyebrow?.trim() || "DECISION";

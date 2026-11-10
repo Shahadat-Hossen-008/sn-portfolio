@@ -4,7 +4,7 @@ import type { IQuoteProps } from "./interface";
 export function QuoteSection({ quote, quoteAccent, note }: IQuoteProps) {
   return (
     <div className="bg-background text-foreground">
-      <div className="mx-auto w-full max-w-page px-8">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8">
         <figure className="border-y border-foreground/20 py-16 grid grid-cols-1 gap-16 bento:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] bento:items-end">
           <blockquote>
             <span

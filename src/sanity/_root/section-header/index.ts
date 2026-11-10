@@ -7,13 +7,16 @@ export const sectionHeaderFields = (options?: {
   introMax?: number;
   headingDescription?: string;
   introDescription?: string;
+  group?: string | string[];
 }) => {
   const headingMax = options?.headingMax ?? 70;
+  const group = options?.group;
   return [
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
       type: "string",
+      ...(group ? { group } : {}),
       description:
         "Small label above the heading, e.g. “How the work moves”. Max 40 characters.",
       validation: (rule) => rule.max(40),
@@ -22,6 +25,7 @@ export const sectionHeaderFields = (options?: {
       name: "heading",
       title: "Heading",
       type: "string",
+      ...(group ? { group } : {}),
       description:
         options?.headingDescription ??
         `Main heading of the section, shown in the left column. Aim for two lines. Max ${headingMax} characters.`,
@@ -31,6 +35,7 @@ export const sectionHeaderFields = (options?: {
       name: "headingAccent",
       title: "Heading accent",
       type: "string",
+      ...(group ? { group } : {}),
       description:
         "Optional. A phrase from the heading shown in italic with a highlight. It must appear in the heading exactly, including capital letters.",
       validation: (rule) =>

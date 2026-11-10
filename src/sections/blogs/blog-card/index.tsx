@@ -16,11 +16,11 @@ export function BlogCard({
   return (
     <Link
       href={`/blog/${slug}`}
-      className="p-4 bg-background/80 transition duration-300 underline-offset-2 hover:underline"
+      className="group block p-4 bg-background/80 transition duration-300"
     >
-      <div className="flex items-start gap-5">
+      <div className="flex flex-col md:flex-row items-start gap-6">
         {mainImage?.imageFile && (
-          <div className="flex-1 h-80 rounded-lg">
+          <div className="w-full md:flex-1 h-64 sm:h-80 rounded-lg">
             <Image
               src={urlFor(mainImage.imageFile).width(800).height(320).url()}
               alt={blogTitle || "Blog image"}
@@ -33,7 +33,9 @@ export function BlogCard({
         )}
 
         <div className="flex-1 flex flex-col gap-4">
-          <h2 className="text-2xl font-bold mb-2">{blogTitle}</h2>
+          <h2 className="text-2xl font-bold mb-2">
+            <span className="link-hover-underline">{blogTitle}</span>
+          </h2>
           {publishedDate && (
             <p className="text-muted-foreground text-sm">
               Published on {publishedDate}

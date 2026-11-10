@@ -17,7 +17,7 @@ export function AboutIntroSection({
       aria-labelledby="about-intro-heading"
       className="bg-background text-foreground pb-16 lg:pb-24"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20 pt-12 lg:pt-16">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8 pt-12 lg:pt-16">
         {/* Reusable Section Header Primitive */}
         <SectionHeading
           as="h1"

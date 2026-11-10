@@ -131,7 +131,7 @@ describe("ExperienceSectionBuilder", () => {
     expect(html).toContain("Impact &amp; Result");
     expect(html).toContain("Cut p99 latency by 45% across 200k daily requests.");
     expect(html).toContain("Key Milestone");
-    expect(html).toContain('href="/project/platform-modernization"');
+    expect(html).toContain('href="/projects/platform-modernization"');
     expect(html).toContain("Case Study: Platform Modernization");
     expect(html).toContain("TypeScript");
   });
@@ -155,7 +155,7 @@ describe("ExperienceSectionBuilder", () => {
     expect(html).toContain("Key Outcome");
     expect(html).toContain("Delivered responsive design overhaul on schedule.");
     expect(html).not.toContain("Contribution");
-    expect(html).not.toContain("href=\"/project/");
+    expect(html).not.toContain("href=\"/projects/");
   });
 
   it("is a server component (no \"use client\")", () => {

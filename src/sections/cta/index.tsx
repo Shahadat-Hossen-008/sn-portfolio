@@ -14,7 +14,7 @@ export function CtaSection({
 
   return (
     <div className="bg-background text-foreground">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8">
         <section
           data-surface="forest"
           aria-labelledby="cta-heading"

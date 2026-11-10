@@ -2,6 +2,7 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 import { seo, seoGroup } from "@/sanity/_root/seo";
 import { SiSanity } from "react-icons/si";
 import { IoDocument } from "react-icons/io5";
+import { sectionHeaderFields } from "@/sanity/_root/section-header";
 
 export const project = defineType({
   name: "projectPage",
@@ -19,6 +20,12 @@ export const project = defineType({
   ],
   fields: [
     seo({ group: "seo", slugOptions: { isFixed: true, prefix: "projects" } }),
+    ...sectionHeaderFields({
+      headingMax: 60,
+      headingDescription:
+        "Main headline of the project page, e.g. “The work lives on its own pages.”. Max 60 characters.",
+      group: "content",
+    }),
     defineField({
       name: "projects",
       title: "Projects",

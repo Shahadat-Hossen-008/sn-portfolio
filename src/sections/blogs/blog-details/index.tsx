@@ -1,8 +1,7 @@
-import { PortableText } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";
 
-import { createPortableTextComponents } from "@/components/portable-text";
+import { CustomPortableText } from "@/components/portable-text";
 import { urlFor } from "@/sanity/lib/image";
 import type { IBlogDetailsProps } from "./interface";
 
@@ -13,38 +12,47 @@ export function BlogDetails({
   blogContent,
 }: IBlogDetailsProps) {
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-40 pt-20 pb-4 lg:pb-20 bg-background text-foreground">
-      <Link
-        href="/blog"
-        className="text-forest bg-limestone px-4 py-3 rounded-lg mb-6 inline-block transition duration-300 hover:bg-soft-limestone"
-      >
-        Back to Blogs
-      </Link>
-      <h2 className="text-2xl lg:text-5xl font-bold py-5">{blogTitle}</h2>
-      {publishedDate && (
-        <p className="text-muted-foreground text-sm pb-6">
-          {publishedDate}
-        </p>
-      )}
-      {mainImage?.imageFile && (
-        <div className="w-full h-full rounded-lg pb-8">
-          <Image
-            src={urlFor(mainImage.imageFile).width(800).height(520).url()}
-            alt={mainImage.altText || blogTitle || "Blog image"}
-            width={800}
-            height={520}
-            className="rounded-lg w-full h-full"
-            unoptimized
-          />
-        </div>
-      )}
-      {blogContent && (
-        <PortableText
-          value={blogContent}
-          components={createPortableTextComponents(blogContent)}
-        />
-      )}
-    </section>
+    <article className="bg-background text-foreground px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-16 lg:pb-24">
+      <div className="mx-auto w-full max-w-article">
+        <Link
+          href="/blog"
+          className="group inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors mb-8"
+        >
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-200 group-hover:-translate-x-1"
+          >
+            ←
+          </span>
+          <span className="link-hover-underline">Back to Blogs</span>
+        </Link>
+
+        <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-normal text-balance text-foreground leading-[1.1] tracking-tight">
+          {blogTitle}
+        </h1>
+
+        {publishedDate && (
+          <p className="mt-4 font-mono text-xs uppercase tracking-wider text-muted-foreground pb-8">
+            {publishedDate}
+          </p>
+        )}
+
+        {mainImage?.imageFile && (
+          <figure className="w-full pb-10">
+            <Image
+              src={urlFor(mainImage.imageFile).width(1200).height(750).url()}
+              alt={mainImage.altText || blogTitle || "Blog image"}
+              width={1200}
+              height={750}
+              className="w-full h-auto rounded-xl border border-foreground/10 object-cover"
+              unoptimized
+            />
+          </figure>
+        )}
+
+        {blogContent && <CustomPortableText value={blogContent} />}
+      </div>
+    </article>
   );
 }
 

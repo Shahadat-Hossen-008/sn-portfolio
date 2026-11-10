@@ -57,6 +57,13 @@ describe("sectionHeaderFields", () => {
     expect(heading?.description).toBe("Custom heading description");
   });
 
+  it("attaches group to all fields when provided", () => {
+    const fields = sectionHeaderFields({ group: "content" });
+    for (const field of fields) {
+      expect(field.group).toBe("content");
+    }
+  });
+
   it("validates headingAccent matching case and handles empty values", () => {
     const fields = sectionHeaderFields();
     const headingAccent = fields.find((f) => f.name === "headingAccent");

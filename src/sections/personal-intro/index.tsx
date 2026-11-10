@@ -17,8 +17,8 @@ export function PersonalIntroSection({
       aria-label="Personal introduction and overview"
       className="bg-background text-foreground border-b border-foreground/10"
     >
-      <div className="mx-auto w-full max-w-page px-6 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20">
-        <div className="grid grid-cols-1 gap-5 sm:gap-6 bento:grid-cols-12 bento:auto-rows-[minmax(220px,auto)]">
+      <div className="mx-auto w-full max-w-page px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 bento:grid-cols-12 lg:gap-6">
           {capabilities.length > 0 && (
             <CapabilityStrip
               eyebrow={data?.capabilities?.eyebrow}

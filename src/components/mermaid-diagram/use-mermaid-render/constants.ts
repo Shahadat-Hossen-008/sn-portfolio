@@ -23,5 +23,7 @@ export const MERMAID_THEME_VARIABLES = {
   clusterBkg: "#e2dbc9",
   clusterBorder: "#5d7464",
   edgeLabelBackground: "#e2dbc9",
+  rowOdd: "#ebe6d8",
+  rowEven: "#e2dbc9",
   fontFamily: "var(--font-urbanist), system-ui, sans-serif",
 };

@@ -17,7 +17,7 @@ export function PortableTable({
   }
 
   return (
-    <figure className="my-8 overflow-x-auto border border-border bg-background">
+    <figure className="my-8 w-full min-w-0 overflow-x-auto border border-border bg-background">
       {caption?.trim() && (
         <figcaption className="border-b border-border bg-surface px-4 py-2.5 font-mono text-label uppercase text-muted-foreground">
           {caption.trim()}

@@ -22,7 +22,7 @@ export function TechnologySection({ technology }: ITechnologySectionProps) {
         <div className="absolute top-1/2 -right-1/3 w-96 h-96 bg-primary/20 opacity-20 rounded-full blur-3xl" />
       </div>
       <div
-        className="container mx-auto px-4 lg:px-20"
+        className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8"
         style={
           {
             "--slide-size": "20%",

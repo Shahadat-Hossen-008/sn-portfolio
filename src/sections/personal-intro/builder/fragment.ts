@@ -19,7 +19,7 @@ export const personalIntroSectionFragment = /* groq */ `{
       _id,
       "title": projectTitle,
       "year": string::split(date, "-")[0],
-      "summary": coalesce(problemStatement, projectDescription),
+      "summary": projectDescription,
       "image": projectImage {
         ${CUSTOM_IMAGE_FRAGMENT}
       },
