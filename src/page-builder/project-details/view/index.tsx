@@ -1,26 +1,8 @@
 import Link from "next/link";
-import { toPlainText } from "@portabletext/react";
-import { PortableText } from "next-sanity";
 import { SanityImage } from "@/components/image";
-import { createPortableTextComponents } from "@/components/portable-text";
-import { formatPeriod } from "@/sections/shared/section-formatting";
+import { CustomPortableText } from "@/components/portable-text";
+import { cleanText, formatPeriod } from "@/sections/shared/section-formatting";
 import type { IProjectDetailsProps } from "./interface";
-
-function cleanText(value: unknown): string | null {
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    return trimmed.length > 0 ? trimmed : null;
-  }
-  if (Array.isArray(value) && value.length > 0) {
-    try {
-      const text = toPlainText(value).trim();
-      return text.length > 0 ? text : null;
-    } catch {
-      return null;
-    }
-  }
-  return null;
-}
 
 export interface IProjectMetaItem {
   label: string;
@@ -59,7 +41,7 @@ export function ProjectDetailsView({ project }: IProjectDetailsProps) {
 
   return (
     <article className="bg-background text-foreground pb-24 sm:pb-32">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20 pt-12 sm:pt-16 lg:pt-20">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 lg:pt-20">
         {/* Back Link */}
         <Link
           href="/projects"
@@ -92,13 +74,13 @@ export function ProjectDetailsView({ project }: IProjectDetailsProps) {
         )}
 
         {/* Project Title */}
-        <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-normal text-balance text-foreground leading-[1.08] tracking-tight max-w-4xl">
+        <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-normal text-balance text-foreground leading-[1.08] tracking-tight max-w-reading">
           {project.projectTitle}
         </h1>
 
         {/* Lead Narrative Description */}
         {description && (
-          <p className="mt-5 font-sans text-base sm:text-lg lg:text-xl font-normal leading-relaxed text-muted-foreground max-w-3xl text-pretty">
+          <p className="mt-5 font-sans text-base sm:text-lg lg:text-xl font-normal leading-relaxed text-muted-foreground max-w-reading text-pretty">
             {description}
           </p>
         )}
@@ -183,16 +165,13 @@ export function ProjectDetailsView({ project }: IProjectDetailsProps) {
           </div>
         )}
 
-        {/* Case Study Body: Single-column container allowing rich text 2-column editorial blocks to render cleanly */}
+        {/* Case Study Body: Shared editorial renderer respecting the available 1024px project container width */}
         {project.caseStudy && project.caseStudy.length > 0 && (
           <section
             aria-label="Case Study Narrative"
-            className="mt-12 sm:mt-16 w-full"
+            className="mt-12 sm:mt-16 w-full min-w-0"
           >
-            <PortableText
-              value={project.caseStudy}
-              components={createPortableTextComponents(project.caseStudy)}
-            />
+            <CustomPortableText value={project.caseStudy} />
           </section>
         )}
       </div>

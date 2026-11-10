@@ -1,7 +1,7 @@
 import { defineQuery } from "next-sanity";
 import { SECTION_HEADING_FRAGMENT, SEO_FIELDS_FRAGMENT } from "@/fragments";
-import { PROJECT_SECTION_FRAGMENT } from "@/sections/projects/builder/fragment";
 import { PAGE_SECTIONS_FRAGMENT } from "@/sections/section-builder/fragment";
+import { PROJECT_SECTION_FRAGMENT } from "./fragment";
 
 /** Singleton Project page query, including the page-owned opening and sections. */
 export const PROJECT_PAGE_QUERY = defineQuery(

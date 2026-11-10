@@ -1,7 +1,17 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
 import { SanityImage } from "@/components/image";
+import { cleanText } from "@/sections/shared/section-formatting";
+import {
+  filterProjectsByTag,
+  getProjectTags,
+} from "./helpers";
 import type { IProjectsSectionProps } from "./interface";
+
+export { filterProjectsByTag, getProjectTags } from "./helpers";
 
 export function ProjectsSection({
   eyebrow,
@@ -9,16 +19,38 @@ export function ProjectsSection({
   headingAccent,
   projects,
 }: IProjectsSectionProps) {
-  if (!projects || projects.length === 0) {
+  const [activeFilter, setActiveFilter] = useState("all");
+
+  const validProjects = useMemo(
+    () =>
+      projects.filter(
+        (project) =>
+          typeof project.projectTitle === "string" &&
+          project.projectTitle.trim().length > 0,
+      ),
+    [projects],
+  );
+
+  const allTags = useMemo(
+    () => getProjectTags(validProjects),
+    [validProjects],
+  );
+
+  const filteredProjects = useMemo(
+    () => filterProjectsByTag(validProjects, activeFilter),
+    [validProjects, activeFilter],
+  );
+
+  if (validProjects.length === 0) {
     return null;
   }
 
-  // Collect unique category/tech tags for showcase display
-  const allTags = Array.from(
-    new Map(
-      projects.flatMap((p) => p.stack ?? []).map((t) => [t._id, t.label]),
-    ).values(),
-  ).slice(0, 5);
+  const baseFilterBtnClasses =
+    "font-sans text-xs tracking-[0.18em] uppercase px-3.5 py-1.5 rounded-full border transition-colors duration-150 cursor-pointer whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
+  const activeFilterBtnClasses =
+    "font-semibold text-foreground bg-surface border-foreground/20";
+  const inactiveFilterBtnClasses =
+    "font-medium text-muted-foreground bg-transparent border-transparent hover:text-foreground hover:bg-surface/50 hover:border-foreground/10";
 
   return (
     <section
@@ -26,7 +58,7 @@ export function ProjectsSection({
       aria-labelledby="projects-heading"
       className="bg-background text-foreground"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-20 pt-6 sm:pt-10 pb-20 sm:pb-28 lg:pb-36">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-20 sm:pb-28 lg:pb-36">
         {/* Showcase Section Heading */}
         <SectionHeading
           as="h1"
@@ -36,25 +68,55 @@ export function ProjectsSection({
           headingAccent={headingAccent ?? "pages."}
         />
 
-        {/* Filter / Category Tab Bar (Prepared for future tag filtering) */}
-        <div className="mt-10 sm:mt-12 border-b border-foreground/15 pb-5 mb-14 sm:mb-20 lg:mb-24 flex flex-wrap items-center gap-3">
-          <span className="font-sans text-xs font-semibold tracking-[0.18em] uppercase text-foreground bg-surface px-3 py-1.5 rounded-full border border-foreground/15">
-            ALL PROJECTS
-          </span>
-          {allTags.map((tag) => (
-            <span
-              key={tag}
-              className="font-sans text-xs font-medium tracking-[0.18em] uppercase text-muted-foreground px-3 py-1.5 rounded-full transition-colors hover:text-foreground"
+        {/* Dynamic Tag Filter Bar (derived from active projects, following zarif-portfolio pattern) */}
+        {allTags.length > 0 && (
+          <div
+            role="group"
+            aria-label="Filter projects by technology"
+            className="mt-10 sm:mt-12 border-b border-foreground/15 pb-5 mb-14 sm:mb-20 lg:mb-24 flex flex-wrap items-center gap-2.5 sm:gap-3"
+          >
+            <button
+              type="button"
+              aria-pressed={activeFilter === "all"}
+              onClick={() => setActiveFilter("all")}
+              className={`${baseFilterBtnClasses} ${
+                activeFilter === "all"
+                  ? activeFilterBtnClasses
+                  : inactiveFilterBtnClasses
+              }`}
             >
-              {tag}
-            </span>
-          ))}
-        </div>
+              ALL PROJECTS
+            </button>
+            {allTags.map((tag) => {
+              const isActive = activeFilter === tag;
+
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => setActiveFilter(tag)}
+                  className={`${baseFilterBtnClasses} ${
+                    isActive
+                      ? activeFilterBtnClasses
+                      : inactiveFilterBtnClasses
+                  }`}
+                >
+                  {tag}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Alternating Zig-Zag Showcase Grid */}
-        <div className="flex flex-col gap-16 sm:gap-24 lg:gap-32">
-          {projects.map((project, index) => {
+        <div
+          aria-live="polite"
+          className="flex flex-col gap-16 sm:gap-24 lg:gap-32"
+        >
+          {filteredProjects.map((project, index) => {
             const isReversed = index % 2 !== 0;
+            const description = cleanText(project.projectDescription);
 
             return (
               <article
@@ -94,19 +156,37 @@ export function ProjectsSection({
                   }`}
                 >
                   {/* Tech Tags */}
-                  {project.stack && project.stack.length > 0 && (
+                  {project.stack && getProjectTags([project]).length > 0 && (
                     <ul
                       className="flex flex-wrap gap-2"
                       aria-label="Project technologies"
                     >
-                      {project.stack.map((tag) => (
-                        <li
-                          key={tag._id}
-                          className="rounded-full border border-foreground/15 bg-surface/60 px-3 py-0.5 font-sans text-xs font-semibold uppercase tracking-wider text-muted-foreground"
-                        >
-                          {tag.label}
-                        </li>
-                      ))}
+                      {project.stack.map((tag) => {
+                        const label = tag?.label?.trim();
+                        if (!tag?._id || !label) {
+                          return null;
+                        }
+
+                        const isMatchingActiveFilter =
+                          activeFilter !== "all" &&
+                          filterProjectsByTag(
+                            [{ stack: [tag] }],
+                            activeFilter,
+                          ).length > 0;
+
+                        return (
+                          <li
+                            key={tag._id}
+                            className={`rounded-full border px-3 py-0.5 font-sans text-xs font-semibold uppercase tracking-wider transition-colors ${
+                              isMatchingActiveFilter
+                                ? "border-foreground/30 bg-surface text-foreground"
+                                : "border-foreground/15 bg-surface/60 text-muted-foreground"
+                            }`}
+                          >
+                            {label}
+                          </li>
+                        );
+                      })}
                     </ul>
                   )}
 
@@ -125,12 +205,11 @@ export function ProjectsSection({
                   </h2>
 
                   {/* Description */}
-                  {typeof project.projectDescription === "string" &&
-                    project.projectDescription.trim() && (
-                      <p className="font-sans text-sm sm:text-base font-normal leading-relaxed text-muted-foreground text-pretty">
-                        {project.projectDescription}
-                      </p>
-                    )}
+                  {description && (
+                    <p className="font-sans text-sm sm:text-base font-normal leading-relaxed text-muted-foreground text-pretty">
+                      {description}
+                    </p>
+                  )}
 
                   {/* Direct Action Links */}
                   <div className="flex flex-wrap items-center gap-5 pt-2">
