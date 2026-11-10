@@ -1,6 +1,6 @@
-import { toPlainText } from "@portabletext/react";
 import { isExternalHref, resolveLink } from "@/lib/sanity/links";
 import { hasSanityImage } from "@/sanity/lib/images";
+import { cleanText } from "@/sections/shared/section-formatting";
 import { PersonalIntroSection } from "../index";
 import type {
   ICapability,
@@ -10,27 +10,6 @@ import type {
   PersonalIntroData,
 } from "../interface";
 import type { ISanityPersonalIntroSectionProps } from "./interface";
-
-/**
- * Normalizes text input by trimming whitespace.
- * Safely guards against non-string values (e.g. legacy Portable Text arrays).
- * Returns null if the value is missing, empty, or unparseable.
- */
-function cleanText(value: unknown): string | null {
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    return trimmed.length > 0 ? trimmed : null;
-  }
-  if (Array.isArray(value) && value.length > 0) {
-    try {
-      const text = toPlainText(value).trim();
-      return text.length > 0 ? text : null;
-    } catch {
-      return null;
-    }
-  }
-  return null;
-}
 
 /**
  * Extracts and filters capability items that have a non-empty title.
