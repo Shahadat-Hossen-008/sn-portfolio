@@ -18,9 +18,9 @@ export function BlogCard({
       href={`/blog/${slug}`}
       className="group block p-4 bg-background/80 transition duration-300"
     >
-      <div className="flex items-start gap-5">
+      <div className="flex flex-col md:flex-row items-start gap-6">
         {mainImage?.imageFile && (
-          <div className="flex-1 h-80 rounded-lg">
+          <div className="w-full md:flex-1 h-64 sm:h-80 rounded-lg">
             <Image
               src={urlFor(mainImage.imageFile).width(800).height(320).url()}
               alt={blogTitle || "Blog image"}
